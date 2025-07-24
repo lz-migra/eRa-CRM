@@ -81,9 +81,54 @@
                         alert(`Error al cargar el script de Recarga.\n${error}`);
                     });
             } },
-        { icon: '💳', text: 'MLC', color: '#23ccef', action: () => alert('Función de MLC') },
-        { icon: '📦', text: 'TN', color: '#ff4500', action: () => window.open('https://www.google.com/search?q=noticias', '_blank') },
-        { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => window.open('https://translate.google.com/', '_blank') }
+        { icon: '💳', text: 'MLC', color: '#23ccef', action: () => {
+                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/MLC.js';
+                console.log(`Cargando script desde: ${scriptUrl}`);
+
+                fetch(scriptUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(code => {
+                        new Function(code)(); // Ejecuta el script cargado
+                    })
+                    .catch(error => {
+                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                    });
+            } },
+        { icon: '📦', text: 'TN', color: '#ff4500', action: () => {
+                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/TN.js';
+                console.log(`Cargando script desde: ${scriptUrl}`);
+
+                fetch(scriptUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(code => {
+                        new Function(code)(); // Ejecuta el script cargado
+                    })
+                    .catch(error => {
+                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                    });
+            } },
+        { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => {
+                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Ingles.js';
+                console.log(`Cargando script desde: ${scriptUrl}`);
+
+                fetch(scriptUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(code => {
+                        new Function(code)(); // Ejecuta el script cargado
+                    })
+                    .catch(error => {
+                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                    });
+            } },
     ];
 
     buttons.forEach(btnInfo => {
