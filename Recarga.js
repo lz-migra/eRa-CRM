@@ -6,7 +6,7 @@
   // Paso 1: Buscar la fila principal de la tabla de Topup
   const filaTopup = document.querySelector('.panel-body table tbody tr');
   if (!filaTopup) {
-    alert('❌ No se encontró la tabla de Topup.');
+    alert('❌ No se encontró la tabla de Topup. Por favor extiende la oferta');
     return;
   }
 
