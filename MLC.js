@@ -62,21 +62,21 @@
   // --- Construcción del resultado ---
   const resultado = `
 ID del cliente: ${IDcliente}
-Tipo de remesa: Domicilio
+Tipo de remesa: MLC
 Provincia: ${Provincia}
-Número de reparto: ${NroReparto}
 Order code: ${orderCode}
 ID o FOI: ${FoiID}
 Status: ${Status}
 Proveedor: ${Proveedor}
 Solicitud: 
+
   `.trim();
 
   // 📋 Copiar al portapapeles
   navigator.clipboard.writeText(resultado).then(() => {
     console.log('✅ Información copiada al portapapeles:');
     console.log(resultado);
-    alert('📋 ¡Datos copiados al portapapeles! 📋 El escalamieto ha sido generado para "Remesa" correctamente');
+    alert('📋 ¡Datos copiados al portapapeles! 📋 El escalamieto ha sido generado para "MLC" correctamente');
   }).catch((err) => {
     console.error('❌ Error al copiar al portapapeles:', err);
   });
