@@ -1,18 +1,3 @@
-// ==UserScript==
-// @name         Barra de Herramientas CRM2 (con Carga Externa)
-// @namespace    http://tampermonkey.net/
-// @version      1.3
-// @description  Agrega una barra de navegación que puede ejecutar scripts externos al hacer clic.
-// @author       (Lz-Migra)
-// @match        https://crm2-soporte.cuballama.com/*
-// @grant        GM_addStyle
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @grant        GM_xmlhttpRequest
-// @connect      raw.githubusercontent.com
-// @license      MIT
-// ==/UserScript==
-
 (function() {
     'use strict';
 
