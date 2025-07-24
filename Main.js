@@ -48,10 +48,7 @@
     // --- CONFIGURACIÓN DE BOTONES ---
     const buttons = [
         {
-            icon: '📱',
-            text: 'Recarga',
-            color: '#ea4c89',
-            action: () => {
+            icon: '📱', text: 'Recarga', color: '#ea4c89', action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Recarga.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
 
@@ -68,7 +65,22 @@
                     });
             }
         },
-        { icon: '💵', text: 'Remesa', color: '#87cb16', action: () => alert('Función de Remesa') },
+        { icon: '💵', text: 'Remesa', color: '#87cb16', action: () {
+                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Remesa.js';
+                console.log(`Cargando script desde: ${scriptUrl}`);
+
+                fetch(scriptUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(code => {
+                        new Function(code)(); // Ejecuta el script cargado
+                    })
+                    .catch(error => {
+                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                    });
+            } },
         { icon: '💳', text: 'MLC', color: '#23ccef', action: () => alert('Función de MLC') },
         { icon: '📦', text: 'TN', color: '#ff4500', action: () => window.open('https://www.google.com/search?q=noticias', '_blank') },
         { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => window.open('https://translate.google.com/', '_blank') }
