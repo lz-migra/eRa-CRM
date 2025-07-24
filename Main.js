@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.3
 // @description  Agrega una barra de navegación que puede ejecutar scripts externos al hacer clic.
-// @author       Lorenzo Navarro (Lz-Migra)
+// @author       (Lz-Migra)
 // @match        https://crm2-soporte.cuballama.com/*
 // @grant        GM_addStyle
 // @grant        GM_setValue
