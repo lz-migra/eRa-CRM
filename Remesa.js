@@ -3,6 +3,12 @@
 
   console.log('[Remesa.js] Script ejecutado');
 
+  const filaTopup = document.querySelector('.panel-body table tbody tr');
+  if (!filaTopup) {
+    alert('❌ No se encontró la tabla de Topup. Por favor extiende la oferta');
+    return;
+  }
+
   // 🔍 Función genérica para buscar cualquier valor por su etiqueta <font> dentro de <p>
   const getDatoPorEtiqueta = (etiqueta) => {
     const elementos = document.querySelectorAll('p');
