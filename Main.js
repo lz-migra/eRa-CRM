@@ -78,7 +78,7 @@
                         new Function(code)(); // Ejecuta el script cargado
                     })
                     .catch(error => {
-                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                        alert(`Error al cargar el script de Remesa.\n${error}`);
                     });
             } },
         { icon: '💳', text: 'MLC', color: '#23ccef', action: () => {
@@ -94,7 +94,7 @@
                         new Function(code)(); // Ejecuta el script cargado
                     })
                     .catch(error => {
-                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                        alert(`Error al cargar el script de MLC.\n${error}`);
                     });
             } },
         { icon: '📦', text: 'TN', color: '#ff4500', action: () => {
@@ -110,7 +110,7 @@
                         new Function(code)(); // Ejecuta el script cargado
                     })
                     .catch(error => {
-                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                        alert(`Error al cargar el script de TN.\n${error}`);
                     });
             } },
         { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => {
@@ -126,7 +126,7 @@
                         new Function(code)(); // Ejecuta el script cargado
                     })
                     .catch(error => {
-                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                        alert(`Error al cargar el script de Ingles.\n${error}`);
                     });
             } },
     ];
