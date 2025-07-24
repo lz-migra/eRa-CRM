@@ -62,9 +62,7 @@
                     })
                     .catch(error => {
                         alert(`Error al cargar el script de Recarga.\n${error}`);
-                    });
-            }
-        },
+                    }); } },
         { icon: '💵', text: 'Remesa', color: '#87cb16', action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Remesa.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
@@ -79,8 +77,7 @@
                     })
                     .catch(error => {
                         alert(`Error al cargar el script de Remesa.\n${error}`);
-                    });
-            } },
+                    }); } },
         { icon: '💳', text: 'MLC', color: '#23ccef', action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/MLC.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
@@ -95,8 +92,7 @@
                     })
                     .catch(error => {
                         alert(`Error al cargar el script de MLC.\n${error}`);
-                    });
-            } },
+                    }); } },
         { icon: '📦', text: 'TN', color: '#ff4500', action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/TN.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
@@ -111,8 +107,7 @@
                     })
                     .catch(error => {
                         alert(`Error al cargar el script de TN.\n${error}`);
-                    });
-            } },
+                    }); } },
         { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Ingles.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
@@ -127,8 +122,7 @@
                     })
                     .catch(error => {
                         alert(`Error al cargar el script de Ingles.\n${error}`);
-                    });
-            } },
+                    }); } },
     ];
 
     buttons.forEach(btnInfo => {
