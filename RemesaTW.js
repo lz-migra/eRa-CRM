@@ -64,7 +64,7 @@
   // --- Construcción del resultado ---
   const resultado = `
 Orden Nro. ${orderCode} - (${Fecha})
-${Nombre}
+${Nombre} - ${Celular}
 ${Barrio}, ${Municipio}, ${Provincia}
 Monto: ${Monto} / FEE: ${Fee}
 Fecha estimada de entrega: ${FechaEntrega}
