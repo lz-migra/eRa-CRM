@@ -11,7 +11,7 @@
   // Paso 2: Buscar la fila principal de la tabla de Topup
   const filaTopup = document.querySelector('.panel-body table tbody tr');
   if (!filaTopup) {
-    alert('❌ No se encontró la tabla de Topup.');
+    alert('❌ No se encontró la tabla Topup. Por favor, extiende la oferta.');
     return;
   }
 
@@ -21,9 +21,6 @@
   const status = celdas[2]?.textContent.trim() || 'N/A';
   const destino = celdas[6]?.textContent.trim() || 'N/A';
   const nombre = celdas[7]?.textContent.trim() || 'N/A';
-  const tipo = celdas[1]?.textContent.trim() || 'N/A';
-  const monto = celdas[3]?.textContent.trim() || '';
-  const moneda = celdas[4]?.textContent.trim() || '';
   const precioTopup = `${monto} ${moneda}`.trim();
 
   // Paso 4: Buscar el contenedor de la oferta
@@ -41,23 +38,17 @@
 
   // Paso 6: Armar el texto final
   const resultado = `
-🆔 OrdenID: ${ordenID}
-👤 ID Cliente: ${clienteID}
-📅 Fecha: ${fecha}
-
-📌 Título: ${titulo}
-📞 Destino: ${destino}
-👤 Nombre: ${nombre}
-💬 Status: ${status}
-💳 Tipo: ${tipo}
-💰 Monto: ${precioTopup}
-🧾 Precio total: ${precioTotal}
+ID del cliente: ${clienteID}
+Order code: ${ordenID}
+Servicio: Recarga
+Status: ${status}
+Solicitud: 
   `.trim();
 
   // Paso 7: Copiar al portapapeles
   navigator.clipboard.writeText(resultado).then(() => {
     console.log('✅ Información copiada al portapapeles:\n', resultado);
-    alert('📋 ¡Todos los datos fueron copiados al portapapeles!');
+    alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamieto ha sido generado para "Recargas" correctamente');
   }).catch((err) => {
     console.error('❌ Error al copiar:', err);
   });
