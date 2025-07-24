@@ -50,7 +50,7 @@ Solicitud:
     console.log('✅ Información copiada al portapapeles:\n', resultado);
     alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamieto ha sido generado para "Recargas" correctamente');
   }).catch((err) => {
-    console.error('❌ Error al copiar:', err);
+    console.error('❌ ¡Error al copiar!. No se logro pudo generar el escalmiendo:', err);
   });
 
 })();
