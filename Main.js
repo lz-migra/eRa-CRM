@@ -65,7 +65,7 @@
                     });
             }
         },
-        { icon: '💵', text: 'Remesa', color: '#87cb16', action: () {
+        { icon: '💵', text: 'Remesa', color: '#87cb16', action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Remesa.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
 
