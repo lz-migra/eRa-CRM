@@ -1,8 +1,9 @@
-(function() {
+(function () {
     'use strict';
 
-    // --- ESTILOS CSS (Sin cambios) ---
-    GM_addStyle(`
+    // --- ESTILOS CSS (usando appendChild de <style>) ---
+    const style = document.createElement('style');
+    style.textContent = `
         #custom-bottom-bar {
             position: fixed;
             bottom: 0;
@@ -37,7 +38,8 @@
             background-color: #007bff;
             color: #ffffff !important;
         }
-    `);
+    `;
+    document.head.appendChild(style);
 
     // --- HTML DE LA BARRA ---
     const customBar = document.createElement('div');
@@ -53,27 +55,23 @@
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Recarga.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
 
-                GM_xmlhttpRequest({
-                    method: 'GET',
-                    url: scriptUrl,
-                    onload: function(response) {
-                        if (response.status >= 200 && response.status < 400) {
-                            // El script se ha cargado correctamente, ahora lo ejecutamos.
-                            new Function(response.responseText)();
-                        } else {
-                            alert(`Error al cargar el script de Recarga. Estado: ${response.status}`);
-                        }
-                    },
-                    onerror: function() {
-                        alert('Error de red. No se pudo conectar a GitHub para cargar el script.');
-                    }
-                });
+                fetch(scriptUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(code => {
+                        new Function(code)(); // Ejecuta el script cargado
+                    })
+                    .catch(error => {
+                        alert(`Error al cargar el script de Recarga.\n${error}`);
+                    });
             }
         },
-        { icon: '💵', text: 'Remesa',  color: '#87cb16', action: () => alert('Función de Remesa') },
-        { icon: '💳', text: 'MLC',     color: '#23ccef', action: () => alert('Función de MLC') },
-        { icon: '📦', text: 'TN',      color: '#ff4500', action: () => window.open('https://www.google.com/search?q=noticias', '_blank') },
-        { icon: '🌍', text: 'Ingles',  color: '#1769ff', action: () => window.open('https://translate.google.com/', '_blank') }
+        { icon: '💵', text: 'Remesa', color: '#87cb16', action: () => alert('Función de Remesa') },
+        { icon: '💳', text: 'MLC', color: '#23ccef', action: () => alert('Función de MLC') },
+        { icon: '📦', text: 'TN', color: '#ff4500', action: () => window.open('https://www.google.com/search?q=noticias', '_blank') },
+        { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => window.open('https://translate.google.com/', '_blank') }
     ];
 
     buttons.forEach(btnInfo => {
@@ -86,13 +84,13 @@
             button.style.color = btnInfo.color;
         }
 
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', function (event) {
             event.preventDefault();
             btnInfo.action();
         });
+
         customBar.appendChild(button);
     });
 
     document.body.appendChild(customBar);
-
 })();
