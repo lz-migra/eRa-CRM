@@ -21,7 +21,20 @@
     return el ? el.textContent.trim() : 'N/A';
   };
 
-  // --- Datos obtenidos por etiqueta dinámica ---
+  // 🧱 Función para obtener FOI, Proveedor y Status desde la tabla
+  const getDatosDesdeTabla = () => {
+    const primeraFila = document.querySelector('table.table tbody tr');
+    if (!primeraFila) return { FoiID: 'N/A', Proveedor: 'N/A', Status: 'N/A' };
+
+    const celdas = primeraFila.querySelectorAll('td');
+    return {
+      FoiID: celdas[0]?.textContent.trim() || 'N/A',
+      Proveedor: celdas[2]?.textContent.trim() || 'N/A',
+      Status: celdas[3]?.textContent.trim() || 'N/A'
+    };
+  };
+
+  // --- Datos por etiqueta dinámica ---
   const Provincia = getDatoPorEtiqueta('Provincia');
   const Municipio = getDatoPorEtiqueta('Municipio');
   const Direccion = getDatoPorEtiqueta('Direccion');
@@ -33,24 +46,34 @@
   const Monto = getDatoPorEtiqueta('Monto');
   const Fee = getDatoPorEtiqueta('Fee');
 
-  // --- Datos por selectores fijos del CRM ---
+  // --- Datos fijos por selector ---
   const IDcliente = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(2) > p');
   const orderCode = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(1) > p');
-  const FoiID = getText('#accordion-offers-body-25631105-2 > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
-  const status = getText('#accordion-offers-body-25631105-2 > div > table > tbody > tr:nth-child(1) > td:nth-child(4)');
-  const Proveedor = getText('#accordion-offers-body-25631105-2 > div > table > tbody > tr:nth-child(1) > td:nth-child(3)');
 
-  // --- Armar el resultado final ---
+  // --- Obtener datos desde la tabla ---
+  const { FoiID, Proveedor, Status } = getDatosDesdeTabla();
+
+  // --- Construcción del resultado ---
   const resultado = `
 ID del cliente: ${IDcliente}
-Tipo de remesa: Domicilio
-Provincia: ${Provincia}
-Número de reparto: ${NroReparto}
 Order code: ${orderCode}
+Tipo de remesa: Domicilio
+
+Nombre del beneficiario: ${Nombre}
+Celular: ${Celular}
+Monto: ${Monto}
+Fee: ${Fee}
+
+Dirección: ${Direccion}
+Barrio: ${Barrio}
+Provincia: ${Provincia}
+Municipio: ${Municipio}
+Instrucciones: ${Instrucciones}
+Número de reparto: ${NroReparto}
+
 ID o FOI: ${FoiID}
-Status: ${status}
+Status: ${Status}
 Proveedor: ${Proveedor}
-Solicitud: 
   `.trim();
 
   // 📋 Copiar al portapapeles
