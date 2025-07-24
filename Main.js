@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    // --- ESTILOS CSS (usando appendChild de <style>) ---
+    // --- ESTILOS CSS ---
     const style = document.createElement('style');
     style.textContent = `
         #custom-bottom-bar {
@@ -10,138 +10,115 @@
             left: 0;
             width: 100%;
             background-color: #ffffff;
-            padding: 6px 0;
+            padding: 6px 15px;
             z-index: 99999;
             display: flex;
-            justify-content: center;
             align-items: center;
             gap: 15px;
             border-top: 1px solid #e0e0e0;
             box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        #custom-bottom-bar span.section-label {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        #custom-bottom-bar .button-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
 
         #custom-bottom-bar a.custom-button {
-            color: #333333;
+            color: #333;
             text-decoration: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
             font-weight: 500;
             transition: background-color 0.2s, color 0.2s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
         }
 
         #custom-bottom-bar a.custom-button:hover {
             background-color: #007bff;
             color: #ffffff !important;
         }
+
+        #custom-bottom-bar .divider {
+            margin: 0 10px;
+            color: #999;
+        }
     `;
     document.head.appendChild(style);
 
-    // --- HTML DE LA BARRA ---
-    const customBar = document.createElement('div');
-    customBar.id = 'custom-bottom-bar';
-
-    // --- CONFIGURACIÓN DE BOTONES ---
-    const buttons = [
-        {
-            icon: '📱', text: 'Recarga', color: '#ea4c89', action: () => {
-                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Recarga.js';
-                console.log(`Cargando script desde: ${scriptUrl}`);
-
-                fetch(scriptUrl)
-                    .then(response => {
-                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-                        return response.text();
-                    })
-                    .then(code => {
-                        new Function(code)(); // Ejecuta el script cargado
-                    })
-                    .catch(error => {
-                        alert(`Error al cargar el script de Recarga.\n${error}`);
-                    }); } },
-        { icon: '💵', text: 'Remesa', color: '#87cb16', action: () => {
-                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Remesa.js';
-                console.log(`Cargando script desde: ${scriptUrl}`);
-
-                fetch(scriptUrl)
-                    .then(response => {
-                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-                        return response.text();
-                    })
-                    .then(code => {
-                        new Function(code)(); // Ejecuta el script cargado
-                    })
-                    .catch(error => {
-                        alert(`Error al cargar el script de Remesa.\n${error}`);
-                    }); } },
-        { icon: '💳', text: 'MLC', color: '#23ccef', action: () => {
-                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/MLC.js';
-                console.log(`Cargando script desde: ${scriptUrl}`);
-
-                fetch(scriptUrl)
-                    .then(response => {
-                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-                        return response.text();
-                    })
-                    .then(code => {
-                        new Function(code)(); // Ejecuta el script cargado
-                    })
-                    .catch(error => {
-                        alert(`Error al cargar el script de MLC.\n${error}`);
-                    }); } },
-        { icon: '📦', text: 'TN', color: '#ff4500', action: () => {
-                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/TN.js';
-                console.log(`Cargando script desde: ${scriptUrl}`);
-
-                fetch(scriptUrl)
-                    .then(response => {
-                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-                        return response.text();
-                    })
-                    .then(code => {
-                        new Function(code)(); // Ejecuta el script cargado
-                    })
-                    .catch(error => {
-                        alert(`Error al cargar el script de TN.\n${error}`);
-                    }); } },
-        { icon: '🌍', text: 'Ingles', color: '#1769ff', action: () => {
-                const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Ingles.js';
-                console.log(`Cargando script desde: ${scriptUrl}`);
-
-                fetch(scriptUrl)
-                    .then(response => {
-                        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-                        return response.text();
-                    })
-                    .then(code => {
-                        new Function(code)(); // Ejecuta el script cargado
-                    })
-                    .catch(error => {
-                        alert(`Error al cargar el script de Ingles.\n${error}`);
-                    }); } },
-    ];
-
-    buttons.forEach(btnInfo => {
+    const createButton = (icon, text, color, scriptPath) => {
         const button = document.createElement('a');
         button.href = '#';
         button.className = 'custom-button';
-        button.innerHTML = `${btnInfo.icon} ${btnInfo.text}`;
-
-        if (btnInfo.color) {
-            button.style.color = btnInfo.color;
-        }
-
-        button.addEventListener('click', function (event) {
+        button.innerHTML = `${icon} ${text}`;
+        button.style.color = color;
+        button.addEventListener('click', event => {
             event.preventDefault();
-            btnInfo.action();
+            const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/${scriptPath}`;
+            console.log(`Cargando script desde: ${scriptUrl}`);
+            fetch(scriptUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error(`Estado: ${res.status}`);
+                    return res.text();
+                })
+                .then(code => new Function(code)())
+                .catch(err => alert(`Error al cargar el script de ${text}.\n${err}`));
         });
+        return button;
+    };
 
-        customBar.appendChild(button);
-    });
+    const customBar = document.createElement('div');
+    customBar.id = 'custom-bottom-bar';
+
+    // --- Texto inicial ---
+    const mainLabel = document.createElement('span');
+    mainLabel.className = 'section-label';
+    mainLabel.textContent = 'Barra de Herramientas';
+    customBar.appendChild(mainLabel);
+
+    // --- Sección Escalamiento ---
+    const escalaLabel = document.createElement('span');
+    escalaLabel.className = 'section-label';
+    escalaLabel.textContent = 'Escalamiento:';
+    customBar.appendChild(escalaLabel);
+
+    const groupEscalamiento = document.createElement('div');
+    groupEscalamiento.className = 'button-group';
+    groupEscalamiento.appendChild(createButton('📱', 'Recarga', '#ea4c89', 'Recarga.js'));
+    groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', 'Remesa.js'));
+    groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', 'MLC.js'));
+    groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', 'TN.js'));
+    groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', 'Ingles.js'));
+    customBar.appendChild(groupEscalamiento);
+
+    // --- Separador visual ---
+    const divider = document.createElement('span');
+    divider.className = 'divider';
+    divider.textContent = '|';
+    customBar.appendChild(divider);
+
+    // --- Sección Twilio Chat ---
+    const chatLabel = document.createElement('span');
+    chatLabel.className = 'section-label';
+    chatLabel.textContent = 'Twilio Chat:';
+    customBar.appendChild(chatLabel);
+
+    const groupChat = document.createElement('div');
+    groupChat.className = 'button-group';
+    groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'RecargaTW.js'));
+    groupChat.appendChild(createButton('💵', 'Remesa TW', '#87cb16', 'RemesaTW.js'));
+    customBar.appendChild(groupChat);
 
     document.body.appendChild(customBar);
 })();
