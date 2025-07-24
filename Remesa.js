@@ -10,13 +10,12 @@
 
   const IDcliente = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(2) > p');
   const Tipoderemesa = 'Domicilio';
-  const Povincia = getText('#accordion-offers-body-25667679-2 > div > table > tbody > tr > td:nth-child(3)');
-  const NroReparto = getText('#accordion-offers-body-25667679-2 > div > table > tbody > tr > td:nth-child(3)');
+  const Povincia = getXPathText('//*[@id="accordion-offers-body-25668313-2"]/div/table/tbody/tr[2]/td/div/div/div[2]/div[3]/p[3]/text()'); // Ejemplo de XPath para IDs dinámicos
+  const Povincia = getXPathText('//*[@id="accordion-offers-body-25631105-2"]/div/table/tbody/tr[2]/td/div/div/div[3]/div/div/p[1]/text()'); // Ejemplo de XPath para IDs dinámicos
   const orderCode = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(1) > p');
-  const FoiID = getText('#accordion-offers-body-25667679-2 > div > table > tbody > tr > td:nth-child(3)');
-  const status = getText('#accordion-offers-body-25667679-2 > div > table > tbody > tr > td:nth-child(3)');
-  const Proveedor = getText('#accordion-offers-body-25667679-2 > div > table > tbody > tr > td:nth-child(3)');
-  const servicio = 'Recarga';
+  const FoiID = getText('#accordion-offers-body-25631105-2 > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
+  const status = getText('#accordion-offers-body-25631105-2 > div > table > tbody > tr:nth-child(1) > td:nth-child(4)');
+  const Proveedor = getText('#accordion-offers-body-25631105-2 > div > table > tbody > tr:nth-child(1) > td:nth-child(3)');
   const solicitud = '';
 
   const resultado = `
