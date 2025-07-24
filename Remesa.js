@@ -43,21 +43,14 @@
   // --- Armar el resultado final ---
   const resultado = `
 ID del cliente: ${IDcliente}
-Order code: ${orderCode}
 Tipo de remesa: Domicilio
-Nombre del beneficiario: ${Nombre}
-Celular: ${Celular}
-Monto: ${Monto}
-Fee: ${Fee}
-Dirección: ${Direccion}
-Barrio: ${Barrio}
 Provincia: ${Provincia}
-Municipio: ${Municipio}
-Instrucciones: ${Instrucciones}
 Número de reparto: ${NroReparto}
+Order code: ${orderCode}
 ID o FOI: ${FoiID}
 Status: ${status}
 Proveedor: ${Proveedor}
+Solicitud: 
   `.trim();
 
   // 📋 Copiar al portapapeles
