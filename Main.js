@@ -63,7 +63,7 @@
         {
             icon: '📱',
             text: 'Recarga',
-            color: '#4CAF50',
+            color: '#ea4c89',
             action: () => {
                 const scriptUrl = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Recarga.js';
                 console.log(`Cargando script desde: ${scriptUrl}`);
@@ -85,10 +85,10 @@
                 });
             }
         },
-        { icon: '💵', text: 'Remesa',  color: '#E69B00', action: () => alert('Función de Remesa') },
-        { icon: '💳', text: 'MLC',     color: '#2196F3', action: () => alert('Función de MLC') },
-        { icon: '📦', text: 'TN',      color: '#5F6368', action: () => window.open('https://www.google.com/search?q=noticias', '_blank') },
-        { icon: '🌍', text: 'Ingles',  color: '#9C27B0', action: () => window.open('https://translate.google.com/', '_blank') }
+        { icon: '💵', text: 'Remesa',  color: '#87cb16', action: () => alert('Función de Remesa') },
+        { icon: '💳', text: 'MLC',     color: '#23ccef', action: () => alert('Función de MLC') },
+        { icon: '📦', text: 'TN',      color: '#ff4500', action: () => window.open('https://www.google.com/search?q=noticias', '_blank') },
+        { icon: '🌍', text: 'Ingles',  color: '#1769ff', action: () => window.open('https://translate.google.com/', '_blank') }
     ];
 
     buttons.forEach(btnInfo => {
