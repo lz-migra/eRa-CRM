@@ -56,13 +56,9 @@
   const resultado = `
 ID del cliente: ${clienteID}
 Order code: ${ordenID}
-Fecha: ${fecha}
-Título: ${titulo}
-Precio: ${precioTotal}
 Servicio: Recarga
 Status: ${status}
-Destino: ${destino}
-Nombre: ${nombre}
+Solicitud: 
   `.trim();
 
   // ✅ Paso 8: Copiar al portapapeles
