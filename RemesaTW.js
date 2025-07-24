@@ -74,7 +74,7 @@ Fecha estimada de entrega: ${FechaEntrega}
   navigator.clipboard.writeText(resultado).then(() => {
     console.log('✅ Información copiada al portapapeles:');
     console.log(resultado);
-    alert('📋 ¡Datos copiados al portapapeles! 📋 El escalamieto ha sido generado para "Remesa" correctamente');
+    alert('📋 ¡Datos copiados al portapapeles! 📋 El mensaje ha sido generado para "Remesa" correctamente');
   }).catch((err) => {
     console.error('❌ Error al copiar al portapapeles:', err);
   });
