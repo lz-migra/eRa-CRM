@@ -15,8 +15,8 @@
     return -1;
   }
 
-  // ✅ Paso 1: Obtener Ordercode, Cliente Id, Fecha y Monto Pagado
-  let ordenID = 'N/A', clienteID = 'N/A', fecha = 'N/A', montoPagado = 'N/A';
+  // ✅ Paso 1: Obtener Ordercode, Cliente Id, Fecha y Moneda
+  let ordenID = 'N/A', clienteID = 'N/A', fecha = 'N/A', Moneda = 'N/A';
 
   const panelHeading = document.querySelector('.panel.panel-default > .panel-heading');
   if (panelHeading) {
@@ -26,7 +26,9 @@
       ordenID = columnas[0]?.textContent.trim() || 'N/A';
       clienteID = columnas[1]?.textContent.trim() || 'N/A';
       fecha = columnas[2]?.textContent.trim() || 'N/A';
-      montoPagado = columnas[4]?.textContent.trim() || 'N/A'; // 👉 Monto Pagado
+const textoMonto = columnas[4]?.textContent.trim() || '';
+      Moneda = textoMonto.match(/[A-Za-z]+/)?.[0] || 'N/A';
+
     }
   }
 
@@ -60,7 +62,7 @@
 ID del cliente: ${clienteID}
 Order code: ${ordenID}
 Fecha: ${fecha}
-Monto Pagado: ${montoPagado}
+Moneda: ${Moneda}
 Servicio: Recarga
 Status: ${status}
 Destino: ${destino}
