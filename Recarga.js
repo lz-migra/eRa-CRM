@@ -15,10 +15,13 @@
     return -1; // No encontrado
   }
 
-  // ✅ Paso 1: Obtener datos superiores (ID cliente, orden, fecha)
-  const ordenID = document.querySelector('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(1) > p')?.textContent.trim() || 'N/A';
-  const clienteID = document.querySelector('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(2) > p')?.textContent.trim() || 'N/A';
-  const fecha = document.querySelector('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(3) > p')?.textContent.trim() || 'N/A';
+  // ✅ Paso 1: Obtener Ordercode, Cliente Id y Fecha
+  const encabezados = Array.from(document.querySelectorAll('#accordion-example-heading-23954487 .row'))[1];
+  const columnas = encabezados?.querySelectorAll('div.col-sm-1 p.category');
+
+  const ordenID = columnas?.[0]?.textContent.trim() || 'N/A';
+  const clienteID = columnas?.[1]?.textContent.trim() || 'N/A';
+  const fecha = columnas?.[2]?.textContent.trim() || 'N/A';
 
   // ✅ Paso 2: Buscar fila principal de la tabla TOPUP
   const filaTopup = document.querySelector('.panel-body table tbody tr');
@@ -56,9 +59,14 @@
   const resultado = `
 ID del cliente: ${clienteID}
 Order code: ${ordenID}
+Fecha: ${fecha}
 Servicio: Recarga
 Status: ${status}
-Solicitud: 
+Destino: ${destino}
+Nombre: ${nombre}
+Oferta: ${titulo}
+Precio total: ${precioTotal}
+Solicitud:
   `.trim();
 
   // ✅ Paso 8: Copiar al portapapeles
