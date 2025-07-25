@@ -15,13 +15,19 @@
     return -1; // No encontrado
   }
 
-  // ✅ Paso 1: Obtener Ordercode, Cliente Id y Fecha
-  const encabezados = Array.from(document.querySelectorAll('#accordion-example-heading-23954487 .row'))[1];
-  const columnas = encabezados?.querySelectorAll('div.col-sm-1 p.category');
+  // ✅ Paso 1: Obtener Ordercode, Cliente Id y Fecha desde el segundo .row de la cabecera
+  const paneles = document.querySelectorAll('.panel.panel-default > .panel-heading');
+  let ordenID = 'N/A', clienteID = 'N/A', fecha = 'N/A';
 
-  const ordenID = columnas?.[0]?.textContent.trim() || 'N/A';
-  const clienteID = columnas?.[1]?.textContent.trim() || 'N/A';
-  const fecha = columnas?.[2]?.textContent.trim() || 'N/A';
+  if (paneles.length > 0) {
+    const filas = paneles[0].querySelectorAll('.row');
+    if (filas.length >= 2) {
+      const columnas = filas[1].querySelectorAll('div.col-sm-1 p');
+      ordenID = columnas[0]?.textContent.trim() || 'N/A';
+      clienteID = columnas[1]?.textContent.trim() || 'N/A';
+      fecha = columnas[2]?.textContent.trim() || 'N/A';
+    }
+  }
 
   // ✅ Paso 2: Buscar fila principal de la tabla TOPUP
   const filaTopup = document.querySelector('.panel-body table tbody tr');
