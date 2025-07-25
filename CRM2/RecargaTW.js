@@ -60,7 +60,7 @@
         const operador = topup.operador;
         const destino = topup.destino;
         const rawNombre = topup.nombre || '';
-const nombreTopup = rawNombre
+        const nombreTopup = rawNombre
   .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
   .toLowerCase()
   .replace(/\b\p{L}/gu, c => c.toUpperCase()); // Capitaliza cada palabra
