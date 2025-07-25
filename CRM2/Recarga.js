@@ -86,8 +86,8 @@ solicitud:
 navigator.clipboard.writeText(resultado).then(() => {
   console.log('[Recarga 📱] ✅ Información copiada al portapapeles:', resultado);
   alert('[Recarga 📱] \n\n' +
-  '📋 ¡Todos los datos fueron copiados al portapapeles!.\n' + 
-  '✅ El escalamiento ha sido generado correctamente.');
+  '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' + 
+  '✅ El escalamiento ha sido generado correctamente');
 
   // 🧹 Limpiar variables globales
   delete window.datosExtraidos;
