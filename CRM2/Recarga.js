@@ -89,7 +89,8 @@ navigator.clipboard.writeText(resultado).then(() => {
   delete window.datosExtraidos;
   delete window.bloqueElemento;
   delete window.datosPanel;
-  delete window.bloqueElemento
+  delete window.bloqueHTMLCapturado
+
 }).catch((err) => {
   console.error('❌ ¡Error al copiar al portapapeles!', err);
 });
