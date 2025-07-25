@@ -1,4 +1,4 @@
-function (BotmMCL) {
+function () {
   'use strict';
 
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
