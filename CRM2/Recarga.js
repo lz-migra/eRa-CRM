@@ -3,7 +3,7 @@
 
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-    console.log(`[Recarga 📱] 🔄 Cargando script desde: ${url}`);
+    console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`Estado: ${response.status}`);
@@ -12,14 +12,14 @@
       .then(code => {
         try {
           new Function(code)(); // Ejecuta el código
-          console.log(`[Recarga 📱] ✅ Script ejecutado: ${url}`);
+          console.log(`[RECARGA📱] ✅ Script ejecutado: ${url}`);
           if (typeof callback === 'function') callback();
         } catch (e) {
-          console.error(`[Recarga 📱] ❌ Error al ejecutar script (${url}):`, e);
+          console.error(`[RECARGA📱] ❌ Error al ejecutar script (${url}):`, e);
         }
       })
       .catch(error => {
-        console.error(`[Recarga 📱] ❌ Error al cargar el script (${url}):`, error);
+        console.error(`[RECARGA📱] ❌ Error al cargar el script (${url}):`, error);
       });
   }
 
@@ -30,7 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[Recarga 📱] \n\n' +
+          alert('[RECARGA📱] \n\n' +
           '❌ Error: "datosExtraidos" no está definido. \n' +
           'No se genero el escalamiento');
           return;
@@ -96,7 +96,7 @@ navigator.clipboard.writeText(resultado).then(() => {
   delete window.bloqueHTMLCapturado
 
 }).catch((err) => {
-  console.error('[Recarga 📱] ❌ ¡Error al copiar al portapapeles!', err);
+  console.error('[RECARGA📱] ❌ ¡Error al copiar al portapapeles!', err);
 });
 
       }, 300); // Espera corta para asegurar ejecución de scripts
