@@ -60,10 +60,11 @@
         const operador = topup.operador;
         const destino = topup.destino;
         const rawNombre = topup.nombre || '';
-        const nombreTopup = rawNombre
-          .replace(/[^a-zA-Z() ]/g, '')
-          .toLowerCase()
-          .replace(/\b[a-z]/g, c => c.toUpperCase());
+const nombreTopup = rawNombre
+  .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
+  .toLowerCase()
+  .replace(/\b\p{L}/gu, c => c.toUpperCase()); // Capitaliza cada palabra
+
 
         // 👤 Datos del beneficiario
         const provincia = beneficiario.provincia;
