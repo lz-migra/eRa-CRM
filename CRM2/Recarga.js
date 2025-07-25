@@ -3,7 +3,7 @@
 
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-    console.log(`[Recarga] 🔄 Cargando script desde: ${url}`);
+    console.log(`[Recarga 📱] 🔄 Cargando script desde: ${url}`);
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`Estado: ${response.status}`);
@@ -82,8 +82,8 @@ solicitud:
 
         // 📋 Copiar al portapapeles
 navigator.clipboard.writeText(resultado).then(() => {
-  console.log('✅ Información copiada al portapapeles:\n', resultado);
-  alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
+  console.log('[Recarga] ✅ Información copiada al portapapeles:\n', resultado);
+  alert('[Recarga] 📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
 
   // 🧹 Limpiar variables globales
   delete window.datosExtraidos;
