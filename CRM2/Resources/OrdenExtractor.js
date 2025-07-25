@@ -129,38 +129,19 @@ Monto: ${beneficiario.monto}
 Fee: ${beneficiario.fee}
 `.trim();
 
+  // Hacer disponibles los datos para otros scripts
+  window.datosExtraidos = {
+    generales,
+    oferta,
+    topup,
+    beneficiario,
+    resultadoTexto: resultado
+  };
+
   // Mostrar en consola
   console.log(resultado);
 
- // ✅ Exponer todos los datos en un objeto global reutilizable
-window.datosExtraidos = {
-  ordenID,
-  clienteID,
-  fecha,
-  titulo,
-  estado,
-  precioListado,
-  descuento,
-  precioTotal,
-  foiID,
-  proveedor,
-  statusTopup,
-  operador,
-  destino,
-  nombreTopup,
-  provincia,
-  municipio,
-  direccion,
-  barrio,
-  instrucciones,
-  nroReparto,
-  celular,
-  nombreBeneficiario,
-  monto,
-  fee,
-  resultadoTexto: resultado  // También se expone el resultado formateado
-};
-
   // (Opcional) Copiar al portapapeles
   // navigator.clipboard.writeText(resultado);
+
 })();
