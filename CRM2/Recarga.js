@@ -99,7 +99,7 @@ navigator.clipboard.writeText(resultado).then(() => {
   console.error('[RECARGA📱] ❌ ¡Error al copiar al portapapeles!', err);
 });
 
-      }, 300); // Espera corta para asegurar ejecución de scripts
+      }, 600); // Espera corta para asegurar ejecución de scripts
     });
   });
 
