@@ -81,12 +81,17 @@ solicitud:
 `.trim();
 
         // 📋 Copiar al portapapeles
-        navigator.clipboard.writeText(resultado).then(() => {
-          console.log('✅ Información copiada al portapapeles:\n', resultado);
-          alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
-        }).catch((err) => {
-          console.error('❌ ¡Error al copiar al portapapeles!', err);
-        });
+navigator.clipboard.writeText(resultado).then(() => {
+  console.log('✅ Información copiada al portapapeles:\n', resultado);
+  alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
+
+  // 🧹 Limpiar variables globales
+  delete window.datosExtraidos;
+  delete window.bloqueElemento;
+  delete window.datosPanel;
+}).catch((err) => {
+  console.error('❌ ¡Error al copiar al portapapeles!', err);
+});
 
       }, 300); // Espera corta para asegurar ejecución de scripts
     });
