@@ -1,48 +1,54 @@
 (function () {
   'use strict';
 
-  // 🧠 FUNCIÓN 1: Obtener datos generales desde el panel superior
+  // 🧪 Verificación: Asegurarse que el bloque HTML esté disponible
+  const bloque = window.bloqueElemento;
+  if (!bloque) {
+    alert('No se encontró el bloque expandido. Asegúrate de ejecutar primero IdentificadorHTML.js');
+    return;
+  }
+
+  // 🔧 Reemplazo de todas las funciones para trabajar sobre el `bloque` capturado
+
   function obtenerDatosDesdePanelTitle() {
-    const panelTitle = document.querySelector('.panel-title > .row');
+    const panelTitle = bloque.querySelector('.panel-title > .row');
     if (!panelTitle) return {};
     const columnas = panelTitle.querySelectorAll('div.col-sm-1 > p');
     return {
-      ordenID: columnas[0]?.textContent.trim() || 'N/A',         // Código de orden
-      clienteID: columnas[1]?.textContent.trim() || 'N/A',       // ID del cliente
-      fecha: columnas[2]?.textContent.trim() || 'N/A',           // Fecha
-      estadoOrden: columnas[3]?.textContent.trim() || 'N/A',     // Estado
-      montoPagado: columnas[4]?.textContent.trim() || 'N/A',     // Monto total
-      tarjeta: columnas[6]?.textContent.trim() || 'N/A'          // Tarjeta usada
+      ordenID: columnas[0]?.textContent.trim() || 'N/A',
+      clienteID: columnas[1]?.textContent.trim() || 'N/A',
+      fecha: columnas[2]?.textContent.trim() || 'N/A',
+      estadoOrden: columnas[3]?.textContent.trim() || 'N/A',
+      montoPagado: columnas[4]?.textContent.trim() || 'N/A',
+      tarjeta: columnas[6]?.textContent.trim() || 'N/A'
     };
   }
 
-  // 🧠 FUNCIÓN 2: Obtener datos de la oferta (segundo panel)
   function obtenerDatosOferta() {
-    const ofertaRow = document.querySelector('#accordion-offers .panel.panel-default .panel-title .row');
+    const ofertaRow = bloque.querySelector('#accordion-offers .panel.panel-default .panel-title .row');
     if (!ofertaRow) return {};
     const columnas = ofertaRow.querySelectorAll('div[class^="col-xs-"] > p');
     return {
-      titulo: columnas[1]?.textContent.trim() || 'N/A',          // Título del producto u oferta
-      estado: columnas[3]?.textContent.trim() || 'N/A',          // Estado
-      precioListado: columnas[4]?.textContent.trim() || 'N/A',   // Precio listado
-      descuento: columnas[5]?.textContent.trim() || 'N/A',       // Descuento
-      precioTotal: columnas[6]?.textContent.trim() || 'N/A'      // Precio total final
+      titulo: columnas[1]?.textContent.trim() || 'N/A',
+      estado: columnas[3]?.textContent.trim() || 'N/A',
+      precioListado: columnas[4]?.textContent.trim() || 'N/A',
+      descuento: columnas[5]?.textContent.trim() || 'N/A',
+      precioTotal: columnas[6]?.textContent.trim() || 'N/A'
     };
   }
 
-  // 🧠 FUNCIÓN 3: Obtener índice de una columna según su nombre
   function obtenerIndiceColumnaPorNombre(nombreColumna) {
-    const encabezados = document.querySelectorAll('.panel-body table thead tr th');
+    const encabezados = bloque.querySelectorAll('.panel-body table thead tr th');
     for (let i = 0; i < encabezados.length; i++) {
-      const texto = encabezados[i].textContent.trim().toLowerCase();
-      if (texto === nombreColumna.toLowerCase()) return i;
+      if (encabezados[i].textContent.trim().toLowerCase() === nombreColumna.toLowerCase()) {
+        return i;
+      }
     }
-    return -1; // No se encontró
+    return -1;
   }
 
-  // 🧠 FUNCIÓN 4: Obtener datos de la tabla dinámica (topup)
   function obtenerDatosTablaTopup() {
-    const filaTopup = document.querySelector('.panel-body table tbody tr');
+    const filaTopup = bloque.querySelector('.panel-body table tbody tr');
     if (!filaTopup) return {};
     const celdas = filaTopup.querySelectorAll('td');
     return {
@@ -55,9 +61,8 @@
     };
   }
 
-  // 🧠 FUNCIÓN 5: Buscar un valor dinámicamente por etiqueta visible
   function getDatoPorEtiqueta(etiqueta) {
-    const elementos = document.querySelectorAll('.panel-body font');
+    const elementos = bloque.querySelectorAll('.panel-body font');
     for (const font of elementos) {
       const label = font.textContent.trim().replace(':', '');
       if (label.toLowerCase() === etiqueta.toLowerCase()) {
@@ -70,7 +75,6 @@
     return 'N/A';
   }
 
-  // 🧠 FUNCIÓN 6: Obtener todos los datos del beneficiario (último panel)
   function obtenerDatosBeneficiario() {
     return {
       provincia: getDatoPorEtiqueta('Provincia'),
@@ -86,13 +90,12 @@
     };
   }
 
-  // ✅ RECOGER TODOS LOS DATOS USANDO LAS FUNCIONES
+  // ✅ Ejecutar y unir toda la información
   const generales = obtenerDatosDesdePanelTitle();
   const oferta = obtenerDatosOferta();
   const topup = obtenerDatosTablaTopup();
   const beneficiario = obtenerDatosBeneficiario();
 
-  // 🧾 FORMAR TEXTO PLANO CON TODA LA INFORMACIÓN
   const resultado = `
 ID del cliente: ${generales.clienteID}
 Order code: ${generales.ordenID}
@@ -124,11 +127,13 @@ Celular: ${beneficiario.celular}
 Nombre del beneficiario: ${beneficiario.nombre}
 Monto: ${beneficiario.monto}
 Fee: ${beneficiario.fee}
-  `.trim();
+`.trim();
 
-  // 🧾 Mostrar resultado en consola
+  // Mostrar en consola
   console.log(resultado);
 
-  // 📋 OPCIONAL: Copiar al portapapeles automáticamente (descomenta si lo deseas)
+  // Copiar al portapapeles si deseas
   // navigator.clipboard.writeText(resultado);
+
 })();
+
