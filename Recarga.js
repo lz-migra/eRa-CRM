@@ -12,25 +12,40 @@
         return i;
       }
     }
-    return -1;
+    return -1; // No encontrado
   }
 
-  // ✅ Paso 1: Obtener Ordercode, Cliente Id, Fecha y Moneda
-  let ordenID = 'N/A', clienteID = 'N/A', fecha = 'N/A', Moneda = 'N/A';
-
-  const panelHeading = document.querySelector('.panel.panel-default > .panel-heading');
-  if (panelHeading) {
-    const filas = panelHeading.querySelectorAll('.row');
-    if (filas.length >= 2) {
-      const columnas = filas[1].querySelectorAll('div.col-sm-1 p');
-      ordenID = columnas[0]?.textContent.trim() || 'N/A';
-      clienteID = columnas[1]?.textContent.trim() || 'N/A';
-      fecha = columnas[2]?.textContent.trim() || 'N/A';
-const textoMonto = columnas[4]?.textContent.trim() || '';
-      Moneda = textoMonto.match(/[A-Za-z]+/)?.[0] || 'N/A';
-
-    }
+  // 🧠 Funciones para obtener datos generales (orderCode, clienteID, fecha)
+  function obtenerDatosDesdePanelTitle() {
+    const panelTitle = document.querySelector('.panel-title > .row');
+    if (!panelTitle) return null;
+    const columnas = panelTitle.querySelectorAll('div.col-sm-1 > p');
+    return {
+      ordenID: columnas[0]?.textContent.trim() || 'N/A',
+      clienteID: columnas[1]?.textContent.trim() || 'N/A',
+      fecha: columnas[2]?.textContent.trim() || 'N/A',
+    };
   }
+
+  function obtenerDatosDesdeContainerFluid() {
+    const contenedor = document.querySelector('.container-fluid > .row + .row');
+    if (!contenedor) return null;
+    const columnas = contenedor.querySelectorAll('div.col-sm-1 > p.category');
+    return {
+      ordenID: columnas[0]?.textContent.trim() || 'N/A',
+      clienteID: columnas[1]?.textContent.trim() || 'N/A',
+      fecha: columnas[2]?.textContent.trim() || 'N/A',
+    };
+  }
+
+  function obtenerDatosGenerales() {
+    return obtenerDatosDesdePanelTitle()
+        || obtenerDatosDesdeContainerFluid()
+        || { ordenID: 'N/A', clienteID: 'N/A', fecha: 'N/A' };
+  }
+
+  // ✅ Paso 1: Obtener datos superiores
+  const { ordenID, clienteID, fecha } = obtenerDatosGenerales();
 
   // ✅ Paso 2: Buscar fila principal de la tabla TOPUP
   const filaTopup = document.querySelector('.panel-body table tbody tr');
@@ -46,32 +61,39 @@ const textoMonto = columnas[4]?.textContent.trim() || '';
   const idxDestino = obtenerIndiceColumnaPorNombre('destino');
   const idxNombre = obtenerIndiceColumnaPorNombre('nombre');
 
-  // ✅ Paso 4: Extraer datos de la fila
+  // ✅ Paso 4: Extraer datos de la fila usando índices
   const status = celdas[idxStatus]?.textContent.trim() || 'N/A';
   const destino = celdas[idxDestino]?.textContent.trim() || 'N/A';
   const nombre = celdas[idxNombre]?.textContent.trim() || 'N/A';
 
-  // ✅ Paso 5: Extraer título y precio total de la oferta
+  // ✅ Paso 5: Buscar contenedor de la oferta
   const ofertaRow = document.querySelector('#accordion-offers .panel-heading .row');
-  const cols = ofertaRow?.querySelectorAll('div.col-xs-1, div.col-xs-2') || [];
-  const titulo = cols[1]?.textContent.trim() || 'N/A';
-  const precioTotal = cols[6]?.textContent.trim() || 'N/A';
+  if (!ofertaRow) {
+    alert('❌ No se encontró el bloque de la oferta.');
+    return;
+  }
 
-  // ✅ Paso 6: Armar y copiar mensaje final
+  const cols = ofertaRow.querySelectorAll('div.col-xs-1, div.col-xs-2');
+
+  // ✅ Paso 6: Extraer título y precio total
+  const titulo = cols[1]?.textContent.trim() || 'N/A'; // Título
+  const precioTotal = cols[6]?.textContent.trim() || 'N/A'; // Precio total
+
+  // ✅ Paso 7: Armar el mensaje final
   const resultado = `
 ID del cliente: ${clienteID}
 Order code: ${ordenID}
 Fecha: ${fecha}
-Moneda: ${Moneda}
 Servicio: Recarga
 Status: ${status}
 Destino: ${destino}
 Nombre: ${nombre}
 Oferta: ${titulo}
-Precio total: ${precioTotal}
-Solicitud:
+Precio Total: ${precioTotal}
+Solicitud: 
   `.trim();
 
+  // ✅ Paso 8: Copiar al portapapeles
   navigator.clipboard.writeText(resultado).then(() => {
     console.log('✅ Información copiada al portapapeles:\n', resultado);
     alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
