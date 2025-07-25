@@ -116,7 +116,7 @@
 
     const groupChat = document.createElement('div');
     groupChat.className = 'button-group';
-    groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'RecargaTW.js'));
+    groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'CRM2/RecargaTW.js'));
     groupChat.appendChild(createButton('💵', 'Remesa TW', '#87cb16', 'RemesaTW.js'));
     customBar.appendChild(groupChat);
 
