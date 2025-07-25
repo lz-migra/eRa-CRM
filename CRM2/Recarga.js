@@ -1,85 +1,45 @@
 (function () {
   'use strict';
 
-  console.log('[Topup + Oferta + Info Adicional] Script ejecutado');
+  // Definir datos
+  const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
 
-  // 📌 Función para obtener el índice de una columna según su nombre
-  function obtenerIndiceColumnaPorNombre(nombreColumna) {
-    const ths = document.querySelectorAll('.panel-body table thead th');
-    for (let i = 0; i < ths.length; i++) {
-      const texto = ths[i].textContent.trim().toLowerCase();
-      if (texto === nombreColumna.toLowerCase()) {
-        return i;
-      }
-    }
-    return -1; // No encontrado
-  }
+  // 🔢 Datos generales
+  const ordenID       = generales.ordenID;
+  const clienteID     = generales.clienteID;
+  const fecha         = generales.fecha;
+  const estadoOrden   = generales.estadoOrden;
+  const montoPagado   = generales.montoPagado;
+  const tarjeta       = generales.tarjeta;
 
-  // 🧠 Funciones para obtener datos generales (orderCode, clienteID, fecha)
-  function obtenerDatosDesdePanelTitle() {
-    const panelTitle = document.querySelector('.panel-title > .row');
-    if (!panelTitle) return null;
-    const columnas = panelTitle.querySelectorAll('div.col-sm-1 > p');
-    return {
-      ordenID: columnas[0]?.textContent.trim() || 'N/A',
-      clienteID: columnas[1]?.textContent.trim() || 'N/A',
-      fecha: columnas[2]?.textContent.trim() || 'N/A',
-    };
-  }
+  // 🎁 Datos de oferta
+  const tituloOferta     = oferta.titulo;
+  const estadoOferta     = oferta.estado;
+  const precioListado    = oferta.precioListado;
+  const descuento        = oferta.descuento;
+  const precioTotal      = oferta.precioTotal;
 
-  function obtenerDatosDesdeContainerFluid() {
-    const contenedor = document.querySelector('.container-fluid > .row + .row');
-    if (!contenedor) return null;
-    const columnas = contenedor.querySelectorAll('div.col-sm-1 > p.category');
-    return {
-      ordenID: columnas[0]?.textContent.trim() || 'N/A',
-      clienteID: columnas[1]?.textContent.trim() || 'N/A',
-      fecha: columnas[2]?.textContent.trim() || 'N/A',
-    };
-  }
+  // 📦 Datos Topup
+  const idTopup     = topup.id;
+  const proveedor   = topup.proveedor;
+  const status      = topup.status;
+  const operador    = topup.operador;
+  const destino     = topup.destino;
+  const nombreTopup = topup.nombre;
 
-  function obtenerDatosGenerales() {
-    return obtenerDatosDesdePanelTitle()
-        || obtenerDatosDesdeContainerFluid()
-        || { ordenID: 'N/A', clienteID: 'N/A', fecha: 'N/A' };
-  }
+  // 👤 Datos del beneficiario
+  const provincia     = beneficiario.provincia;
+  const municipio     = beneficiario.municipio;
+  const direccion     = beneficiario.direccion;
+  const barrio        = beneficiario.barrio;
+  const instrucciones = beneficiario.instrucciones;
+  const nroReparto    = beneficiario.nroReparto;
+  const celular       = beneficiario.celular;
+  const nombre        = beneficiario.nombre;
+  const monto         = beneficiario.monto;
+  const fee           = beneficiario.fee;
 
-  // ✅ Paso 1: Obtener datos superiores
-  const { ordenID, clienteID, fecha } = obtenerDatosGenerales();
-
-  // ✅ Paso 2: Buscar fila principal de la tabla TOPUP
-  const filaTopup = document.querySelector('.panel-body table tbody tr');
-  if (!filaTopup) {
-    alert('❌ No se encontró la tabla Topup. Por favor, extiende la oferta.');
-    return;
-  }
-
-  const celdas = filaTopup.querySelectorAll('td');
-
-  // ✅ Paso 3: Obtener índices dinámicos de columnas
-  const idxStatus = obtenerIndiceColumnaPorNombre('status');
-  const idxDestino = obtenerIndiceColumnaPorNombre('destino');
-  const idxNombre = obtenerIndiceColumnaPorNombre('nombre');
-
-  // ✅ Paso 4: Extraer datos de la fila usando índices
-  const status = celdas[idxStatus]?.textContent.trim() || 'N/A';
-  const destino = celdas[idxDestino]?.textContent.trim() || 'N/A';
-  const nombre = celdas[idxNombre]?.textContent.trim() || 'N/A';
-
-  // ✅ Paso 5: Buscar contenedor de la oferta
-  const ofertaRow = document.querySelector('#accordion-offers .panel-heading .row');
-  if (!ofertaRow) {
-    alert('❌ No se encontró el bloque de la oferta.');
-    return;
-  }
-
-  const cols = ofertaRow.querySelectorAll('div.col-xs-1, div.col-xs-2');
-
-  // ✅ Paso 6: Extraer título y precio total
-  const titulo = cols[1]?.textContent.trim() || 'N/A'; // Título
-  const precioTotal = cols[6]?.textContent.trim() || 'N/A'; // Precio total
-
-  // ✅ Paso 7: Armar el mensaje final
+  // ✅ Plantilla final
   const resultado = `
 ID del cliente: ${clienteID}
 Order code: ${ordenID}
@@ -88,12 +48,29 @@ Servicio: Recarga
 Status: ${status}
 Destino: ${destino}
 Nombre: ${nombre}
-Oferta: ${titulo}
-Precio Total: ${precioTotal}
-Solicitud: 
-  `.trim();
+Celular: ${celular}
+Provincia: ${provincia}
+Municipio: ${municipio}
+Dirección: ${direccion}, Barrio: ${barrio}, Reparto: ${nroReparto}
+Instrucciones: ${instrucciones}
 
-  // ✅ Paso 8: Copiar al portapapeles
+💳 Pago:
+Tarjeta: ${tarjeta}
+Monto pagado: ${montoPagado}
+Fee: ${fee}
+
+🎁 Oferta:
+Título: ${tituloOferta}
+Estado de la oferta: ${estadoOferta}
+Precio listado: ${precioListado}
+Descuento: ${descuento}
+Precio total: ${precioTotal}
+
+📌 Solicitud:
+Por favor, revisar el estado del topup con ID: ${idTopup} correspondiente al operador: ${operador} y proveedor: ${proveedor}.
+`.trim();
+
+  // ✅ Copiar al portapapeles
   navigator.clipboard.writeText(resultado).then(() => {
     console.log('✅ Información copiada al portapapeles:\n', resultado);
     alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
