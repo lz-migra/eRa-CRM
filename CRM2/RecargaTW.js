@@ -60,7 +60,7 @@ function () {
         const operador    = topup.operador;
         const destino     = topup.destino;
 const rawNombre = topup.nombre || '';
-const nombreTopup = rawNombre
+        const nombreTopup = rawNombre
   .replace(/[^a-zA-Z() ]/g, '') // Elimina todo excepto letras A-Z, espacios y paréntesis
   .toLowerCase()
   .replace(/\b[a-z]/g, c => c.toUpperCase()); // Capitaliza la primera letra de cada palabra
