@@ -1,33 +1,40 @@
 'use strict';
 
 (function () {
-  console.log("[IdentificadorHTML] Ejecutando búsqueda...");
+  console.log("[IdentificadorHTML] Buscando panel principal expandido...");
 
-  // Buscar paneles expandidos actuales
-  const expandedPanels = document.querySelectorAll('.panel-collapse.in');
+  // Paso 1: buscar todos los bloques colapsados que están expandidos
+  const allExpanded = document.querySelectorAll('.panel-collapse.in');
 
-  if (expandedPanels.length === 0) {
-    alert("No se encontró ningún bloque expandido.");
-    console.warn("No hay paneles expandidos.");
+  // Paso 2: filtrar solo los que NO están anidados en otro .panel-collapse
+  const topLevelExpanded = Array.from(allExpanded).filter(panel => {
+    return !panel.closest('.panel-collapse:not(:scope)');
+  });
+
+  if (topLevelExpanded.length === 0) {
+    alert("No se encontró ningún bloque principal expandido.");
+    console.warn("No hay panel principal expandido.");
     return;
   }
 
-  if (expandedPanels.length > 1) {
-    alert("Hay más de un panel expandido. Por favor, asegúrese de expandir solo uno.");
-    console.warn("Más de un panel expandido:", expandedPanels);
+  if (topLevelExpanded.length > 1) {
+    alert("Hay más de un panel principal expandido. Por favor, colapse los demás.");
+    console.warn("Múltiples paneles principales detectados:", topLevelExpanded);
     return;
   }
 
-  const expandedContent = expandedPanels[0];
-  const fullPanel = expandedContent.closest('.panel.panel-default');
+  const expanded = topLevelExpanded[0];
+  const fullPanel = expanded.closest('.panel.panel-default');
 
   if (fullPanel) {
     const htmlExpandido = fullPanel.outerHTML;
-    console.log("Panel expandido detectado:");
+    console.log("Panel principal expandido detectado:");
     console.log(htmlExpandido);
-    // Aquí podrías enviar `htmlExpandido` a otro script si lo deseas
+
+    // Si deseas, puedes pasarlo a otra variable global:
+    window.bloqueHTMLCapturado = htmlExpandido;
   } else {
-    alert("No se pudo identificar el bloque completo.");
-    console.error("No se encontró .panel.panel-default como contenedor.");
+    alert("No se pudo encontrar el contenedor principal.");
+    console.error("No se encontró .panel.panel-default");
   }
 })();
