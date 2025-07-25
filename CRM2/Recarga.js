@@ -19,7 +19,7 @@
         }
       })
       .catch(error => {
-        console.error(`❌ Error al cargar el script (${url}):`, error);
+        console.error(`[Recarga] ❌ Error al cargar el script (${url}):`, error);
       });
   }
 
@@ -30,7 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('❌ datosExtraidos no está definido. Verifica que los scripts funcionen correctamente.');
+          alert('[Recarga] ❌ "datosExtraidos" no está definido. Verifica que los scripts funcionen correctamente.');
           return;
         }
 
