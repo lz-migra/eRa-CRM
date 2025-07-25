@@ -132,8 +132,9 @@ Fee: ${beneficiario.fee}
   // Mostrar en consola
   console.log(resultado);
 
-  // Copiar al portapapeles si deseas
+  // ✅ Exponer resultado globalmente para otros scripts
+  window.resultadoDatosExtraidos = resultado;
+
+  // (Opcional) Copiar al portapapeles
   // navigator.clipboard.writeText(resultado);
-
 })();
-
