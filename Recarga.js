@@ -3,6 +3,15 @@
 
   console.log('[Topup + Oferta + Info Adicional] Script ejecutado');
 
+  // 📌 Verificar si estamos dentro de un bloque expandido
+  const panelCollapse = document.querySelector('.panel-collapse');
+  const isExpanded = panelCollapse?.classList.contains('in');
+
+  if (!isExpanded) {
+    alert('⚠️ El bloque está contraído. Por favor, expándelo para continuar.');
+    return;
+  }
+
   // 📌 Función para obtener el índice de una columna según su nombre
   function obtenerIndiceColumnaPorNombre(nombreColumna) {
     const ths = document.querySelectorAll('.panel-body table thead th');
@@ -15,7 +24,7 @@
     return -1; // No encontrado
   }
 
-  // 🧠 Funciones para obtener datos generales (orderCode, clienteID, fecha)
+  // 🧠 Funciones para obtener datos generales
   function obtenerDatosDesdePanelTitle() {
     const panelTitle = document.querySelector('.panel-title > .row');
     if (!panelTitle) return null;
@@ -40,11 +49,11 @@
 
   function obtenerDatosGenerales() {
     return obtenerDatosDesdePanelTitle()
-        || obtenerDatosDesdeContainerFluid()
-        || { ordenID: 'N/A', clienteID: 'N/A', fecha: 'N/A' };
+      || obtenerDatosDesdeContainerFluid()
+      || { ordenID: 'N/A', clienteID: 'N/A', fecha: 'N/A' };
   }
 
-  // ✅ Paso 1: Obtener datos superiores
+  // ✅ Paso 1: Obtener datos generales
   const { ordenID, clienteID, fecha } = obtenerDatosGenerales();
 
   // ✅ Paso 2: Buscar fila principal de la tabla TOPUP
@@ -56,17 +65,17 @@
 
   const celdas = filaTopup.querySelectorAll('td');
 
-  // ✅ Paso 3: Obtener índices dinámicos de columnas
+  // ✅ Paso 3: Obtener índices dinámicos
   const idxStatus = obtenerIndiceColumnaPorNombre('status');
   const idxDestino = obtenerIndiceColumnaPorNombre('destino');
   const idxNombre = obtenerIndiceColumnaPorNombre('nombre');
 
-  // ✅ Paso 4: Extraer datos de la fila usando índices
+  // ✅ Paso 4: Extraer datos de fila
   const status = celdas[idxStatus]?.textContent.trim() || 'N/A';
   const destino = celdas[idxDestino]?.textContent.trim() || 'N/A';
   const nombre = celdas[idxNombre]?.textContent.trim() || 'N/A';
 
-  // ✅ Paso 5: Buscar contenedor de la oferta
+  // ✅ Paso 5: Obtener info de la oferta
   const ofertaRow = document.querySelector('#accordion-offers .panel-heading .row');
   if (!ofertaRow) {
     alert('❌ No se encontró el bloque de la oferta.');
@@ -74,12 +83,10 @@
   }
 
   const cols = ofertaRow.querySelectorAll('div.col-xs-1, div.col-xs-2');
+  const titulo = cols[1]?.textContent.trim() || 'N/A';
+  const precioTotal = cols[6]?.textContent.trim() || 'N/A';
 
-  // ✅ Paso 6: Extraer título y precio total
-  const titulo = cols[1]?.textContent.trim() || 'N/A'; // Título
-  const precioTotal = cols[6]?.textContent.trim() || 'N/A'; // Precio total
-
-  // ✅ Paso 7: Armar el mensaje final
+  // ✅ Paso 6: Armar mensaje
   const resultado = `
 ID del cliente: ${clienteID}
 Order code: ${ordenID}
@@ -91,9 +98,9 @@ Nombre: ${nombre}
 Oferta: ${titulo}
 Precio Total: ${precioTotal}
 Solicitud: 
-  `.trim();
+`.trim();
 
-  // ✅ Paso 8: Copiar al portapapeles
+  // ✅ Paso 7: Copiar al portapapeles
   navigator.clipboard.writeText(resultado).then(() => {
     console.log('✅ Información copiada al portapapeles:\n', resultado);
     alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
