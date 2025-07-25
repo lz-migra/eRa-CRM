@@ -3,7 +3,7 @@
 
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-    console.log(`🔄 Cargando script desde: ${url}`);
+    console.log(`[Recarga] 🔄 Cargando script desde: ${url}`);
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`Estado: ${response.status}`);
@@ -12,10 +12,10 @@
       .then(code => {
         try {
           new Function(code)(); // Ejecuta el código
-          console.log(`✅ Script ejecutado: ${url}`);
+          console.log(`[Recarga] ✅ Script ejecutado: ${url}`);
           if (typeof callback === 'function') callback();
         } catch (e) {
-          console.error(`❌ Error al ejecutar script (${url}):`, e);
+          console.error(`[Recarga] ❌ Error al ejecutar script (${url}):`, e);
         }
       })
       .catch(error => {
