@@ -4,7 +4,7 @@
   // 🧪 Verificación: Asegurarse que el bloque HTML esté disponible
   const bloque = window.bloqueElemento;
   if (!bloque) {
-    alert('[OrdenExtractor] No se encontró el bloque expandido. Asegúrate de Seleccionar');
+    alert('[OrdenExtractor] No se encontró el bloque expandido. No se encontro la orden con la que etsa Asegúrate de seleccionar la orden con la que esta trabajando');
     return;
   }
 
