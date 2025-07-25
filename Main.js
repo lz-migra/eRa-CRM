@@ -95,11 +95,11 @@
 
     const groupEscalamiento = document.createElement('div');
     groupEscalamiento.className = 'button-group';
-    groupEscalamiento.appendChild(createButton('📱', 'Recarga', '#ea4c89', 'Recarga.js'));
-    groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', 'Remesa.js'));
-    groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', 'MLC.js'));
-    groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', 'TN.js'));
-    groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', 'Ingles.js'));
+    groupEscalamiento.appendChild(createButton('📱', 'Recarga', '#ea4c89', 'CRM2/Recarga.js'));
+    groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', 'CRM2/Remesa.js'));
+    groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', 'CRM2/MLC.js'));
+    groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', 'CRM2/TN.js'));
+    groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', 'CRM2/Ingles.js'));
     customBar.appendChild(groupEscalamiento);
 
     // --- Separador visual ---
