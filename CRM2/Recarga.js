@@ -30,7 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[Recarga 📱] ❌ "datosExtraidos" no está definido. No se genero el escalamiento ❌');
+          alert('[Recarga 📱] ❌ Error: "datosExtraidos" no está definido.  No se genero el escalamiento ');
           return;
         }
 
@@ -83,7 +83,8 @@ solicitud:
         // 📋 Copiar al portapapeles
 navigator.clipboard.writeText(resultado).then(() => {
   console.log('[Recarga 📱] ✅ Información copiada al portapapeles:\n', resultado);
-  alert('[Recarga 📱] 📋 ¡Todos los datos fueron copiados al portapapeles!.\n'+✅ El escalamiento ha sido generado correctamente.');
+  alert('[Recarga 📱] 📋 ¡Todos los datos fueron copiados al portapapeles!.\n' + 
+  '✅ El escalamiento ha sido generado correctamente.');
 
   // 🧹 Limpiar variables globales
   delete window.datosExtraidos;
