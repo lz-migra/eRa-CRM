@@ -1,72 +1,105 @@
-(function () {
+function () {
   'use strict';
 
-  console.log('[Topup + Oferta + Info Adicional] Script ejecutado');
-
-  // 📌 Función para obtener el índice de una columna según su nombre
-  function obtenerIndiceColumnaPorNombre(nombreColumna) {
-    const ths = document.querySelectorAll('.panel-body table thead th');
-    for (let i = 0; i < ths.length; i++) {
-      const texto = ths[i].textContent.trim().toLowerCase();
-      if (texto === nombreColumna.toLowerCase()) {
-        return i;
-      }
-    }
-    return -1; // No encontrado
+  // 📦 Función reutilizable para cargar y ejecutar scripts remotos
+  function cargarYEjecutarScript(url, callback) {
+    console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+        return response.text();
+      })
+      .then(code => {
+        try {
+          new Function(code)(); // Ejecuta el código
+          console.log(`[RECARGA📱] ✅ Script ejecutado: ${url}`);
+          if (typeof callback === 'function') callback();
+        } catch (e) {
+          console.error(`[RECARGA📱] ❌ Error al ejecutar script (${url}):`, e);
+        }
+      })
+      .catch(error => {
+        console.error(`[RECARGA📱] ❌ Error al cargar el script (${url}):`, error);
+      });
   }
 
-  // ✅ Paso 1: Obtener datos superiores (ID cliente, orden, fecha)
-  const ordenID = document.querySelector('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(1) > p')?.textContent.trim() || 'N/A';
-  const clienteID = document.querySelector('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(2) > p')?.textContent.trim() || 'N/A';
-  const fecha = document.querySelector('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(3) > p')?.textContent.trim() || 'N/A';
+  // 🚀 Inicia la carga en cadena
+  cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/IdentificadorHTML.js', function () {
+    cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/OrdenExtractor.js', function () {
 
-  // ✅ Paso 2: Buscar fila principal de la tabla TOPUP
-  const filaTopup = document.querySelector('.panel-body table tbody tr');
-  if (!filaTopup) {
-    alert('❌ No se encontró la tabla Topup. Por favor, extiende la oferta.');
-    return;
-  }
+      // Esperar un momento para asegurar que los scripts hayan terminado de procesar
+      setTimeout(() => {
+        if (!window.datosExtraidos) {
+          alert('[RECARGA📱] \n\n' +
+          '❌ Error: "datosExtraidos" no está definido. \n' +
+          'No se genero el escalamiento');
+          return;
+        }
 
-  const celdas = filaTopup.querySelectorAll('td');
+        const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
 
-  // ✅ Paso 3: Obtener índices dinámicos de columnas
-  const idxStatus = obtenerIndiceColumnaPorNombre('status');
-  const idxDestino = obtenerIndiceColumnaPorNombre('destino');
-  const idxNombre = obtenerIndiceColumnaPorNombre('nombre');
+        // 🔢 Datos generales
+        const ordenID       = generales.ordenID;
+        const clienteID     = generales.clienteID;
+        const fecha         = generales.fecha;
+        const estadoOrden   = generales.estadoOrden;
+        const montoPagado   = generales.montoPagado;
+        const tarjeta       = generales.tarjeta;
 
-  // ✅ Paso 4: Extraer datos de la fila usando índices
-  const status = celdas[idxStatus]?.textContent.trim() || 'N/A';
-  const destino = celdas[idxDestino]?.textContent.trim() || 'N/A';
-  const nombre = celdas[idxNombre]?.textContent.trim() || 'N/A';
+        // 🎁 Datos de oferta
+        const tituloOferta     = oferta.titulo;
+        const estadoOferta     = oferta.estado;
+        const precioListado    = oferta.precioListado;
+        const descuento        = oferta.descuento;
+        const precioTotal      = oferta.precioTotal;
 
-  // ✅ Paso 5: Buscar contenedor de la oferta
-  const ofertaRow = document.querySelector('#accordion-offers .panel-heading .row');
-  if (!ofertaRow) {
-    alert('❌ No se encontró el bloque de la oferta.');
-    return;
-  }
+        // 📦 Datos Topup
+        const idTopup     = topup.id;
+        const proveedor   = topup.proveedor;
+        const status      = topup.status;
+        const operador    = topup.operador;
+        const destino     = topup.destino;
+        const nombreTopup = topup.nombre;
 
-  const cols = ofertaRow.querySelectorAll('div.col-xs-1, div.col-xs-2');
+        // 👤 Datos del beneficiario
+        const provincia     = beneficiario.provincia;
+        const municipio     = beneficiario.municipio;
+        const direccion     = beneficiario.direccion;
+        const barrio        = beneficiario.barrio;
+        const instrucciones = beneficiario.instrucciones;
+        const nroReparto    = beneficiario.nroReparto;
+        const celular       = beneficiario.celular;
+        const nombre        = beneficiario.nombre;
+        const monto         = beneficiario.monto;
+        const fee           = beneficiario.fee;
 
-  // ✅ Paso 6: Extraer título y precio total
-  const titulo = cols[1]?.textContent.trim() || 'N/A'; // Título
-  const precioTotal = cols[6]?.textContent.trim() || 'N/A'; // Precio total
+        // 📋 Plantilla de resultado
+        const resultado = `
+Orden Nro. ${ordenID}
 
-  // ✅ Paso 7: Armar el mensaje final
-  const resultado = `
+Status: ${status}
+solicitud: 
+`.trim();
 
-Order Nro. ${ordenID} (${fecha})
-${nombre} - ${destino}
-*${titulo}*
-${precioTotal}
-  `.trim();
+        // 📋 Copiar al portapapeles
+navigator.clipboard.writeText(resultado).then(() => {
+  console.log('[RECARGA📱] ✅ Información copiada al portapapeles:', resultado);
+  alert('[RECARGA📱] \n\n' +
+  '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' + 
+  '✅ El escalamiento ha sido generado correctamente ✅');
 
-  // ✅ Paso 8: Copiar al portapapeles
-  navigator.clipboard.writeText(resultado).then(() => {
-    console.log('✅ Información copiada al portapapeles:\n', resultado);
-    alert('📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
-  }).catch((err) => {
-    console.error('❌ ¡Error al copiar al portapapeles!', err);
+  // 🧹 Limpiar variables globales
+  delete window.datosExtraidos;
+  delete window.bloqueElemento;
+  delete window.datosPanel;
+  delete window.bloqueHTMLCapturado
+
+}).catch((err) => {
+  console.error('[RECARGA📱] ❌ ¡Error al copiar al portapapeles!', err);
+});
+
+      }, 600); // Espera corta para asegurar ejecución de scripts
+    });
   });
 
 })();
