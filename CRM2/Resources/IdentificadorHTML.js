@@ -13,7 +13,7 @@
 
   // 🛑 Validaciones: ningún panel o múltiples paneles expandidos
   if (topLevelExpanded.length === 0) {
-    alert("[IdentificadorHTML] No se encontró ningúna orden deplegada.");
+    alert("[IdentificadorHTML] ❌ No se encontró ningúna orden deplegada.");
     console.warn("No hay panel principal expandido.");
     return;
   }
