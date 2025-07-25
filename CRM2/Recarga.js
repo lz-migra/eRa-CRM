@@ -30,7 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[Recarga 📱] ❌ "datosExtraidos" no está definido. No se genero el escalamiento');
+          alert('[Recarga 📱] ❌ "datosExtraidos" no está definido. No se genero el escalamiento ❌');
           return;
         }
 
@@ -83,7 +83,7 @@ solicitud:
         // 📋 Copiar al portapapeles
 navigator.clipboard.writeText(resultado).then(() => {
   console.log('[Recarga 📱] ✅ Información copiada al portapapeles:\n', resultado);
-  alert('[Recarga 📱] 📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
+  alert('[Recarga 📱] 📋 ¡Todos los datos fueron copiados al portapapeles!. ✅ El escalamiento ha sido generado correctamente.');
 
   // 🧹 Limpiar variables globales
   delete window.datosExtraidos;
@@ -92,7 +92,7 @@ navigator.clipboard.writeText(resultado).then(() => {
   delete window.bloqueHTMLCapturado
 
 }).catch((err) => {
-  console.error('[Recarga 📱] ❌ ¡Error al copiar al portapapeles!', err);
+  console.error('[Recarga 📱] ❌ ¡Error al copiar al portapapeles! ❌', err);
 });
 
       }, 300); // Espera corta para asegurar ejecución de scripts
