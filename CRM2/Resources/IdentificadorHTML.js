@@ -13,14 +13,14 @@
 
   // 🛑 Validaciones: ningún panel o múltiples paneles expandidos
   if (topLevelExpanded.length === 0) {
-    alert("No se encontró ningúna orden deplegada.");
+    alert("[IdentificadorHTML] No se encontró ningúna orden deplegada.");
     console.warn("No hay panel principal expandido.");
     return;
   }
 
   if (topLevelExpanded.length > 1) {
-    alert("Hay más de una orden deplegada. Por favor, colapsa las demás.");
-    console.warn("Múltiples paneles principales detectados:", topLevelExpanded);
+    alert("[IdentificadorHTML] Hay más de una orden deplegada. Por favor, colapsa las demás.");
+    console.warn("[IdentificadorHTML] Múltiples paneles principales detectados:", topLevelExpanded);
     return;
   }
 
@@ -30,7 +30,7 @@
 
   if (fullPanel) {
     const htmlExpandido = fullPanel.outerHTML;
-    console.log("✅ Panel principal expandido detectado:");
+    console.log("[IdentificadorHTML] ✅ Panel principal expandido detectado:");
     console.log(htmlExpandido);
 
     // 📦 Exponer el HTML capturado globalmente para usarlo desde otros scripts
@@ -40,8 +40,8 @@
     window.bloqueElemento = fullPanel;
 
   } else {
-    alert("No se pudo encontrar el contenedor principal.");
-    console.error("No se encontró .panel.panel-default");
+    alert("[IdentificadorHTML] No se pudo encontrar el contenedor principal.");
+    console.error("[IdentificadorHTML] No se encontró .panel.panel-default");
   }
 
 })();
