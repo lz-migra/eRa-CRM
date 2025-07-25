@@ -30,7 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[Recarga] ❌ "datosExtraidos" no está definido. Verifica que los scripts funcionen correctamente.');
+          alert('[Recarga] ❌ "datosExtraidos" no está definido. No se genero el escalamiento');
           return;
         }
 
