@@ -30,7 +30,8 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[Recarga 📱] ❌ Error: "datosExtraidos" no está definido.  No se genero el escalamiento ');
+          alert('[Recarga 📱] ❌ Error: "datosExtraidos" no está definido. \n' +
+          'No se genero el escalamiento');
           return;
         }
 
@@ -93,7 +94,7 @@ navigator.clipboard.writeText(resultado).then(() => {
   delete window.bloqueHTMLCapturado
 
 }).catch((err) => {
-  console.error('[Recarga 📱] ❌ ¡Error al copiar al portapapeles! ❌', err);
+  console.error('[Recarga 📱] ❌ ¡Error al copiar al portapapeles!', err);
 });
 
       }, 300); // Espera corta para asegurar ejecución de scripts
