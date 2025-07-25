@@ -12,14 +12,14 @@
       .then(code => {
         try {
           new Function(code)(); // Ejecuta el código
-          console.log(`[Recarga] ✅ Script ejecutado: ${url}`);
+          console.log(`[Recarga 📱] ✅ Script ejecutado: ${url}`);
           if (typeof callback === 'function') callback();
         } catch (e) {
-          console.error(`[Recarga] ❌ Error al ejecutar script (${url}):`, e);
+          console.error(`[Recarga 📱] ❌ Error al ejecutar script (${url}):`, e);
         }
       })
       .catch(error => {
-        console.error(`[Recarga] ❌ Error al cargar el script (${url}):`, error);
+        console.error(`[Recarga 📱] ❌ Error al cargar el script (${url}):`, error);
       });
   }
 
@@ -30,7 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[Recarga] ❌ "datosExtraidos" no está definido. No se genero el escalamiento');
+          alert('[Recarga 📱] ❌ "datosExtraidos" no está definido. No se genero el escalamiento');
           return;
         }
 
@@ -82,8 +82,8 @@ solicitud:
 
         // 📋 Copiar al portapapeles
 navigator.clipboard.writeText(resultado).then(() => {
-  console.log('[Recarga] ✅ Información copiada al portapapeles:\n', resultado);
-  alert('[Recarga] 📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
+  console.log('[Recarga 📱] ✅ Información copiada al portapapeles:\n', resultado);
+  alert('[Recarga 📱] 📋 ¡Todos los datos fueron copiados al portapapeles!. El escalamiento ha sido generado correctamente.');
 
   // 🧹 Limpiar variables globales
   delete window.datosExtraidos;
@@ -92,7 +92,7 @@ navigator.clipboard.writeText(resultado).then(() => {
   delete window.bloqueHTMLCapturado
 
 }).catch((err) => {
-  console.error('❌ ¡Error al copiar al portapapeles!', err);
+  console.error('[Recarga 📱] ❌ ¡Error al copiar al portapapeles!', err);
 });
 
       }, 300); // Espera corta para asegurar ejecución de scripts
