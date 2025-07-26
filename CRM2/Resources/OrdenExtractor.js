@@ -80,7 +80,7 @@
 
   function obtenerDatosBeneficiario() {
     return {
-      fechaReparto: getDatoPorEtiqueta('Provincia'),
+      fechaReparto: getDatoPorEtiqueta('Fecha estimada de entrega'),
       provincia: getDatoPorEtiqueta('Provincia'),
       municipio: getDatoPorEtiqueta('Municipio'),
       direccion: getDatoPorEtiqueta('Direccion'),
@@ -121,6 +121,7 @@ Operador: ${topup.operador}
 Destino: ${topup.destino}
 Nombre registrado: ${topup.nombre}
 
+Fecha estimada de entrega: ${beneficiario.fechaReparto}
 Provincia: ${beneficiario.provincia}
 Municipio: ${beneficiario.municipio}
 Dirección: ${beneficiario.direccion}
