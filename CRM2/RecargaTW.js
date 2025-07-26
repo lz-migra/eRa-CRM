@@ -32,7 +32,7 @@
         if (!window.datosExtraidos) {
           alert('[RECARGA📱] \n\n' +
             '❌ Error: "datosExtraidos" no está definido. \n' +
-            'No se generó el escalamiento');
+            'No se generó ningun mensaje');
           return;
         }
 
@@ -41,7 +41,7 @@
         // 🔢 Datos generales
         const ordenID = generales.ordenID;
         const clienteID = generales.clienteID;
-        const fecha = generales.fecha;
+        const fecha =       generales.fecha;
         const estadoOrden = generales.estadoOrden;
         const montoPagado = generales.montoPagado;
         const tarjeta = generales.tarjeta;
@@ -88,10 +88,10 @@ solicitud:
 
         // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
-          console.log('[RECARGA📱] ✅ Información copiada al portapapeles:', resultado);
-          alert('[RECARGA📱] \n\n' +
+          console.log('[RECARGATW📱💬] ✅ Información copiada al portapapeles:', resultado);
+          alert('[RECARGATW📱💬] \n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' +
-            '✅ El escalamiento ha sido generado correctamente ✅');
+            '✅ Mensaje generado con exito ✅');
 
           // 🧹 Limpiar variables globales
           delete window.datosExtraidos;
@@ -100,7 +100,7 @@ solicitud:
           delete window.bloqueHTMLCapturado;
 
         }).catch((err) => {
-          console.error('[RECARGA📱] ❌ ¡Error al copiar al portapapeles!', err);
+          console.error('[RECARGATW📱💬] ❌ ¡Error al copiar al portapapeles!', err);
         });
 
       }, 600);
