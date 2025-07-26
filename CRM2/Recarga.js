@@ -93,11 +93,11 @@ solicitud:
 
         // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
-          console.log(nombreScript + '✅ Información copiada al portapapeles:', resultado);
+          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
           alert(
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅' + tipoScript + 'generado con éxito ✅\n\n' +
+            '✅' + tipoScript + ' generado con éxito ✅\n\n' +
             resultado
           );
 
