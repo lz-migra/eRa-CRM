@@ -3,7 +3,7 @@
 
 // INFORMACION DEL SCRIPT
 const nombreScript = '[Recarga TW📱💬]'; // define el nombre del script
-const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
+const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
   
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
@@ -34,7 +34,7 @@ const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún escalamiento.');
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún ' + tipoScript);
           return;
         }
 
@@ -93,11 +93,11 @@ solicitud:
 
         // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
-          console.log(nombreScript, '✅ Información copiada al portapapeles:', resultado);
+          console.log(nombreScript + '✅ Información copiada al portapapeles:', resultado);
           alert(
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅ Escalamiento generado con éxito ✅\n\n' +
+            '✅' + tipoScript + 'generado con éxito ✅\n\n' +
             resultado
           );
 
@@ -108,7 +108,7 @@ solicitud:
           delete window.bloqueHTMLCapturado;
 
         }).catch((err) => {
-          console.error('[RECARGATW📱💬] ❌ ¡Error al copiar al portapapeles!', err);
+          console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
         });
 
       }, 600);
