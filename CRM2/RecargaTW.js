@@ -3,11 +3,11 @@
 
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-    console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
-    fetch(url)
+     console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
+     fetch(url)
       .then(response => {
-        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-        return response.text();
+         if (!response.ok) throw new Error(`Estado: ${response.status}`);
+         return response.text();
       })
       .then(code => {
         try {
