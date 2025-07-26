@@ -83,10 +83,10 @@
 
         // 📋 Plantilla de resultado
         const resultado = `
-Orden Nro. ${ordenID}
+Orden Nro. ${ordenID} (${fecha})
 ${nombreTopup} - ${destino}
 *${tituloOferta}*
-
+${precioListado} ${moneda}
 `.trim();
 
         // 📋 Copiar al portapapeles
