@@ -1,9 +1,13 @@
 (function () {
   'use strict';
 
+// INFORMACION DEL SCRIPT
+const nombreScript = '[Recarga TW📱💬]'; // define el nombre del script
+const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
+  
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-    console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
+    console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`Estado: ${response.status}`);
@@ -12,14 +16,14 @@
       .then(code => {
         try {
           new Function(code)(); // Ejecuta el código
-          console.log(`[RECARGA📱] ✅ Script ejecutado: ${url}`);
+          console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
           if (typeof callback === 'function') callback();
         } catch (e) {
-          console.error(`[RECARGA📱] ❌ Error al ejecutar script (${url}):`, e);
+          console.error(`${nombreScript} ❌ Error al ejecutar script (${url}):`, e);
         }
       })
       .catch(error => {
-        console.error(`[RECARGA📱] ❌ Error al cargar el script (${url}):`, error);
+        console.error(`${nombreScript} ❌ Error al cargar el script (${url}):`, error);
       });
   }
 
@@ -30,7 +34,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[RECARGA📱]\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún mensaje.');
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún ' + tipoScript);
           return;
         }
 
@@ -78,21 +82,23 @@
         const fee           = beneficiario.fee;
         const moneda        = monto.replace(/[0-9.\s]+/g, '').trim();
 
-        // 📋 Rellenar Plantilla
+        // 📋 Plantilla de resultado
         const resultado = `
-Orden Nro. ${ordenID} (${fecha})
-${nombreTopup} - ${destino}
-*${tituloOferta}*
-${precioListado} ${moneda}
+ID del cliente: ${clienteID}
+Order code: ${ordenID}
+Servicio: Recarga
+Status: ${status}
+Monto: ${monto}
+solicitud: 
 `.trim();
 
         // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
-          console.log('[RECARGATW📱💬] ✅ Información copiada al portapapeles:', resultado);
+          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
           alert(
-            '[RECARGATW📱💬]\n\n' +
+            nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅ Mensaje generado con éxito ✅\n\n' +
+            '✅' + tipoScript + ' generado con éxito ✅\n\n' +
             resultado
           );
 
@@ -103,7 +109,7 @@ ${precioListado} ${moneda}
           delete window.bloqueHTMLCapturado;
 
         }).catch((err) => {
-          console.error('[RECARGATW📱💬] ❌ ¡Error al copiar al portapapeles!', err);
+          console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
         });
 
       }, 600);
