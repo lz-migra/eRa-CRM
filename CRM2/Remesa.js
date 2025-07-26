@@ -87,14 +87,14 @@ const timestamp = '?nocache=' + Date.now();
 
         // 📋 Plantilla de resultado
         const resultado = `
-ID del cliente: ${}
+ID del cliente: ${clienteID}
 Tipo de remesa: Domicilio
-Provincia: ${}
-Número de reparto: ${}
-Order code: ${}
-ID o FOI: ${}
-Status: ${}
-Proveedor: ${}
+Provincia: ${provincia}
+Número de reparto: ${nroReparto}
+Order code: ${ordenID}
+ID o FOI: ${idTopup}
+Status: ${status}
+Proveedor: ${proveedor}
 Solicitud: 
 `.trim();
 
