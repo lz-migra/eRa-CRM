@@ -5,14 +5,13 @@
   const bloque = window.bloqueElemento;
   if (!bloque) {
     alert('[OrdenExtractor] \n\n' +
-  '❌ Error: No se encontró el bloque expandido.\n' +
-  '⚠️ No se pudo identificar la orden con la que estás trabajando.\n' +
-  '✔️ Asegúrate de haber desplegado correctamente la orden o verifica tu conexión de red antes de volver a intentarlo.');
+      '❌ Error: No se encontró el bloque expandido.\n' +
+      '⚠️ No se pudo identificar la orden con la que estás trabajando.\n' +
+      '✔️ Asegúrate de haber desplegado correctamente la orden o verifica tu conexión de red antes de volver a intentarlo.');
     return;
   }
 
-  // 🔧 Reemplazo de todas las funciones para trabajar sobre el `bloque` capturado
-
+  // 🔍 Extraer datos desde el panel principal
   function obtenerDatosDesdePanelTitle() {
     const panelTitle = bloque.querySelector('.panel-title > .row');
     if (!panelTitle) return {};
@@ -27,6 +26,7 @@
     };
   }
 
+  // 📦 Extraer datos de la oferta
   function obtenerDatosOferta() {
     const ofertaRow = bloque.querySelector('#accordion-offers .panel.panel-default .panel-title .row');
     if (!ofertaRow) return {};
@@ -40,6 +40,7 @@
     };
   }
 
+  // 🔢 Buscar índice de una columna específica
   function obtenerIndiceColumnaPorNombre(nombreColumna) {
     const encabezados = bloque.querySelectorAll('.panel-body table thead tr th');
     for (let i = 0; i < encabezados.length; i++) {
@@ -50,6 +51,7 @@
     return -1;
   }
 
+  // 📊 Extraer datos de la tabla TopUp
   function obtenerDatosTablaTopup() {
     const filaTopup = bloque.querySelector('.panel-body table tbody tr');
     if (!filaTopup) return {};
@@ -64,20 +66,27 @@
     };
   }
 
+  // 🏷️ Función robusta para capturar valor por etiqueta
   function getDatoPorEtiqueta(etiqueta) {
-    const elementos = bloque.querySelectorAll('.panel-body font');
-    for (const font of elementos) {
-      const label = font.textContent.trim().replace(':', '');
-      if (label.toLowerCase() === etiqueta.toLowerCase()) {
-        const siguienteNodo = font.nextSibling;
-        if (siguienteNodo && siguienteNodo.nodeType === Node.TEXT_NODE) {
-          return siguienteNodo.textContent.trim();
+    const parrafos = bloque.querySelectorAll('.panel-body p');
+    for (const p of parrafos) {
+      const font = p.querySelector('font');
+      if (font && font.textContent.trim().toLowerCase() === etiqueta.toLowerCase() + ':') {
+        const datos = [];
+        let nodo = font.nextSibling;
+        while (nodo) {
+          if (nodo.nodeType === Node.TEXT_NODE || nodo.nodeType === Node.ELEMENT_NODE) {
+            datos.push(nodo.textContent.trim());
+          }
+          nodo = nodo.nextSibling;
         }
+        return datos.join(' ').trim();
       }
     }
     return 'N/A';
   }
 
+  // 🧾 Extraer datos del beneficiario
   function obtenerDatosBeneficiario() {
     return {
       fechaReparto: getDatoPorEtiqueta('Fecha estimada de entrega'),
@@ -94,12 +103,13 @@
     };
   }
 
-  // ✅ Ejecutar y unir toda la información
+  // 🔗 Consolidar toda la información
   const generales = obtenerDatosDesdePanelTitle();
   const oferta = obtenerDatosOferta();
   const topup = obtenerDatosTablaTopup();
   const beneficiario = obtenerDatosBeneficiario();
 
+  // 🧾 Resultado formateado
   const resultado = `
 ID del cliente: ${generales.clienteID}
 Order code: ${generales.ordenID}
@@ -134,7 +144,7 @@ Monto: ${beneficiario.monto}
 Fee: ${beneficiario.fee}
 `.trim();
 
-  // Hacer disponibles los datos para otros scripts
+  // 🌐 Exponer para otros scripts
   window.datosExtraidos = {
     generales,
     oferta,
@@ -143,10 +153,11 @@ Fee: ${beneficiario.fee}
     resultadoTexto: resultado
   };
 
-  // Mostrar en consola
+  // 🖨️ Mostrar en consola
   console.log(resultado);
 
-  // (Opcional) Copiar al portapapeles
+  // 📋 Copiar al portapapeles (opcional)
   // navigator.clipboard.writeText(resultado);
 
 })();
+
