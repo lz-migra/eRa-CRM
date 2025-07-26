@@ -87,13 +87,9 @@ const timestamp = '?nocache=' + Date.now();
 
         // 📋 Plantilla de resultado
         const resultado = `
-ID del cliente: ${clienteID}
-Order code: ${ordenID}
-Servicio: Recarga
-Status: ${status}
-Moneda: ${moneda}
-Monto: ${montoPagado}
-solicitud: 
+Orden Nro. ordenID - (fecha)
+nombreTopup - +destino
+tituloOferta
 `.trim();
 
         // 📋 Copiar al portapapeles
