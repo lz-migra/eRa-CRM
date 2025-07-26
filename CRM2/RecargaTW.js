@@ -3,11 +3,11 @@
 
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-     console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
-     fetch(url)
+    console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
+    fetch(url)
       .then(response => {
-         if (!response.ok) throw new Error(`Estado: ${response.status}`);
-         return response.text();
+        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+        return response.text();
       })
       .then(code => {
         try {
@@ -30,9 +30,7 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[RECARGA📱] \n\n' +
-            '❌ Error: "datosExtraidos" no está definido. \n' +
-            'No se generó ningun mensaje');
+          alert('[RECARGA📱]\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún mensaje.');
           return;
         }
 
@@ -47,11 +45,11 @@
         const tarjeta        = generales.tarjeta;
 
         // 🎁 Datos de oferta
-        const tituloOferta      = oferta.titulo;
-        const estadoOferta      = oferta.estado;
-        const precioListado     = oferta.precioListado;
-        const descuento         = oferta.descuento;
-        const precioTotal       = oferta.precioTotal;
+        const tituloOferta   = oferta.titulo;
+        const estadoOferta   = oferta.estado;
+        const precioListado  = oferta.precioListado;
+        const descuento      = oferta.descuento;
+        const precioTotal    = oferta.precioTotal;
 
         // 📦 Datos Topup
         const idTopup       = topup.id;
@@ -60,26 +58,25 @@
         const operador      = topup.operador;
         const destino       = topup.destino;
         const rawNombre     = topup.nombre || '';
-        const nombreTopup   = rawNombre
-         .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
-         .toLowerCase()
-         .replace(/\b\p{L}/gu, c => c.toUpperCase()
-        ); // Capitaliza cada palabra
 
+        // ✅ Capitalizar respetando acentos y paréntesis
+        const nombreTopup = rawNombre
+          .replace(/[^\p{L}() ]+/gu, '') // Solo letras, paréntesis y espacios
+          .toLowerCase()
+          .replace(/\b\p{L}/gu, c => c.toUpperCase());
 
         // 👤 Datos del beneficiario
-        const provincia         = beneficiario.provincia;
-        const municipio         = beneficiario.municipio;
-        const direccion         = beneficiario.direccion;
-        const barrio            = beneficiario.barrio;
-        const instrucciones     = beneficiario.instrucciones;
-        const nroReparto        = beneficiario.nroReparto;
-        const celular           = beneficiario.celular;
-        const nombre            = beneficiario.nombre;
-        const monto             = beneficiario.monto; 
-        const fee               = beneficiario.fee;
-        const moneda            = monto.replace(/[0-9.\s]+/g, '').trim();
-
+        const provincia     = beneficiario.provincia;
+        const municipio     = beneficiario.municipio;
+        const direccion     = beneficiario.direccion;
+        const barrio        = beneficiario.barrio;
+        const instrucciones = beneficiario.instrucciones;
+        const nroReparto    = beneficiario.nroReparto;
+        const celular       = beneficiario.celular;
+        const nombre        = beneficiario.nombre;
+        const monto         = beneficiario.monto;
+        const fee           = beneficiario.fee;
+        const moneda        = monto.replace(/[0-9.\s]+/g, '').trim();
 
         // 📋 Rellenar Plantilla
         const resultado = `
@@ -89,13 +86,15 @@ ${nombreTopup} - ${destino}
 ${precioListado} ${moneda}
 `.trim();
 
-
         // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
           console.log('[RECARGATW📱💬] ✅ Información copiada al portapapeles:', resultado);
-          alert('[RECARGATW📱💬] \n\n' +
-                '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' +
-                '✅ Mensaje generado con exito ✅ \n\n' resultado);
+          alert(
+            '[RECARGATW📱💬]\n\n' +
+            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+            '✅ Mensaje generado con éxito ✅\n\n' +
+            resultado
+          );
 
           // 🧹 Limpiar variables globales
           delete window.datosExtraidos;
