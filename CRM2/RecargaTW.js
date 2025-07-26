@@ -59,7 +59,7 @@
         const status        = topup.status;
         const operador      = topup.operador;
         const destino       = topup.destino;
-                                            const rawNombre = topup.nombre || '';
+        const rawNombre = topup.nombre || '';
         const nombreTopup = rawNombre
   .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
   .toLowerCase()
@@ -77,11 +77,18 @@
         const nombre            = beneficiario.nombre;
         const monto             = beneficiario.monto;
         const fee               = beneficiario.fee;
+        const rawmonto          = topup.nombre || '';
+        const nombreTopup       = rawNombre
+  .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
+  .toLowerCase()
+  .replace(/\b\p{L}/gu, c => c.toUpperCase()); // Capitaliza cada palabra
+
 
         // 📋 Plantilla de resultado
         const resultado = `
 Orden Nro. ${ordenID}
 ${nombreTopup} - ${destino}
+*${tituloOferta}*
 
 `.trim();
 
