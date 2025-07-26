@@ -90,7 +90,7 @@ const timestamp = '?nocache=' + Date.now();
 Orden Nro. ${ordenID} - (${fecha})
 ${nombreTopup} - +${destino}
 *${tituloOferta}*
-${precioTotal}
+${precioTotal} ${moneda}
 `.trim();
 
         // 📋 Copiar al portapapeles
