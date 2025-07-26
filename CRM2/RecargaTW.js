@@ -59,11 +59,12 @@
         const status        = topup.status;
         const operador      = topup.operador;
         const destino       = topup.destino;
-        const rawNombre = topup.nombre || '';
-        const nombreTopup = rawNombre
-  .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
-  .toLowerCase()
-  .replace(/\b\p{L}/gu, c => c.toUpperCase()); // Capitaliza cada palabra
+        const rawNombre     = topup.nombre || '';
+        const nombreTopup   = rawNombre
+         .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
+         .toLowerCase()
+         .replace(/\b\p{L}/gu, c => c.toUpperCase()
+        ); // Capitaliza cada palabra
 
 
         // 👤 Datos del beneficiario
@@ -80,8 +81,7 @@
         const moneda            = monto.replace(/[0-9.\s]+/g, '').trim();
 
 
-
-        // 📋 Plantilla de resultado
+        // 📋 Rellenar Plantilla
         const resultado = `
 Orden Nro. ${ordenID} (${fecha})
 ${nombreTopup} - ${destino}
@@ -89,12 +89,13 @@ ${nombreTopup} - ${destino}
 ${precioListado} ${moneda}
 `.trim();
 
+
         // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
           console.log('[RECARGATW📱💬] ✅ Información copiada al portapapeles:', resultado);
           alert('[RECARGATW📱💬] \n\n' +
-            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' +
-            '✅ Mensaje generado con exito ✅ \n\n' resultado);
+                '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' +
+                '✅ Mensaje generado con exito ✅ \n\n' resultado);
 
           // 🧹 Limpiar variables globales
           delete window.datosExtraidos;
