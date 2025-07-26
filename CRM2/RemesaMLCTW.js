@@ -2,7 +2,7 @@
   'use strict';
 
 // INFORMACION DEL SCRIPT
-const nombreScript = '[Recarga TW📱💬]'; // define el nombre del script
+const nombreScript = '[Remesa💵/MLC💳]'; // define el nombre del script
 const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
   
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
