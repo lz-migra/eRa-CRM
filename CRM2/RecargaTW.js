@@ -81,9 +81,8 @@
         // 📋 Plantilla de resultado
         const resultado = `
 Orden Nro. ${ordenID}
-${nombreTopup} - 
-Status: ${status}
-solicitud: 
+${nombreTopup} - ${destino}
+
 `.trim();
 
         // 📋 Copiar al portapapeles
