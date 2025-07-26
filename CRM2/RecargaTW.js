@@ -91,7 +91,7 @@ ID del cliente: ${clienteID}
 Order code: ${ordenID}
 Servicio: Recarga
 Status: ${status}
-Monto: ${montoPagado}
+Monto: ${moneda}
 solicitud: 
 `.trim();
 
