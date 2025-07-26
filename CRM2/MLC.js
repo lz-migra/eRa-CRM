@@ -2,7 +2,7 @@
   'use strict';
 
 // INFORMACION DEL SCRIPT
-const nombreScript = '[Remesa 💵]'; // define el nombre del script
+const nombreScript = '[MLC💳]'; // define el nombre del script
 const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
   
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
@@ -90,6 +90,7 @@ const timestamp = '?nocache=' + Date.now();
 ID del cliente: ${clienteID}
 Tipo de remesa: Domicilio
 Provincia: ${provincia}
+Número de reparto: ${nroReparto}
 Order code: ${ordenID}
 ID o FOI: ${idTopup}
 Status: ${status}
