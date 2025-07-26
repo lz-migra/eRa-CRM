@@ -88,7 +88,7 @@ const timestamp = '?nocache=' + Date.now();
         // 📋 Plantilla de resultado
         const resultado = `
 Orden Nro. ${ordenID} - (${fecha})
-${nombreTopup} - +${destino}
+${nombreTopup} | +${destino}
 *${tituloOferta}*
 ${precioTotal} ${moneda}
 `.trim();
