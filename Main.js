@@ -57,6 +57,9 @@
     `;
     document.head.appendChild(style);
 
+// 🚫 Evitar cache
+const timestamp = '?nocache=' + Date.now();
+
     const createButton = (icon, text, color, scriptPath) => {
         const button = document.createElement('a');
         button.href = '#';
@@ -65,7 +68,7 @@
         button.style.color = color;
         button.addEventListener('click', event => {
             event.preventDefault();
-            const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/${scriptPath}`;
+            const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/${scriptPath}${timestamp}`;
             console.log(`Cargando script desde: ${scriptUrl}`);
             fetch(scriptUrl)
                 .then(res => {
