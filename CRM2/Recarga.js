@@ -87,10 +87,11 @@ const timestamp = '?nocache=' + Date.now();
 
         // 📋 Plantilla de resultado
         const resultado = `
-Orden Nro. ${ordenID} - (${fecha})
-${nombreTopup} - +${destino}
-*${tituloOferta}*
-${precioTotal} ${moneda}
+ID del cliente: ${clienteID}
+Order code: ${ordenID}
+Servicio: Recarga
+Status: ${status}
+Solicitud: 
 `.trim();
 
         // 📋 Copiar al portapapeles
