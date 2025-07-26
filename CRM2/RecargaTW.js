@@ -67,16 +67,16 @@
 
 
         // 👤 Datos del beneficiario
-        const provincia = beneficiario.provincia;
-        const municipio = beneficiario.municipio;
-        const direccion = beneficiario.direccion;
-        const barrio = beneficiario.barrio;
-        const instrucciones = beneficiario.instrucciones;
-        const nroReparto = beneficiario.nroReparto;
-        const celular = beneficiario.celular;
-        const nombre = beneficiario.nombre;
-        const monto = beneficiario.monto;
-        const fee = beneficiario.fee;
+        const provincia         = beneficiario.provincia;
+        const municipio         = beneficiario.municipio;
+        const direccion         = beneficiario.direccion;
+        const barrio            = beneficiario.barrio;
+        const instrucciones     = beneficiario.instrucciones;
+        const nroReparto        = beneficiario.nroReparto;
+        const celular           = beneficiario.celular;
+        const nombre            = beneficiario.nombre;
+        const monto             = beneficiario.monto;
+        const fee               = beneficiario.fee;
 
         // 📋 Plantilla de resultado
         const resultado = `
@@ -91,7 +91,7 @@ solicitud:
           console.log('[RECARGATW📱💬] ✅ Información copiada al portapapeles:', resultado);
           alert('[RECARGATW📱💬] \n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' +
-            '✅ Mensaje generado con exito ✅');
+            '✅ Mensaje generado con exito ✅ \n\n' resultado);
 
           // 🧹 Limpiar variables globales
           delete window.datosExtraidos;
