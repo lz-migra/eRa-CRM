@@ -5,8 +5,8 @@
   const bloque = window.bloqueElemento;
   if (!bloque) {
     alert('[OrdenExtractor] \n\n' +
-  '❌ Error: No se encontró el bloque expandido.\n\n' +
-  '⚠️ No se pudo identificar la orden con la que estás trabajando.\n\n' +
+  '❌ Error: No se encontró el bloque expandido.\n' +
+  '⚠️ No se pudo identificar la orden con la que estás trabajando.\n' +
   '✔️ Asegúrate de haber desplegado correctamente la orden o verifica tu conexión de red antes de volver a intentarlo.');
     return;
   }
@@ -80,6 +80,7 @@
 
   function obtenerDatosBeneficiario() {
     return {
+      fechaReparto: getDatoPorEtiqueta('Provincia'),
       provincia: getDatoPorEtiqueta('Provincia'),
       municipio: getDatoPorEtiqueta('Municipio'),
       direccion: getDatoPorEtiqueta('Direccion'),

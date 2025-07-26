@@ -1,82 +1,121 @@
 (function () {
   'use strict';
 
-  console.log('[Remesa.js] Script ejecutado');
-
-  const filaTopup = document.querySelector('.panel-body table tbody tr');
-  if (!filaTopup) {
-    alert('❌ No se encontró la tabla de Topup. Por favor extiende la oferta');
-    return;
+// INFORMACION DEL SCRIPT
+const nombreScript = '[Recarga TW📱💬]'; // define el nombre del script
+const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
+  
+  // 📦 Función reutilizable para cargar y ejecutar scripts remotos
+  function cargarYEjecutarScript(url, callback) {
+    console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`Estado: ${response.status}`);
+        return response.text();
+      })
+      .then(code => {
+        try {
+          new Function(code)(); // Ejecuta el código
+          console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
+          if (typeof callback === 'function') callback();
+        } catch (e) {
+          console.error(`${nombreScript} ❌ Error al ejecutar script (${url}):`, e);
+        }
+      })
+      .catch(error => {
+        console.error(`${nombreScript} ❌ Error al cargar el script (${url}):`, error);
+      });
   }
 
-  // 🔍 Función genérica para buscar cualquier valor por su etiqueta <font> dentro de <p>
-  const getDatoPorEtiqueta = (etiqueta) => {
-    const elementos = document.querySelectorAll('p');
-    for (const el of elementos) {
-      const font = el.querySelector('font');
-      if (font && font.textContent.toLowerCase().includes(etiqueta.toLowerCase())) {
-        return el.textContent.replace(font.textContent, '').trim();
-      }
-    }
-    return 'N/A';
-  };
+// 🚫 Evitar cache
+const timestamp = '?nocache=' + Date.now();
 
-  // 🔧 Función para seleccionar texto por CSS selector
-  const getText = (selector) => {
-    const el = document.querySelector(selector);
-    return el ? el.textContent.trim() : 'N/A';
-  };
+  // 🚀 Inicia la carga en cadena
+  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/IdentificadorHTML.js${timestamp}`, function () {
+    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/OrdenExtractor.js${timestamp}`, function () {
 
-  // 🧱 Función para obtener FOI, Proveedor y Status desde la tabla
-  const getDatosDesdeTabla = () => {
-    const primeraFila = document.querySelector('table.table tbody tr');
-    if (!primeraFila) return { FoiID: 'N/A', Proveedor: 'N/A', Status: 'N/A' };
+      // Esperar un momento para asegurar que los scripts hayan terminado de procesar
+      setTimeout(() => {
+        if (!window.datosExtraidos) {
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún ' + tipoScript);
+          return;
+        }
 
-    const celdas = primeraFila.querySelectorAll('td');
-    return {
-      FoiID: celdas[0]?.textContent.trim() || 'N/A',
-      Proveedor: celdas[2]?.textContent.trim() || 'N/A',
-      Status: celdas[3]?.textContent.trim() || 'N/A'
-    };
-  };
+        const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
 
-  // --- Datos por etiqueta dinámica ---
-  const Provincia = getDatoPorEtiqueta('Provincia');
-  const Municipio = getDatoPorEtiqueta('Municipio');
-  const Direccion = getDatoPorEtiqueta('Direccion');
-  const Barrio = getDatoPorEtiqueta('Barrio');
-  const Instrucciones = getDatoPorEtiqueta('Instrucciones');
-  const NroReparto = getDatoPorEtiqueta('Nro de Reparto');
-  const Celular = getDatoPorEtiqueta('Celular');
-  const Nombre = getDatoPorEtiqueta('Nombre');
-  const Monto = getDatoPorEtiqueta('Monto');
-  const Fee = getDatoPorEtiqueta('Fee');
-  const FechaEntrega = getDatoPorEtiqueta('Fecha estimada de entrega');
+        // 🔢 Datos generales
+        const ordenID        = generales.ordenID;
+        const clienteID      = generales.clienteID;
+        const fecha          = generales.fecha;
+        const estadoOrden    = generales.estadoOrden;
+        const montoPagado    = generales.montoPagado;
+        const tarjeta        = generales.tarjeta;
+        const moneda         = montoPagado.replace(/[0-9.\s]+/g, '').trim();
 
-  // --- Datos fijos por selector ---
-  const IDcliente = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(2) > p');
-  const orderCode = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(1) > p');
-  const Fecha = getText('#root > div > div.main-panel.ps.ps--active-y > div.main-content > div:nth-child(1) > div > div > div:nth-child(2) > div:nth-child(3) > p');
- 
-  // --- Obtener datos desde la tabla ---
-  const { FoiID, Proveedor, Status } = getDatosDesdeTabla();
+        // 🎁 Datos de oferta
+        const tituloOferta   = oferta.titulo;
+        const estadoOferta   = oferta.estado;
+        const precioListado  = oferta.precioListado;
+        const descuento      = oferta.descuento;
+        const precioTotal    = oferta.precioTotal;
 
-  // --- Construcción del resultado ---
-  const resultado = `
-Orden Nro. ${orderCode} - (${Fecha})
-${Nombre} - ${Celular}
-${Barrio}, ${Municipio}, ${Provincia}
-Monto: ${Monto} / FEE: ${Fee}
-Fecha estimada de entrega: ${FechaEntrega}
-  `.trim();
+        // 📦 Datos Topup
+        const idTopup       = topup.id;
+        const proveedor     = topup.proveedor;
+        const status        = topup.status;
+        const operador      = topup.operador;
+        const destino       = topup.destino;
+        const rawNombre     = topup.nombre || '';
 
-  // 📋 Copiar al portapapeles
-  navigator.clipboard.writeText(resultado).then(() => {
-    console.log('✅ Información copiada al portapapeles:');
-    console.log(resultado);
-    alert('📋 ¡Datos copiados al portapapeles! 📋 El mensaje ha sido generado para "Remesa" correctamente');
-  }).catch((err) => {
-    console.error('❌ Error al copiar al portapapeles:', err);
+        // ✅ Capitalizar respetando acentos y paréntesis
+        const nombreTopup = rawNombre
+          .replace(/[^\p{L}() ]+/gu, '') // Solo letras, paréntesis y espacios
+          .toLowerCase()
+          .replace(/\b\p{L}/gu, c => c.toUpperCase());
+
+        // 👤 Datos del beneficiario
+        const provincia     = beneficiario.provincia;
+        const municipio     = beneficiario.municipio;
+        const direccion     = beneficiario.direccion;
+        const barrio        = beneficiario.barrio;
+        const instrucciones = beneficiario.instrucciones;
+        const nroReparto    = beneficiario.nroReparto;
+        const celular       = beneficiario.celular;
+        const nombre        = beneficiario.nombre;
+        const monto         = beneficiario.monto;
+        const fee           = beneficiario.fee;
+
+        // 📋 Plantilla de resultado
+        const resultado = `
+Orden Nro. ${ordenID} - (${fecha})
+${nombre} - ${celular}
+${barrio}, ${municipio}, ${provincia}
+Monto: ${monto} / FEE: ${fee}
+Fecha estimada de entrega: ${fechaEntrega}
+`.trim();
+
+        // 📋 Copiar al portapapeles
+        navigator.clipboard.writeText(resultado).then(() => {
+          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
+          alert(
+            nombreScript + '\n\n' +
+            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+            '✅' + tipoScript + ' generado con éxito ✅\n\n' +
+            resultado
+          );
+
+          // 🧹 Limpiar variables globales
+          delete window.datosExtraidos;
+          delete window.bloqueElemento;
+          delete window.datosPanel;
+          delete window.bloqueHTMLCapturado;
+
+        }).catch((err) => {
+          console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
+        });
+
+      }, 600);
+    });
   });
 
 })();
