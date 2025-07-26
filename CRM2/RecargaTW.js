@@ -75,9 +75,9 @@
         const nroReparto        = beneficiario.nroReparto;
         const celular           = beneficiario.celular;
         const nombre            = beneficiario.nombre;
-        const monto             = beneficiario.monto;
+        const monto             = beneficiario.monto; 
         const fee               = beneficiario.fee;
-        const rawmonto          = topup.nombre || '';
+        const moneda            = beneficiario.monto || '';
         const nombreTopup       = rawNombre
   .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
   .toLowerCase()
