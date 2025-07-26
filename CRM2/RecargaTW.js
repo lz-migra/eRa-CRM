@@ -47,6 +47,7 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
         const estadoOrden    = generales.estadoOrden;
         const montoPagado    = generales.montoPagado;
         const tarjeta        = generales.tarjeta;
+        const moneda         = montoPagado.replace(/[0-9.\s]+/g, '').trim();
 
         // 🎁 Datos de oferta
         const tituloOferta   = oferta.titulo;
@@ -80,7 +81,6 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
         const nombre        = beneficiario.nombre;
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
-        const moneda        = monto.replace(/[0-9.\s]+/g, '').trim();
 
         // 📋 Plantilla de resultado
         const resultado = `
