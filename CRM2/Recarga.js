@@ -27,9 +27,12 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
       });
   }
 
+// 🚫 Evitar cache
+const timestamp = '?nocache=' + Date.now();
+
   // 🚀 Inicia la carga en cadena
-  cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/IdentificadorHTML.js', function () {
-    cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/OrdenExtractor.js', function () {
+  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/IdentificadorHTML.js${timestamp}`, function () {
+    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/OrdenExtractor.js${timestamp}`, function () {
 
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
@@ -47,6 +50,7 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
         const estadoOrden    = generales.estadoOrden;
         const montoPagado    = generales.montoPagado;
         const tarjeta        = generales.tarjeta;
+        const moneda         = montoPagado.replace(/[0-9.\s]+/g, '').trim();
 
         // 🎁 Datos de oferta
         const tituloOferta   = oferta.titulo;
@@ -80,15 +84,13 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
         const nombre        = beneficiario.nombre;
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
-        const moneda        = monto.replace(/[0-9.\s]+/g, '').trim();
 
         // 📋 Plantilla de resultado
         const resultado = `
-ID del cliente: ${clienteID}
-Order code: ${ordenID}
-Servicio: Recarga
-Status: ${status}
-solicitud: 
+Orden Nro. ${ordenID} - (${fecha})
+${nombreTopup} - +${destino}
+*${tituloOferta}*
+${precioTotal} ${moneda}
 `.trim();
 
         // 📋 Copiar al portapapeles
