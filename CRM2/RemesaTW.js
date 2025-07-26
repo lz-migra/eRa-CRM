@@ -74,6 +74,7 @@ const timestamp = '?nocache=' + Date.now();
           .replace(/\b\p{L}/gu, c => c.toUpperCase());
 
         // 👤 Datos del beneficiario
+        const fechaEntrega  = beneficiario.fechaReparto
         const provincia     = beneficiario.provincia;
         const municipio     = beneficiario.municipio;
         const direccion     = beneficiario.direccion;
