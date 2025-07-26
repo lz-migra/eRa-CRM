@@ -1,9 +1,13 @@
 (function () {
   'use strict';
 
+// INFORMACION DEL SCRIPT
+const nombreScript = '[Recarga TW📱💬]'; // define el nombre del script
+const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
+  
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
-    console.log(`[RECARGA📱] 🔄 Cargando script desde: ${url}`);
+    console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`Estado: ${response.status}`);
@@ -12,14 +16,14 @@
       .then(code => {
         try {
           new Function(code)(); // Ejecuta el código
-          console.log(`[RECARGA📱] ✅ Script ejecutado: ${url}`);
+          console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
           if (typeof callback === 'function') callback();
         } catch (e) {
-          console.error(`[RECARGA📱] ❌ Error al ejecutar script (${url}):`, e);
+          console.error(`${nombreScript} ❌ Error al ejecutar script (${url}):`, e);
         }
       })
       .catch(error => {
-        console.error(`[RECARGA📱] ❌ Error al cargar el script (${url}):`, error);
+        console.error(`${nombreScript} ❌ Error al cargar el script (${url}):`, error);
       });
   }
 
@@ -30,36 +34,40 @@
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {
         if (!window.datosExtraidos) {
-          alert('[RECARGA📱] \n\n' +
-          '❌ Error: "datosExtraidos" no está definido. \n' +
-          'No se genero el escalamiento');
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún escalamiento.');
           return;
         }
 
         const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
 
         // 🔢 Datos generales
-        const ordenID       = generales.ordenID;
-        const clienteID     = generales.clienteID;
-        const fecha         = generales.fecha;
-        const estadoOrden   = generales.estadoOrden;
-        const montoPagado   = generales.montoPagado;
-        const tarjeta       = generales.tarjeta;
+        const ordenID        = generales.ordenID;
+        const clienteID      = generales.clienteID;
+        const fecha          = generales.fecha;
+        const estadoOrden    = generales.estadoOrden;
+        const montoPagado    = generales.montoPagado;
+        const tarjeta        = generales.tarjeta;
 
         // 🎁 Datos de oferta
-        const tituloOferta     = oferta.titulo;
-        const estadoOferta     = oferta.estado;
-        const precioListado    = oferta.precioListado;
-        const descuento        = oferta.descuento;
-        const precioTotal      = oferta.precioTotal;
+        const tituloOferta   = oferta.titulo;
+        const estadoOferta   = oferta.estado;
+        const precioListado  = oferta.precioListado;
+        const descuento      = oferta.descuento;
+        const precioTotal    = oferta.precioTotal;
 
         // 📦 Datos Topup
-        const idTopup     = topup.id;
-        const proveedor   = topup.proveedor;
-        const status      = topup.status;
-        const operador    = topup.operador;
-        const destino     = topup.destino;
-        const nombreTopup = topup.nombre;
+        const idTopup       = topup.id;
+        const proveedor     = topup.proveedor;
+        const status        = topup.status;
+        const operador      = topup.operador;
+        const destino       = topup.destino;
+        const rawNombre     = topup.nombre || '';
+
+        // ✅ Capitalizar respetando acentos y paréntesis
+        const nombreTopup = rawNombre
+          .replace(/[^\p{L}() ]+/gu, '') // Solo letras, paréntesis y espacios
+          .toLowerCase()
+          .replace(/\b\p{L}/gu, c => c.toUpperCase());
 
         // 👤 Datos del beneficiario
         const provincia     = beneficiario.provincia;
@@ -72,6 +80,7 @@
         const nombre        = beneficiario.nombre;
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
+        const moneda        = monto.replace(/[0-9.\s]+/g, '').trim();
 
         // 📋 Plantilla de resultado
         const resultado = `
@@ -83,23 +92,26 @@ solicitud:
 `.trim();
 
         // 📋 Copiar al portapapeles
-navigator.clipboard.writeText(resultado).then(() => {
-  console.log('[RECARGA📱] ✅ Información copiada al portapapeles:', resultado);
-  alert('[RECARGA📱] \n\n' +
-  '📋 ¡Todos los datos fueron copiados al portapapeles! 📋 \n' + 
-  '✅ El escalamiento ha sido generado correctamente ✅');
+        navigator.clipboard.writeText(resultado).then(() => {
+          console.log(nombreScript, '✅ Información copiada al portapapeles:', resultado);
+          alert(
+            nombreScript + '\n\n' +
+            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+            '✅ Escalamiento generado con éxito ✅\n\n' +
+            resultado
+          );
 
-  // 🧹 Limpiar variables globales
-  delete window.datosExtraidos;
-  delete window.bloqueElemento;
-  delete window.datosPanel;
-  delete window.bloqueHTMLCapturado
+          // 🧹 Limpiar variables globales
+          delete window.datosExtraidos;
+          delete window.bloqueElemento;
+          delete window.datosPanel;
+          delete window.bloqueHTMLCapturado;
 
-}).catch((err) => {
-  console.error('[RECARGA📱] ❌ ¡Error al copiar al portapapeles!', err);
-});
+        }).catch((err) => {
+          console.error('[RECARGATW📱💬] ❌ ¡Error al copiar al portapapeles!', err);
+        });
 
-      }, 600); // Espera corta para asegurar ejecución de scripts
+      }, 600);
     });
   });
 
