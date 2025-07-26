@@ -77,11 +77,8 @@
         const nombre            = beneficiario.nombre;
         const monto             = beneficiario.monto; 
         const fee               = beneficiario.fee;
-        const moneda            = beneficiario.monto || '';
-        const nombreTopup       = rawNombre
-  .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
-  .toLowerCase()
-  .replace(/\b\p{L}/gu, c => c.toUpperCase()); // Capitaliza cada palabra
+        const moneda            = monto.replace(/[0-9.\s]+/g, '').trim();
+
 
 
         // 📋 Plantilla de resultado
