@@ -39,27 +39,27 @@
         const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
 
         // 🔢 Datos generales
-        const ordenID = generales.ordenID;
-        const clienteID = generales.clienteID;
-        const fecha =       generales.fecha;
-        const estadoOrden = generales.estadoOrden;
-        const montoPagado = generales.montoPagado;
-        const tarjeta = generales.tarjeta;
+        const ordenID        = generales.ordenID;
+        const clienteID      = generales.clienteID;
+        const fecha          = generales.fecha;
+        const estadoOrden    = generales.estadoOrden;
+        const montoPagado    = generales.montoPagado;
+        const tarjeta        = generales.tarjeta;
 
         // 🎁 Datos de oferta
-        const tituloOferta = oferta.titulo;
-        const estadoOferta = oferta.estado;
-        const precioListado = oferta.precioListado;
-        const descuento = oferta.descuento;
-        const precioTotal = oferta.precioTotal;
+        const tituloOferta      = oferta.titulo;
+        const estadoOferta      = oferta.estado;
+        const precioListado     = oferta.precioListado;
+        const descuento         = oferta.descuento;
+        const precioTotal       = oferta.precioTotal;
 
         // 📦 Datos Topup
-        const idTopup = topup.id;
-        const proveedor = topup.proveedor;
-        const status = topup.status;
-        const operador = topup.operador;
-        const destino = topup.destino;
-        const rawNombre = topup.nombre || '';
+        const idTopup       = topup.id;
+        const proveedor     = topup.proveedor;
+        const status        = topup.status;
+        const operador      = topup.operador;
+        const destino       = topup.destino;
+                                            const rawNombre = topup.nombre || '';
         const nombreTopup = rawNombre
   .replace(/[^\p{L}() ]+/gu, '')        // Elimina todo excepto letras (con acentos), paréntesis y espacios
   .toLowerCase()
