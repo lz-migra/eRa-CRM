@@ -8,7 +8,7 @@
         reloj.style.color = '#e26c00';
         reloj.style.marginTop = '4px';
         reloj.style.fontFamily = 'monospace';
-        reloj.textContent = '⏱ 00:00:00';
+        reloj.textContent = '⏱ 00:00';
         contenedor.appendChild(reloj);
 
         let segundos = 0;
@@ -17,7 +17,7 @@
             const hrs = String(Math.floor(segundos / 3600)).padStart(2, '0');
             const mins = String(Math.floor((segundos % 3600) / 60)).padStart(2, '0');
             const secs = String(segundos % 60).padStart(2, '0');
-            reloj.textContent = `⏱ ${hrs}:${mins}:${secs}`;
+            reloj.textContent = `⏱ ${mins}:${secs}`;
         }
 
         const intervalo = setInterval(actualizar, 1000);
