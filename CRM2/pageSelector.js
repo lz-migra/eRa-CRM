@@ -1,9 +1,9 @@
 (function () {
   const url = window.location.href;
 
-//###########################################
-//# Decide en que entorno se esa trabajando #
-//###########################################
+//              ###########################################
+//              # Decide en que entorno se esa trabajando #
+//              ###########################################
 
   // Función ya definida para cargar scripts desde GitHub
   window.cargarScriptGitHub = function (url) {
