@@ -1,29 +1,34 @@
 (function () {
-    // Paso 1: Obtener el texto del encabezado actual (tarjeta activa en vista)
+    // 🔍 Paso 1: Obtener el texto del encabezado de la tarjeta activa (panel derecho)
     const encabezadoActivo = document.querySelector(
         '.Twilio-TaskCanvasHeader-Name span'
     )?.innerText?.trim();
 
     if (!encabezadoActivo) {
-        console.warn('No se pudo obtener el encabezado activo');
+        console.warn('⚠️ No se pudo obtener el encabezado activo');
         return;
     }
 
-    // Paso 2: Buscar todas las tarjetas en la lista lateral
+    // 📋 Paso 2: Buscar todas las tarjetas en la lista lateral
     const tarjetas = document.querySelectorAll('[data-testid="task-item"]');
 
     for (const tarjeta of tarjetas) {
-        // Dentro de cada tarjeta, obtener el encabezado (nombre del cliente)
+        // 🏷️ Buscar el encabezado dentro de cada tarjeta de la lista
         const textoTarjeta = tarjeta.querySelector(
             '[data-testid="task-item-first-line"] span'
         )?.innerText?.trim();
 
-        // Paso 3: Comparar con el encabezado activo
+        // ✅ Paso 3: Comparar con el encabezado activo
         if (textoTarjeta === encabezadoActivo) {
-            console.log('Clase de la tarjeta activa:', tarjeta.className);
-            return tarjeta.className;
+            // 🌐 Guardar la clase como variable global
+            window.claseTarjetaActiva = tarjeta.className;
+
+            // 🧪 Mostrarla en consola para depuración
+            console.log('🎯 Clase de la tarjeta activa:', window.claseTarjetaActiva);
+            return;
         }
     }
 
-    console.warn('No se encontró una tarjeta que coincida con el encabezado activo');
+    // ❌ No se encontró ninguna tarjeta que coincida
+    console.warn('❌ No se encontró una tarjeta que coincida con el encabezado activo');
 })();
