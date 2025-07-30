@@ -2,13 +2,13 @@
   'use strict';
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
-  const nombreScript = '[NuevoExtract📦]';
+  const nombreScript = '[Mercado 🛒]';
   const tipoScript = 'Resumen de Orden';
 
   // 🚫 Evitar cache
   const timestamp = '?nocache=' + Date.now();
 
-  // 🔁 Cargar scripts necesarios si aún quieres usar otros módulos
+  // 🔁 Función para cargar scripts remotos
   function cargarYEjecutarScript(url, callback) {
     console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
     fetch(url)
@@ -30,29 +30,34 @@
       });
   }
 
-  // 🕒 Esperar que datos estén disponibles
-  setTimeout(() => {
-    const datos = window.datosExtraidosNuevo;
-    if (!datos) {
-      alert(nombreScript + '\n\n❌ Error: "datosExtraidosNuevo" no está definido.');
-      return;
-    }
+  // 🔃 Ejecutar en cadena los módulos de Mercado
+  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/CRM2/Mercado/Resources/IdentificadorHTML.js${timestamp}`, function () {
+    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/CRM2/Mercado/Resources/OrdenExtractor.js${timestamp}`, function () {
 
-    // 🧷 Extraer datos uno por uno (opcional: destructuración)
-    const {
-      orden,
-      cuenta,
-      total,
-      creado,
-      fechaProgramada,
-      nombre,
-      telefono,
-      direccion,
-      negocio
-    } = datos;
+      // ⏳ Esperar que se generen los datos
+      setTimeout(() => {
+        const datos = window.datosExtraidosNuevo;
 
-    // 📋 Crear plantilla con los datos
-    const resultado = `
+        if (!datos) {
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidosNuevo" no está definido.');
+          return;
+        }
+
+        // 🧷 Extraer campos necesarios
+        const {
+          orden,
+          cuenta,
+          total,
+          creado,
+          fechaProgramada,
+          nombre,
+          telefono,
+          direccion,
+          negocio
+        } = datos;
+
+        // 📋 Crear plantilla con los datos
+        const resultado = `
 📦 Orden de Servicio
 =========================
 🆔 Orden: ${orden}
@@ -66,20 +71,22 @@
 🏢 Negocio: ${negocio}
 `.trim();
 
-    // 📤 Copiar al portapapeles
-    navigator.clipboard.writeText(resultado).then(() => {
-      console.log(nombreScript + ' ✅ Copiado:', resultado);
-      alert(
-        nombreScript + '\n\n📋 Datos copiados al portapapeles con éxito ✅\n\n' + resultado
-      );
+        // 📤 Copiar al portapapeles
+        navigator.clipboard.writeText(resultado).then(() => {
+          console.log(nombreScript + ' ✅ Copiado:', resultado);
+          alert(
+            nombreScript + '\n\n📋 Datos copiados al portapapeles con éxito ✅\n\n' + resultado
+          );
 
-      // 🧹 Limpiar variables si deseas
-      delete window.datosExtraidosNuevo;
-      delete window.bloqueHTMLCapturadoo;
-    }).catch((err) => {
-      console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
+          // 🧹 Limpiar variables globales si deseas
+          delete window.datosExtraidosNuevo;
+          delete window.bloqueHTMLCapturadoo;
+        }).catch((err) => {
+          console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
+        });
+
+      }, 600); // ⏱️ Espera para asegurar ejecución de módulos
     });
-
-  }, 600); // ⏱️ Espera breve para asegurar que datos estén disponibles
+  });
 
 })();
