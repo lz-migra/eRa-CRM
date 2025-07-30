@@ -1,47 +1,40 @@
 'use strict';
 
+// Para uso en BackOffice
+
 (function () {
-  console.log("[IdentificadorHTML] Buscando panel principal expandido...");
+  console.log("[IdentificadorHTML] 🔍 Buscando orden expandida...");
 
-  // Paso 1️⃣: Buscar todos los paneles expandidos
-  const allExpanded = document.querySelectorAll('.panel-collapse.in');
+  // Paso 1️⃣: Buscar todas las órdenes en la página
+  const todasLasOrdenes = document.querySelectorAll('li.item-purchase-container');
 
-  // Paso 2️⃣: Filtrar los paneles que no estén anidados dentro de otro .panel-collapse
-  const topLevelExpanded = Array.from(allExpanded).filter(panel => {
-    return !panel.closest('.panel-collapse:not(:scope)');
-  });
+  // Paso 2️⃣: Filtrar las órdenes que están expandidas (tienen el div .expanded-info-container)
+  const ordenesExpandidas = Array.from(todasLasOrdenes).filter(orden =>
+    orden.querySelector('.expanded-info-container')
+  );
 
-  // 🛑 Validaciones: ningún panel o múltiples paneles expandidos
-  if (topLevelExpanded.length === 0) {
-    alert("[IdentificadorHTML] ❌ No se encontró ningúna orden deplegada.");
-    console.warn("No hay panel principal expandido.");
+  // 🛑 Validaciones
+  if (ordenesExpandidas.length === 0) {
+    alert("[IdentificadorHTML] ❌ No se encontró ninguna orden expandida.");
+    console.warn("No hay ninguna orden expandida en el DOM.");
     return;
   }
 
-  if (topLevelExpanded.length > 1) {
-    alert("[IdentificadorHTML] Hay más de una orden deplegada. Por favor, colapsa las demás.");
-    console.warn("[IdentificadorHTML] Múltiples paneles principales detectados:", topLevelExpanded);
+  if (ordenesExpandidas.length > 1) {
+    alert("[IdentificadorHTML] ⚠️ Hay más de una orden expandida. Por favor, colapsa las demás.");
+    console.warn("Varias órdenes expandidas detectadas:", ordenesExpandidas);
     return;
   }
 
-  // ✅ Obtener el panel principal contenedor completo
-  const expanded = topLevelExpanded[0];
-  const fullPanel = expanded.closest('.panel.panel-default');
+  // ✅ Obtener la única orden expandida
+  const ordenExpandida = ordenesExpandidas[0];
 
-  if (fullPanel) {
-    const htmlExpandido = fullPanel.outerHTML;
-    console.log("[IdentificadorHTML] ✅ Panel principal expandido detectado:");
-    console.log(htmlExpandido);
+  // Extraer el HTML completo del bloque
+  const htmlExpandido = ordenExpandida.outerHTML;
+  console.log("[IdentificadorHTML] ✅ Orden expandida detectada:");
+  console.log(htmlExpandido);
 
-    // 📦 Exponer el HTML capturado globalmente para usarlo desde otros scripts
-    window.bloqueHTMLCapturado = htmlExpandido;
-
-    // 📦 También puedes guardar el elemento como tal (no solo su HTML)
-    window.bloqueElemento = fullPanel;
-
-  } else {
-    alert("[IdentificadorHTML] No se pudo encontrar el contenedor principal.");
-    console.error("[IdentificadorHTML] No se encontró .panel.panel-default");
-  }
-
+  // 📦 Exponer el HTML y el elemento globalmente para uso en otros scripts
+  window.bloqueHTMLCapturado = htmlExpandido;
+  window.bloqueElemento = ordenExpandida;
 })();
