@@ -79,7 +79,7 @@
     // Evento que carga y ejecuta el script al hacer clic
     button.addEventListener('click', event => {
       event.preventDefault();
-      const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/${scriptPath}${timestamp}`;
+      const scriptUrl = `https://github.com/lz-migra/eRa-CRM/tree/main/Project_eRa/CRM2/${scriptPath}${timestamp}`;
       console.log(`Cargando script desde: ${scriptUrl}`);
 
       fetch(scriptUrl)
@@ -117,11 +117,11 @@
   const groupEscalamiento = document.createElement('div');
   groupEscalamiento.className = 'button-group';
 
-  groupEscalamiento.appendChild(createButton('📱', 'Recarga', '#ea4c89', 'CRM2/Recarga.js'));
-  groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', 'CRM2/Remesa.js'));
-  groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', 'CRM2/MLC.js'));
-  groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', 'CRM2/TN.js'));
-  groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', 'CRM2/Ingles.js'));
+  groupEscalamiento.appendChild(createButton('📱', 'Recarga', '#ea4c89', 'Escalamiento/Recarga.js'));
+  groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', 'Escalamiento/Remesa.js'));
+  groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', 'Escalamiento/MLC.js'));
+  groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', 'Escalamiento/TN.js'));
+  groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', 'Escalamiento/Ingles.js'));
 
   customBar.appendChild(groupEscalamiento);
 
@@ -144,8 +144,8 @@
   const groupChat = document.createElement('div');
   groupChat.className = 'button-group';
 
-  groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'CRM2/RecargaTW.js'));
-  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', 'CRM2/RemesaMLCTW.js'));
+  groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'Resumen/Recarga.js'));
+  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', 'CRM2/RemesaMLC.js'));
 
   customBar.appendChild(groupChat);
 
