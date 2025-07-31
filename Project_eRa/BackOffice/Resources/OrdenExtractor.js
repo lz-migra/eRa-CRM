@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  // 📦 Obtener el bloque HTML capturado previamente
-  const bloque = window.bloqueHTMLCapturadoo;
+  // 📦 Obtener el bloque HTML capturado previamente (window.bloqueHTMLCapturado)
+  const bloque = window.bloqueHTMLCapturado; 
   if (!bloque) {
     alert('[Extractor] ❌ No se encontró el bloque HTML capturado.');
     return;
