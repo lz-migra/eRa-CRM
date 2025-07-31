@@ -101,7 +101,7 @@ Fecha estimada de entrega: ${fechaEntrega}
           alert(
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅' + tipoScript + ' generado con éxito ✅\n\n' +
+            '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
             resultado
           );
 
