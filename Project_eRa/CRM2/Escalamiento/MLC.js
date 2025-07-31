@@ -92,9 +92,8 @@ const timestamp = '?nocache=' + Date.now();
 =========================
 
 👤 ID del cliente: ${clienteID}
-💸 Tipo de remesa: Domicilio
+💸 Tipo de remesa: MLC
 📍 Provincia: ${provincia}
-#️⃣ Número de reparto: ${nroReparto}
 🔢 Order code: ${ordenID}
 🆔 ID o FOI: ${idTopup}
 ✅ Status: ${status}

@@ -86,6 +86,22 @@ const timestamp = '?nocache=' + Date.now();
         const fee           = beneficiario.fee;
 
         // 📋 Plantilla de resultado
+        const resultadoalert = `
+💵 Orden de Remesa
+=========================
+
+👤 ID del cliente: ${clienteID}
+💸 Tipo de remesa: Domicilio
+📍 Provincia: ${provincia}
+#️⃣ Número de reparto: ${nroReparto}
+🔢 Order code: ${ordenID}
+🆔 ID o FOI: ${idTopup}
+✅ Status: ${status}
+🧑‍🔧 Proveedor: ${proveedor}
+📝 Solicitud: 
+`.trim();
+
+        // 📋 Plantilla de resultado
         const resultado = `
 ID del cliente: ${clienteID}
 Tipo de remesa: Domicilio
@@ -105,7 +121,7 @@ Solicitud:
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
             '✅' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultado
+            resultadoalert
           );
 
           // 🧹 Limpiar variables globales
