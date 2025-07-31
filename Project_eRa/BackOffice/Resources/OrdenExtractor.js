@@ -15,25 +15,27 @@
   const bloque = contenedorTemporal; // Esto ahora es una estructura DOM
 
   // 🔍 Paso 3: Buscar por texto en elementos con etiquetas como "Orden:", "Cuenta:", etc.
-  function obtenerTextoPorEtiqueta(etiqueta) {
-    // Buscamos dentro de contenedores que tienen etiquetas en negrita como "Nombre:"
+  function obtenerTextoPorEtiqueta(etiqueta, multiple = false) {
     const elementos = Array.from(bloque.querySelectorAll('.info-container, section > div, div'));
+    const resultados = [];
 
     for (const el of elementos) {
       const bold = el.querySelector('span.font-bold, div.font-bold');
 
-      // Verificamos si el texto coincide con la etiqueta deseada (por ejemplo: "Orden:")
       if (bold && bold.textContent.trim().toLowerCase().startsWith(etiqueta.toLowerCase())) {
         const span = bold.nextElementSibling;
-        if (span) return span.textContent.trim();
+        const texto = span
+          ? span.textContent.trim()
+          : bold.parentNode.textContent.replace(bold.textContent, '').trim();
 
-        // Si no hay <span>, intentamos tomar todo el contenido del padre
-        const textoPlano = bold.parentNode.textContent.replace(bold.textContent, '').trim();
-        if (textoPlano) return textoPlano;
+        if (texto) {
+          resultados.push(texto);
+          if (!multiple) break;
+        }
       }
     }
 
-    return 'N/A'; // Si no se encontró, devolvemos un valor por defecto
+    return multiple ? resultados : (resultados[0] || 'N/A');
   }
 
   // 🗃️ Paso 4: Recolectar todos los datos deseados
@@ -46,7 +48,7 @@
     nombre: obtenerTextoPorEtiqueta('Nombre:'),
     telefono: obtenerTextoPorEtiqueta('Teléfono:'),
     direccion: obtenerTextoPorEtiqueta('Dirección:'),
-    negocio: obtenerTextoPorEtiqueta('Negocio:')
+    negocio: obtenerTextoPorEtiqueta('Negocio:', true).join(', ')
   };
 
   // 🧾 Paso 5: Formatear el resultado para mostrarlo en consola o copiar
