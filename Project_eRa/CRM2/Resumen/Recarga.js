@@ -90,7 +90,7 @@ const resultadoalert = `
 📲 Resumen de recarga
 ========================
 
-📦 Orden Nro. ${ordenID} – 🗓️ ${fecha}
+📦 Orden Nro. ${ordenID} (🗓️ ${fecha})
 👤 ${nombreTopup} | 📞 +${destino}
 💡 *${tituloOferta}*
 💰 ${precioTotal} ${moneda}
@@ -98,7 +98,7 @@ const resultadoalert = `
 
         // 📋 Plantilla de resultado
         const resultado = `
-Orden Nro. ${ordenID} - (${fecha})
+Orden Nro. ${ordenID} (${fecha})
 ${nombreTopup} | +${destino}
 *${tituloOferta}*
 ${precioTotal} ${moneda}
