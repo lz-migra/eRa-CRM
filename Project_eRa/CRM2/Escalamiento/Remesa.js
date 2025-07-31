@@ -30,9 +30,9 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
 // 🚫 Evitar cache
 const timestamp = '?nocache=' + Date.now();
 
-  // 🚀 Inicia la carga en cadena
-  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/IdentificadorHTML.js${timestamp}`, function () {
-    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Resources/OrdenExtractor.js${timestamp}`, function () {
+// 🚀 Inicia la carga en cadena
+  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/IdentificadorHTML.js${timestamp}`, function () {
+    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/OrdenExtractor.js${timestamp}`, function () {
 
       // Esperar un momento para asegurar que los scripts hayan terminado de procesar
       setTimeout(() => {

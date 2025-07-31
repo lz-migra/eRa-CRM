@@ -79,7 +79,7 @@
     // Evento que carga y ejecuta el script al hacer clic
     button.addEventListener('click', event => {
       event.preventDefault();
-      const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Escalamiento/${scriptPath}${timestamp}`;
+      const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/${scriptPath}${timestamp}`;
       console.log(`Cargando script desde: ${scriptUrl}`);
 
       fetch(scriptUrl)
@@ -145,7 +145,7 @@
   groupChat.className = 'button-group';
 
   groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'Resumen/Recarga.js'));
-  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', 'CRM2/RemesaMLC.js'));
+  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', 'Resumen/RemesaMLC.js'));
 
   customBar.appendChild(groupChat);
 
