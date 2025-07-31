@@ -58,8 +58,9 @@
 
         // 📋 Crear plantilla con los datos
         const resultadoalert = `
-📦 Orden de Servicio
+🛒 Orden de Mercado
 =========================
+
 🆔 Nro de orden: ${orden}
 👤 ID cliente: ${cuenta}
 📋 Solicitud:
