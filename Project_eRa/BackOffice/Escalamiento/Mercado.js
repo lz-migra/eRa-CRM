@@ -62,7 +62,7 @@
 =========================
 🆔 Nro de orden: ${orden}
 👤 ID cliente: ${cuenta}
-Solicitud:
+📋 Solicitud:
 `.trim();
 
 //💰 Total: ${total}
@@ -84,7 +84,7 @@ Solicitud:
         navigator.clipboard.writeText(resultado).then(() => {
           console.log(nombreScript + ' ✅ Copiado:', resultado);
           alert(
-            nombreScript + '\n\n📋 Datos copiados al portapapeles con éxito ✅\n\n' + resultado
+            nombreScript + '\n\n📋 Datos copiados al portapapeles con éxito ✅\n\n' + resultadoalert
           );
 
           // 🧹 Limpiar variables globales si deseas
