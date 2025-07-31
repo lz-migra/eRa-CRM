@@ -36,7 +36,7 @@
     window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/CRM2/Main.js");
     console.log(`Entorno CRM2 detectado`)
   } else if (url.startsWith("https://dlv-office.cuballama.net/")) {
-    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Mercado/Main.js");
+    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/BackOffice/Main.js");
     console.log(`Entono BackOffice detectado`)
   } else {
     console.warn("🌐 No se reconoce el entorno para cargar un script automáticamente.");
