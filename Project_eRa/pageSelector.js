@@ -33,9 +33,10 @@
 
   // Lógica para decidir qué script ejecutar según el dominio
   if (url.startsWith("https://crm2-soporte.cuballama.com/")) {
-    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/CRM2/Main.js");
+    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/CRM2/Main.js");
+    console.log(`Entorno CRM2 detectado`)
   } else if (url.startsWith("https://dlv-office.cuballama.net/")) {
-    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/CRM2/Mercado/Main.js");
+    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Mercado/Main.js");
   } else {
     console.warn("🌐 No se reconoce el dominio para cargar un script automáticamente.");
   }
