@@ -36,10 +36,10 @@
 
       // ⏳ Esperar que se generen los datos
       setTimeout(() => {
-        const datos = window.datosExtraidosNuevo;
+        const datos = window.datosExtraidos;
 
         if (!datos) {
-          alert(nombreScript + '\n\n❌ Error: "datosExtraidosNuevo" no está definido.');
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
           return;
         }
 
@@ -88,7 +88,7 @@ Solicitud:
           );
 
           // 🧹 Limpiar variables globales si deseas
-          delete window.datosExtraidosNuevo;
+          delete window.datosExtraidos;
           delete window.bloqueHTMLCapturado;
         }).catch((err) => {
           console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);

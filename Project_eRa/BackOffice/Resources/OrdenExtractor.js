@@ -66,7 +66,7 @@
   console.log('[📋 Extractor Resultado]', resultado);
 
   // 🌐 Guardar en una variable global por si otro script lo necesita
-  window.datosExtraidosNuevo = { ...datos, resultado };
+  window.datosExtraidosMercado = { ...datos, resultado };
 
   // 📋 (Opcional) Copiar al portapapeles automáticamente
   // navigator.clipboard.writeText(resultado);
