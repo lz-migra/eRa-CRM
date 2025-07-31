@@ -111,17 +111,21 @@
   // =========================
   const escalaLabel = document.createElement('span');
   escalaLabel.className = 'section-label';
-  escalaLabel.textContent = 'Escalamiento:';
+  escalaLabel.textContent = 'Escalamiento:'; // Nombre de la sección
   customBar.appendChild(escalaLabel);
 
   const groupEscalamiento = document.createElement('div');
   groupEscalamiento.className = 'button-group';
 
-  groupEscalamiento.appendChild(createButton('📱', 'Recarga', '#ea4c89', '/Escalamiento/Recarga.js'));
-  groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', '/Escalamiento/Remesa.js'));
-  groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', '/Escalamiento/MLC.js'));
-  groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', '/Escalamiento/TN.js'));
-  groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', '/Escalamiento/Ingles.js'));
+  groupEscalamiento.appendChild(createButton('🛒', 'Estalar orden de mercado', '#ea4c89', '/Escalamiento/Mercado.js'));
+//  groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', '/Escalamiento/Remesa.js'));
+//  groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', '/Escalamiento/MLC.js'));
+//  groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', '/Escalamiento/TN.js'));
+//  groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', '/Escalamiento/Ingles.js'));
+
+//=============================
+// Se dejaron los botones para usar de respaldo
+//=============================
 
   customBar.appendChild(groupEscalamiento);
 
@@ -138,14 +142,14 @@
   // =========================
   const chatLabel = document.createElement('span');
   chatLabel.className = 'section-label';
-  chatLabel.textContent = 'Twilio Chat:';
+  chatLabel.textContent = 'Twilio Chat:'; //Nombre de la sección
   customBar.appendChild(chatLabel);
 
   const groupChat = document.createElement('div');
   groupChat.className = 'button-group';
 
-  groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', '/Resumen/RecargaTW.js'));
-  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', '/Resumen/RemesaMLCTW.js'));
+  groupChat.appendChild(createButton('🛒', 'Mercado', '#ea4c89', '/Resumen/RecargaTW.js'));
+//  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', '/Resumen/RemesaMLCTW.js'));
 
   customBar.appendChild(groupChat);
 
