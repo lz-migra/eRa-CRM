@@ -57,19 +57,15 @@
         } = datos;
 
 // Resumir direccion
-const texto = direccion;
-
-function extraerUltimaParte(texto) {
-  const match = texto.match(/(?:[^,]*,){2}\s*(.*)$/);
-  return match ? match[1].trim() : texto;
+function resuDireccion(direccion) {
+  const match = direccion.match(/(?:[^,]*,){2}\s*(.*)$/);
+  return match ? match[1].trim() : direccion;
 }
 
-const resuRedireccion = extraerUltimaParte(texto);
-
-
-function soloFecha(creado) {
+// Resumir fecha
+function resuFecha(creado) {
   const match = creado.match(/\d{4}-\d{2}-\d{2}/);
-  return match ? match[0] : null;
+  return match ? match[0] : creado;
 }
 
         // 📋 Crear plantilla con los datos
@@ -77,9 +73,9 @@ function soloFecha(creado) {
 🛒 Orden de Mercado
 =========================
 
-🆔 Orden Nro. ${orden} (📅 ${creado})
-👨‍💼 ${nombre} - 📞 ${telefono}
-📍 ${resuRedireccion}
+🆔 Orden Nro. ${orden} (📅 ${resuFecha})
+👨‍💼 ${nombre} | 📞 ${telefono}
+📍 ${resuDireccion}
 🏪 ${negocio}
 🗓️ Fecha programada: ${fechaProgramada}
 `.trim();
@@ -95,9 +91,9 @@ function soloFecha(creado) {
 
         // 📋 Crear plantilla con los datos
         const resultado = `
-Orden Nro. ${orden} (${creado})
-${nombre} - ${telefono}
-${resuRedireccion}
+Orden Nro. ${orden} (${resuFecha})
+${nombre} | ${telefono}
+${resuDireccion}
 ${negocio}
 Fecha programada: ${fechaProgramada}
 `.trim();
