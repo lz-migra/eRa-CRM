@@ -91,7 +91,7 @@ const timestamp = '?nocache=' + Date.now();
 🧾 Orden Nro. ${ordenID} 🗓️ (${fecha})
 👤 ${nombre} | 📱 +${celular}
 📍 ${barrio}, ${municipio}, ${provincia}
-💵 Monto: ${monto} | 🧾 FEE: ${fee}
+💵 Monto: ${monto} - 🧾 FEE: ${fee}
 🚚 Fecha estimada de entrega: ${fechaEntrega}
 `.trim();
 
@@ -101,7 +101,7 @@ const timestamp = '?nocache=' + Date.now();
 Orden Nro. ${ordenID} (${fecha})
 ${nombre} | +${celular}
 ${barrio}, ${municipio}, ${provincia}
-Monto: ${monto} | FEE: ${fee}
+Monto: ${monto} - FEE: ${fee}
 Fecha estimada de entrega: ${fechaEntrega}
 `.trim();
 
