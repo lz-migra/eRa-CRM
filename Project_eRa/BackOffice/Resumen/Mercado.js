@@ -81,7 +81,7 @@
 =========================
 
 🆔 Orden Nro. ${orden} (📅 ${fechaResumida})
-👨‍💼 ${nombre} | 📞 ${telefono}
+👨‍💼 ${nombre} | 📞 +${telefono}
 📍 ${direccionResumida}
 🏪 ${negocio}
 🗓️ Fecha programada: ${fechaProgramada}
@@ -89,7 +89,7 @@
 
             const resultado = `
 Orden Nro. ${orden} (${fechaResumida})
-${nombre} | ${telefono}
+${nombre} | +${telefono}
 ${direccionResumida}
 ${negocio}
 Fecha programada: ${fechaProgramada}
