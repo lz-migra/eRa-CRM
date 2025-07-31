@@ -89,7 +89,7 @@ const timestamp = '?nocache=' + Date.now();
         // 📋 Plantilla de resultado alert
      const resultadoalert = `
 🧾 Orden Nro. ${ordenID} 🗓️ (${fecha})
-👤 ${nombre} | 📱 ${celular}
+👤 ${nombre} | 📱 +${celular}
 📍 ${barrio}, ${municipio}, ${provincia}
 💵 Monto: ${monto} | 🧾 FEE: ${fee}
 🚚 Fecha estimada de entrega: ${fechaEntrega}
