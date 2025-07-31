@@ -1,11 +1,10 @@
 (function () {
   const url = window.location.href;
 
-//              ###########################################
-//              # Decide en que entorno se esa trabajando #
-//              ###########################################
+  // ###########################################
+  // # Decide en qué entorno se está trabajando #
+  // ###########################################
 
-  // Función ya definida para cargar scripts desde GitHub
   window.cargarScriptGitHub = function (url) {
     const timestamp = Date.now();
     const scriptUrl = `${url}?nocache=${timestamp}`;
@@ -31,13 +30,16 @@
       });
   };
 
-  // Lógica para decidir qué script ejecutar según el dominio
-  if (url.startsWith("https://crm2-soporte.cuballama.com/")) {
+  // Expresiones regulares para ocultar dominios explícitos
+  const crm2Regex = /^https:\/\/crm2-soporte\.[^\/]+/;
+  const backOfficeRegex = /^https:\/\/dlv-office\.[^\/]+/;
+
+  if (crm2Regex.test(url)) {
     window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/CRM2/Main.js");
-    console.log(`Entorno CRM2 detectado`)
-  } else if (url.startsWith("https://dlv-office.cuballama.net/")) {
+    console.log(`Entorno CRM2 detectado`);
+  } else if (backOfficeRegex.test(url)) {
     window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/BackOffice/Main.js");
-    console.log(`Entono BackOffice detectado`)
+    console.log(`Entorno BackOffice detectado`);
   } else {
     console.warn("🌐 No se reconoce el entorno para cargar un script automáticamente.");
   }
