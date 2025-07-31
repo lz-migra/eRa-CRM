@@ -3,7 +3,7 @@
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
   const nombreScript = '[Mercado 🛒]';
-  const tipoScript = 'Escalamiento';
+  const tipoScript = 'Resumen';
 
   // 🚫 Evitar cache
   const timestamp = '?nocache=' + Date.now();

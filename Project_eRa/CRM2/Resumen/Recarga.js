@@ -3,7 +3,7 @@
 
 // INFORMACION DEL SCRIPT
 const nombreScript = '[Recarga 📲]'; // define el nombre del script
-const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
+const tipoScript   = 'Resumen'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
   
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
   function cargarYEjecutarScript(url, callback) {
