@@ -35,7 +35,8 @@
       }
     }
 
-    return multiple ? resultados : (resultados[0] || 'N/A');
+    // ✅ Eliminar duplicados si multiple = true
+    return multiple ? [...new Set(resultados)] : (resultados[0] || 'N/A');
   }
 
   // 🗃️ Paso 4: Recolectar todos los datos deseados
