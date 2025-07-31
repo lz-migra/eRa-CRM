@@ -85,7 +85,7 @@ const timestamp = '?nocache=' + Date.now();
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
 
-        // 📋 Plantilla de resultado
+        // 📋 Plantilla de resultado Alert
         const resultadoalert = `
 💵 Orden de Remesa
 =========================

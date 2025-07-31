@@ -85,6 +85,20 @@ const timestamp = '?nocache=' + Date.now();
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
 
+
+        // 📋 Plantilla de resultado
+        const resultadoalert = `
+📲 Orden de Recarga
+=========================
+
+👤 ID del cliente: ${clienteID}
+🔢 Order code: ${ordenID}
+📲 Servicio: Recarga
+🆔 ID o FOI: ${idTopup}
+✅ Status: ${status}
+📝 Solicitud: 
+`.trim();
+
         // 📋 Plantilla de resultado
         const resultado = `
 ID del cliente: ${clienteID}
@@ -101,7 +115,7 @@ Solicitud:
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
             '✅' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultado
+            resultadoalert
           );
 
           // 🧹 Limpiar variables globales
