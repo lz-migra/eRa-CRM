@@ -56,6 +56,17 @@
           negocio
         } = datos;
 
+// Resumir direccion
+const texto = direccion;
+
+function extraerUltimaParte(texto) {
+  const match = texto.match(/(?:[^,]*,){2}\s*(.*)$/);
+  return match ? match[1].trim() : texto;
+}
+
+const resuRedireccion = extraerUltimaParte(texto);
+
+
         // 📋 Crear plantilla con los datos
         const resultadoalert = `
 🛒 Orden de Mercado
@@ -63,7 +74,9 @@
 
 🆔 Orden Nro. ${orden} (📅 ${creado})
 👨‍💼 ${nombre} - 📞 ${telefono}
-
+📍 ${resuRedireccion}
+🏪 ${negocio}
+🗓️ Fecha programada: ${fechaProgramada}
 `.trim();
 
 //👤 ID cliente: ${cuenta}
@@ -73,13 +86,15 @@
 //👨‍💼 Nombre: ${nombre}
 //📞 Teléfono: ${telefono}
 //📍 Dirección: ${direccion}
-//🏢 Negocio: ${negocio}
+//🏪 Negocio: ${negocio}
 
         // 📋 Crear plantilla con los datos
         const resultado = `
-ID cliente: ${cuenta}
-Nro de orden: ${orden}
-Solicitud: 
+Orden Nro. ${orden} (${creado})
+👨‍💼 ${nombre} - 📞 ${telefono}
+📍 ${resuRedireccion}
+🏪 ${negocio}
+🗓️ Fecha programada: ${fechaProgramada}
 `.trim();
 
         // 📋 Copiar al portapapeles
