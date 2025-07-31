@@ -86,6 +86,16 @@ const timestamp = '?nocache=' + Date.now();
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
 
+        // 📋 Plantilla de resultado alert
+     const resultadoalert = `
+🧾 Orden Nro. ${ordenID} - 🗓️ (${fecha})
+👤 ${nombre} - 📱 ${celular}
+📍 ${barrio}, ${municipio}, ${provincia}
+💵 Monto: ${monto} / 🧾 FEE: ${fee}
+🚚 Fecha estimada de entrega: ${fechaEntrega}
+`.trim();
+
+
         // 📋 Plantilla de resultado
         const resultado = `
 Orden Nro. ${ordenID} - (${fecha})
@@ -102,7 +112,7 @@ Fecha estimada de entrega: ${fechaEntrega}
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
             '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultado
+            resultadoalert
           );
 
           // 🧹 Limpiar variables globales

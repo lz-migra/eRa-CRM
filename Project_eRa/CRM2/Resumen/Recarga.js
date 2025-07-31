@@ -2,7 +2,7 @@
   'use strict';
 
 // INFORMACION DEL SCRIPT
-const nombreScript = '[Recarga TW📱💬]'; // define el nombre del script
+const nombreScript = '[Recarga 📲]'; // define el nombre del script
 const tipoScript   = 'Mensaje'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
   
   // 📦 Función reutilizable para cargar y ejecutar scripts remotos
@@ -86,11 +86,14 @@ const timestamp = '?nocache=' + Date.now();
         const fee           = beneficiario.fee;
 
         // 📋 Plantilla de resultado Alert
-        const resultadoalert = `
-Orden Nro. ${ordenID} - (${fecha})
-${nombreTopup} | +${destino}
-*${tituloOferta}*
-${precioTotal} ${moneda}
+const resultadoalert = `
+📲 Resumen de recarga
+========================
+
+📦 Orden Nro. ${ordenID} – 🗓️ ${fecha}
+👤 ${nombreTopup} | 📞 +${destino}
+💡 *${tituloOferta}*
+💰 ${precioTotal} ${moneda}
 `.trim();
 
         // 📋 Plantilla de resultado
