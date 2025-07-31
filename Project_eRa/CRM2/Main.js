@@ -79,7 +79,7 @@
     // Evento que carga y ejecuta el script al hacer clic
     button.addEventListener('click', event => {
       event.preventDefault();
-      const scriptUrl = `https://github.com/lz-migra/eRa-CRM/tree/main/Project_eRa/CRM2/${scriptPath}${timestamp}`;
+      const scriptUrl = `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Escalamiento/${scriptPath}${timestamp}`;
       console.log(`Cargando script desde: ${scriptUrl}`);
 
       fetch(scriptUrl)
