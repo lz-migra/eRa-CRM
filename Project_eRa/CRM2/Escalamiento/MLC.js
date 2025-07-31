@@ -85,6 +85,20 @@ const timestamp = '?nocache=' + Date.now();
         const monto         = beneficiario.monto;
         const fee           = beneficiario.fee;
 
+
+        // 📋 Plantilla de resultado
+        const resultado = `
+ID del cliente: ${clienteID}
+Tipo de remesa: Domicilio
+Provincia: ${provincia}
+Número de reparto: ${nroReparto}
+Order code: ${ordenID}
+ID o FOI: ${idTopup}
+Status: ${status}
+Proveedor: ${proveedor}
+Solicitud: 
+`.trim();
+
         // 📋 Plantilla de resultado
         const resultado = `
 ID del cliente: ${clienteID}
