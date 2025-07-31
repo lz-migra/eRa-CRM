@@ -57,6 +57,21 @@
         } = datos;
 
         // 📋 Crear plantilla con los datos
+        const resultadoAlert = `
+📦 Orden de Servicio
+=========================
+🆔 Orden: ${orden}
+👤 Cuenta: ${cuenta}
+💰 Total: ${total}
+📅 Creado: ${creado}
+🗓️ Fecha programada: ${fechaProgramada}
+👨‍💼 Nombre: ${nombre}
+📞 Teléfono: ${telefono}
+📍 Dirección: ${direccion}
+🏢 Negocio: ${negocio}
+`.trim();
+
+        // 📋 Crear plantilla con los datos
         const resultado = `
 📦 Orden de Servicio
 =========================
