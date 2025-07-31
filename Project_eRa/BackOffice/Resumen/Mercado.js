@@ -31,92 +31,90 @@
   }
 
   // 🔃 Ejecutar en cadena los módulos de Mercado
-  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`, function () {
-    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`, function () {
+  cargarYEjecutarScript(
+    `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`,
+    function () {
+      cargarYEjecutarScript(
+        `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`,
+        function () {
 
-      // ⏳ Esperar que se generen los datos
-      setTimeout(() => {
-        const datos = window.datosExtraidos;
+          // ⏳ Esperar que se generen los datos
+          setTimeout(() => {
+            const datos = window.datosExtraidos;
 
-        if (!datos) {
-          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
-          return;
-        }
+            if (!datos) {
+              alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
+              return;
+            }
 
-        // 🧷 Extraer campos necesarios
-        const {
-          orden,
-          cuenta,
-          total,
-          creado,
-          fechaProgramada,
-          nombre,
-          telefono,
-          direccion,
-          negocio
-        } = datos;
+            // 🧷 Extraer campos necesarios
+            const {
+              orden,
+              cuenta,
+              total,
+              creado,
+              fechaProgramada,
+              nombre,
+              telefono,
+              direccion,
+              negocio
+            } = datos;
 
-// Resumir direccion
-function resuDireccion(direccion) {
-  const match = direccion.match(/(?:[^,]*,){2}\s*(.*)$/);
-  return match ? match[1].trim() : direccion;
-}
+            // ✅ Resumir dirección
+            function resuDireccion(texto) {
+              const match = texto.match(/(?:[^,]*,){2}\s*(.*)$/);
+              return match ? match[1].trim() : texto;
+            }
 
-// Resumir fecha
-function resuFecha(creado) {
-  const match = creado.match(/\d{4}-\d{2}-\d{2}/);
-  return match ? match[0] : creado;
-}
+            // ✅ Resumir fecha
+            function resuFecha(texto) {
+              const match = texto.match(/\d{4}-\d{2}-\d{2}/);
+              return match ? match[0] : texto;
+            }
 
-        // 📋 Crear plantilla con los datos
-        const resultadoalert = `
+            const direccionResumida = resuDireccion(direccion);
+            const fechaResumida = resuFecha(creado);
+
+            // 📋 Crear plantilla con los datos
+            const resultadoalert = `
 🛒 Orden de Mercado
 =========================
 
-🆔 Orden Nro. ${orden} (📅 ${resuFecha})
+🆔 Orden Nro. ${orden} (📅 ${fechaResumida})
 👨‍💼 ${nombre} | 📞 ${telefono}
-📍 ${resuDireccion}
+📍 ${direccionResumida}
 🏪 ${negocio}
 🗓️ Fecha programada: ${fechaProgramada}
 `.trim();
 
-//👤 ID cliente: ${cuenta}
-//💰 Total: ${total}
-//📅 Creado: ${creado}
-//🗓️ Fecha programada: ${fechaProgramada}
-//👨‍💼 Nombre: ${nombre}
-//📞 Teléfono: ${telefono}
-//📍 Dirección: ${direccion}
-//🏪 Negocio: ${negocio}
-
-        // 📋 Crear plantilla con los datos
-        const resultado = `
-Orden Nro. ${orden} (${resuFecha})
+            const resultado = `
+Orden Nro. ${orden} (${fechaResumida})
 ${nombre} | ${telefono}
-${resuDireccion}
+${direccionResumida}
 ${negocio}
 Fecha programada: ${fechaProgramada}
 `.trim();
 
-        // 📋 Copiar al portapapeles
-        navigator.clipboard.writeText(resultado).then(() => {
-          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
-          alert(
-            nombreScript + '\n\n' +
-            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultadoalert
-          );
+            // 📋 Copiar al portapapeles
+            navigator.clipboard.writeText(resultado).then(() => {
+              console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
+              alert(
+                nombreScript + '\n\n' +
+                '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+                '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
+                resultadoalert
+              );
 
-          // 🧹 Limpiar variables globales si deseas
-          delete window.datosExtraidos;
-          delete window.bloqueHTMLCapturado;
-        }).catch((err) => {
-          console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
-        });
+              // 🧹 Limpiar variables globales
+              delete window.datosExtraidos;
+              delete window.bloqueHTMLCapturado;
+            }).catch((err) => {
+              console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
+            });
 
-      }, 600); // ⏱️ Espera para asegurar ejecución de módulos
-    });
-  });
-
+          }, 600); // ⏱️ Espera para asegurar ejecución de módulos
+        }
+      );
+    }
+  );
 })();
