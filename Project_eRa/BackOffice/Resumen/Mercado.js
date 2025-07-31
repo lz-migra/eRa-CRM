@@ -1,11 +1,14 @@
 (function () {
   'use strict';
 
-// INFORMACION DEL SCRIPT
-const nombreScript = '[Recarga📱]'; // define el nombre del script
-const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
-  
-  // 📦 Función reutilizable para cargar y ejecutar scripts remotos
+  // ℹ️ INFORMACIÓN DEL SCRIPT
+  const nombreScript = '[Mercado 🛒]';
+  const tipoScript = 'Escalamiento';
+
+  // 🚫 Evitar cache
+  const timestamp = '?nocache=' + Date.now();
+
+  // 🔁 Función para cargar scripts remotos
   function cargarYEjecutarScript(url, callback) {
     console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
     fetch(url)
@@ -15,7 +18,7 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
       })
       .then(code => {
         try {
-          new Function(code)(); // Ejecuta el código
+          new Function(code)();
           console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
           if (typeof callback === 'function') callback();
         } catch (e) {
@@ -27,70 +30,55 @@ const tipoScript   = 'Escalamiento'; // Define el tipo de script, los alert y co
       });
   }
 
-// 🚫 Evitar cache
-const timestamp = '?nocache=' + Date.now();
-
-  // 🚀 Inicia la carga en cadena
+  // 🔃 Ejecutar en cadena los módulos de Mercado
   cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`, function () {
     cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`, function () {
 
-      // Esperar un momento para asegurar que los scripts hayan terminado de procesar
+      // ⏳ Esperar que se generen los datos
       setTimeout(() => {
-        if (!window.datosExtraidos) {
-          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún ' + tipoScript);
+        const datos = window.datosExtraidos;
+
+        if (!datos) {
+          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
           return;
         }
 
-        const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
+        // 🧷 Extraer campos necesarios
+        const {
+          orden,
+          cuenta,
+          total,
+          creado,
+          fechaProgramada,
+          nombre,
+          telefono,
+          direccion,
+          negocio
+        } = datos;
 
-        // 🔢 Datos generales
-        const ordenID        = generales.ordenID;
-        const clienteID      = generales.clienteID;
-        const fecha          = generales.fecha;
-        const estadoOrden    = generales.estadoOrden;
-        const montoPagado    = generales.montoPagado;
-        const tarjeta        = generales.tarjeta;
-        const moneda         = montoPagado.replace(/[0-9.\s]+/g, '').trim();
+        // 📋 Crear plantilla con los datos
+        const resultadoalert = `
+🛒 Orden de Mercado
+=========================
 
-        // 🎁 Datos de oferta
-        const tituloOferta   = oferta.titulo;
-        const estadoOferta   = oferta.estado;
-        const precioListado  = oferta.precioListado;
-        const descuento      = oferta.descuento;
-        const precioTotal    = oferta.precioTotal;
+🆔 Orden Nro. ${orden} (📅 ${creado})
+👨‍💼 ${nombre} - 📞 ${telefono}
 
-        // 📦 Datos Topup
-        const idTopup       = topup.id;
-        const proveedor     = topup.proveedor;
-        const status        = topup.status;
-        const operador      = topup.operador;
-        const destino       = topup.destino;
-        const rawNombre     = topup.nombre || '';
+`.trim();
 
-        // ✅ Capitalizar respetando acentos y paréntesis
-        const nombreTopup = rawNombre
-          .replace(/[^\p{L}() ]+/gu, '') // Solo letras, paréntesis y espacios
-          .toLowerCase()
-          .replace(/\b\p{L}/gu, c => c.toUpperCase());
+//👤 ID cliente: ${cuenta}
+//💰 Total: ${total}
+//📅 Creado: ${creado}
+//🗓️ Fecha programada: ${fechaProgramada}
+//👨‍💼 Nombre: ${nombre}
+//📞 Teléfono: ${telefono}
+//📍 Dirección: ${direccion}
+//🏢 Negocio: ${negocio}
 
-        // 👤 Datos del beneficiario
-        const provincia     = beneficiario.provincia;
-        const municipio     = beneficiario.municipio;
-        const direccion     = beneficiario.direccion;
-        const barrio        = beneficiario.barrio;
-        const instrucciones = beneficiario.instrucciones;
-        const nroReparto    = beneficiario.nroReparto;
-        const celular       = beneficiario.celular;
-        const nombre        = beneficiario.nombre;
-        const monto         = beneficiario.monto;
-        const fee           = beneficiario.fee;
-
-        // 📋 Plantilla de resultado
+        // 📋 Crear plantilla con los datos
         const resultado = `
-ID del cliente: ${clienteID}
-Order code: ${ordenID}
-Servicio: Recarga
-Status: ${status}
+ID cliente: ${cuenta}
+Nro de orden: ${orden}
 Solicitud: 
 `.trim();
 
@@ -101,20 +89,17 @@ Solicitud:
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
             '✅' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultado
+            resultadoalert
           );
 
-          // 🧹 Limpiar variables globales
+          // 🧹 Limpiar variables globales si deseas
           delete window.datosExtraidos;
-          delete window.bloqueElemento;
-          delete window.datosPanel;
           delete window.bloqueHTMLCapturado;
-
         }).catch((err) => {
-          console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
+          console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
         });
 
-      }, 600);
+      }, 600); // ⏱️ Espera para asegurar ejecución de módulos
     });
   });
 
