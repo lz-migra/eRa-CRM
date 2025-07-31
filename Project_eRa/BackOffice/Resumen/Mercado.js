@@ -67,6 +67,11 @@ function extraerUltimaParte(texto) {
 const resuRedireccion = extraerUltimaParte(texto);
 
 
+function soloFecha(creado) {
+  const match = creado.match(/\d{4}-\d{2}-\d{2}/);
+  return match ? match[0] : null;
+}
+
         // 📋 Crear plantilla con los datos
         const resultadoalert = `
 🛒 Orden de Mercado
