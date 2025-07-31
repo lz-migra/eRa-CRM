@@ -3,7 +3,7 @@
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
   const nombreScript = '[Mercado 🛒]';
-  const tipoScript = 'Resumen de Orden';
+  const tipoScript = 'Escalamiento';
 
   // 🚫 Evitar cache
   const timestamp = '?nocache=' + Date.now();
@@ -63,7 +63,7 @@
 
 🆔 Nro de orden: ${orden}
 👤 ID cliente: ${cuenta}
-📋 Solicitud:
+📝 Solicitud:
 `.trim();
 
 //💰 Total: ${total}
@@ -81,11 +81,14 @@ Nro de orden: ${orden}
 Solicitud: 
 `.trim();
 
-        // 📤 Copiar al portapapeles
+        // 📋 Copiar al portapapeles
         navigator.clipboard.writeText(resultado).then(() => {
-          console.log(nombreScript + ' ✅ Copiado:', resultado);
+          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
           alert(
-            nombreScript + '\n\n📋 Datos copiados al portapapeles con éxito ✅\n\n' + resultadoalert
+            nombreScript + '\n\n' +
+            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+            '✅' + tipoScript + ' generado con éxito ✅\n\n' +
+            resultadoalert
           );
 
           // 🧹 Limpiar variables globales si deseas
