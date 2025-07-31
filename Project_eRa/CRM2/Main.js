@@ -145,7 +145,7 @@
   groupChat.className = 'button-group';
 
   groupChat.appendChild(createButton('📱', 'Recarga TW', '#ea4c89', 'Resumen/Recarga.js'));
-  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', 'Resumen/RemesaMLC.js'));
+  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', 'Resumen/Remesa_MLC.js'));
 
   customBar.appendChild(groupChat);
 
