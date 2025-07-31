@@ -80,7 +80,7 @@
 
           // 🧹 Limpiar variables globales si deseas
           delete window.datosExtraidosNuevo;
-          delete window.bloqueHTMLCapturadoo;
+          delete window.bloqueHTMLCapturado;
         }).catch((err) => {
           console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
         });
