@@ -88,20 +88,20 @@ const timestamp = '?nocache=' + Date.now();
 
         // 📋 Plantilla de resultado alert
      const resultadoalert = `
-🧾 Orden Nro. ${ordenID} - 🗓️ (${fecha})
-👤 ${nombre} - 📱 ${celular}
+🧾 Orden Nro. ${ordenID} 🗓️ (${fecha})
+👤 ${nombre} | 📱 ${celular}
 📍 ${barrio}, ${municipio}, ${provincia}
-💵 Monto: ${monto} / 🧾 FEE: ${fee}
+💵 Monto: ${monto} | 🧾 FEE: ${fee}
 🚚 Fecha estimada de entrega: ${fechaEntrega}
 `.trim();
 
 
         // 📋 Plantilla de resultado
         const resultado = `
-Orden Nro. ${ordenID} - (${fecha})
-${nombre} - ${celular}
+Orden Nro. ${ordenID} (${fecha})
+${nombre} | ${celular}
 ${barrio}, ${municipio}, ${provincia}
-Monto: ${monto} / FEE: ${fee}
+Monto: ${monto} | FEE: ${fee}
 Fecha estimada de entrega: ${fechaEntrega}
 `.trim();
 
