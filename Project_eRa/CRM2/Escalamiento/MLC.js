@@ -87,16 +87,19 @@ const timestamp = '?nocache=' + Date.now();
 
 
         // 📋 Plantilla de resultado
-        const resultado = `
+        const resultadoalert = `
+💳 Orden de Remesa MLC
+=========================
+
 👤 ID del cliente: ${clienteID}
 💸 Tipo de remesa: Domicilio
 📍 Provincia: ${provincia}
- Número de reparto: ${nroReparto}
+#️⃣ Número de reparto: ${nroReparto}
 🔢 Order code: ${ordenID}
 🆔 ID o FOI: ${idTopup}
- Status: ${status}
- Proveedor: ${proveedor}
- Solicitud: 
+✅ Status: ${status}
+🧑‍🔧 Proveedor: ${proveedor}
+📝 Solicitud: 
 `.trim();
 
         // 📋 Plantilla de resultado
@@ -119,7 +122,7 @@ Solicitud:
             nombreScript + '\n\n' +
             '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
             '✅' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultado
+            resultadoalert
           );
 
           // 🧹 Limpiar variables globales
