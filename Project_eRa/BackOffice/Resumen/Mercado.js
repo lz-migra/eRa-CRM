@@ -83,7 +83,7 @@
 🆔 Orden Nro. ${orden} (📅 ${fechaResumida})
 👨‍💼 ${nombre} | 📞 ${telefono}
 📍 ${direccionResumida}
-🏪 ${negocio}
+🏪 Comercio: ${negocio}
 🗓️ Fecha programada: ${fechaProgramada}
 `.trim();
 
@@ -91,7 +91,7 @@
 Orden Nro. ${orden} (${fechaResumida})
 ${nombre} | ${telefono}
 ${direccionResumida}
-${negocio}
+Comercio: ${negocio}
 Fecha programada: ${fechaProgramada}
 `.trim();
 
