@@ -57,33 +57,27 @@
         } = datos;
 
         // 📋 Crear plantilla con los datos
-        const resultadoAlert = `
+        const resultadoalert = `
 📦 Orden de Servicio
 =========================
-🆔 Orden: ${orden}
-👤 Cuenta: ${cuenta}
-💰 Total: ${total}
-📅 Creado: ${creado}
-🗓️ Fecha programada: ${fechaProgramada}
-👨‍💼 Nombre: ${nombre}
-📞 Teléfono: ${telefono}
-📍 Dirección: ${direccion}
-🏢 Negocio: ${negocio}
+🆔 Nro de orden: ${orden}
+👤 ID cliente: ${cuenta}
+Solicitud:
 `.trim();
+
+//💰 Total: ${total}
+//📅 Creado: ${creado}
+//🗓️ Fecha programada: ${fechaProgramada}
+//👨‍💼 Nombre: ${nombre}
+//📞 Teléfono: ${telefono}
+//📍 Dirección: ${direccion}
+//🏢 Negocio: ${negocio}
 
         // 📋 Crear plantilla con los datos
         const resultado = `
-📦 Orden de Servicio
-=========================
-🆔 Orden: ${orden}
-👤 Cuenta: ${cuenta}
-💰 Total: ${total}
-📅 Creado: ${creado}
-🗓️ Fecha programada: ${fechaProgramada}
-👨‍💼 Nombre: ${nombre}
-📞 Teléfono: ${telefono}
-📍 Dirección: ${direccion}
-🏢 Negocio: ${negocio}
+ID cliente: ${cuenta}
+Nro de orden: ${orden}
+Solicitud: 
 `.trim();
 
         // 📤 Copiar al portapapeles
