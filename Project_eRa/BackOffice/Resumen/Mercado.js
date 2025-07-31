@@ -91,10 +91,10 @@ const resuRedireccion = extraerUltimaParte(texto);
         // 📋 Crear plantilla con los datos
         const resultado = `
 Orden Nro. ${orden} (${creado})
-👨‍💼 ${nombre} - 📞 ${telefono}
-📍 ${resuRedireccion}
-🏪 ${negocio}
-🗓️ Fecha programada: ${fechaProgramada}
+${nombre} - ${telefono}
+${resuRedireccion}
+${negocio}
+Fecha programada: ${fechaProgramada}
 `.trim();
 
         // 📋 Copiar al portapapeles
