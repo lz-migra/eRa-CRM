@@ -31,8 +31,8 @@
   }
 
   // 🔃 Ejecutar en cadena los módulos de Mercado
-  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/CRM2/Mercado/Resources/IdentificadorHTML.js${timestamp}`, function () {
-    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/CRM2/Mercado/Resources/OrdenExtractor.js${timestamp}`, function () {
+  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`, function () {
+    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`, function () {
 
       // ⏳ Esperar que se generen los datos
       setTimeout(() => {
