@@ -20,7 +20,7 @@
       .then(code => {
         try {
           new Function(code)(); // Ejecuta el script cargado
-          console.log('✅ Script ejecutado con éxito.');
+          console.log('✅ Script cargado con éxito.');
         } catch (e) {
           console.error('❌ Error al ejecutar el script:', e);
         }
@@ -37,7 +37,8 @@
     console.log(`Entorno CRM2 detectado`)
   } else if (url.startsWith("https://dlv-office.cuballama.net/")) {
     window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/CRM2/Mercado/Main.js");
+    console.log(`Entono BackOffice detectado`)
   } else {
-    console.warn("🌐 No se reconoce el dominio para cargar un script automáticamente.");
+    console.warn("🌐 No se reconoce el entorno para cargar un script automáticamente.");
   }
 })();
