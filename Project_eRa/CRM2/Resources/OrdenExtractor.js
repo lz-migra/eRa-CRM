@@ -159,5 +159,7 @@ Fee: ${beneficiario.fee}
   // 📋 Copiar al portapapeles (opcional)
   // navigator.clipboard.writeText(resultado);
 
+ // Logica necesaria ver orden 24051792
+
 })();
 
