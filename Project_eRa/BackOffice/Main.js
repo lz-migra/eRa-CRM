@@ -118,7 +118,7 @@
   groupEscalamiento.className = 'button-group';
 
   groupEscalamiento.appendChild(createButton('🛒', 'Estalar orden de mercado', '#ea4c89', '/Escalamiento/Mercado.js'));
-//  groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#87cb16', '/Escalamiento/Remesa.js'));
+//  groupEscalamiento.appendChild(createButton('💵', 'Remesa', '#1769ff', '/Escalamiento/Remesa.js'));
 //  groupEscalamiento.appendChild(createButton('💳', 'MLC', '#23ccef', '/Escalamiento/MLC.js'));
 //  groupEscalamiento.appendChild(createButton('📦', 'TN', '#ff4500', '/Escalamiento/TN.js'));
 //  groupEscalamiento.appendChild(createButton('🌍', 'Ingles', '#1769ff', '/Escalamiento/Ingles.js'));
@@ -148,7 +148,7 @@
   const groupChat = document.createElement('div');
   groupChat.className = 'button-group';
 
-  groupChat.appendChild(createButton('🛒', 'Mercado', '#ea4c89', '/Resumen/RecargaTW.js'));
+  groupChat.appendChild(createButton('🛒', 'Resumir orden de Mercado', '#1769ff', '/Resumen/Mercado.js'));
 //  groupChat.appendChild(createButton('💵💳', 'Remesa/MLC TW', '#87cb16', '/Resumen/RemesaMLCTW.js'));
 
   customBar.appendChild(groupChat);
