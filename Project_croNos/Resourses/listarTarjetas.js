@@ -1,4 +1,5 @@
-(function () {
+// 🌐 Función global para iniciar el monitor de tarjetas
+function iniciarMonitorTarjetas() {
   // 📦 Claves y configuraciones generales
   const STORAGE_KEY = 'tarjetas_guardadas';        // 🗝️ Nombre usado en localStorage
   const LIMITE_TARJETAS = 10;                      // 🔢 Máximo de tarjetas a guardar
@@ -74,22 +75,26 @@
   // 🚀 Ejecutar la actualización cada 5 segundos
   setInterval(actualizarAlmacenamiento, 5000);
 
-  // 🌐 Función global: ver tarjetas en consola
-  window.verTarjetasGuardadas = function () {
-    const tarjetas = cargarTarjetasGuardadas();
-    if (tarjetas.length === 0) {
-      console.warn('📭 No hay tarjetas guardadas.');
-    } else {
-      console.table(tarjetas); // 📋 Mostrar como tabla
-    }
-  };
-
-  // 🌐 Función global: borrar tarjetas del almacenamiento
-  window.borrarTarjetasGuardadas = function () {
-    localStorage.removeItem(STORAGE_KEY);
-    console.log('🧹 Tarjetas eliminadas del almacenamiento.');
-  };
-
   // ✅ Mensaje de inicio
   console.log('✅ Monitor de tarjetas iniciado. Usa verTarjetasGuardadas() o borrarTarjetasGuardadas() desde la consola.');
-})();
+}
+
+// 🌐 Exponer funciones globales
+window.iniciarMonitorTarjetas = iniciarMonitorTarjetas;
+
+window.verTarjetasGuardadas = function () {
+  const data = localStorage.getItem('tarjetas_guardadas');
+  const tarjetas = data ? JSON.parse(data) : [];
+  if (tarjetas.length === 0) {
+    console.warn('📭 No hay tarjetas guardadas.');
+  } else {
+    console.table(tarjetas);
+  }
+};
+
+window.borrarTarjetasGuardadas = function () {
+  localStorage.removeItem('tarjetas_guardadas');
+  console.log('🧹 Tarjetas eliminadas del almacenamiento.');
+};
+
+
