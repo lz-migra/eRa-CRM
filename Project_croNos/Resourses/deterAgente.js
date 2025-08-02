@@ -1,4 +1,10 @@
-(function () {
+function detectarNombreAgente(opciones = {}) {
+  const {
+    intervaloMs = 500,     // ⏱️ Intervalo entre intentos
+    tiempoMaxMs = 60000,   // ⌛ Tiempo máximo para intentar
+    onDetectado = null     // 🎯 Callback cuando se detecta el nombre
+  } = opciones;
+
   const regexNombre = /User\s(.+?)\. Click for option to log out\./;
 
   function buscarNombre() {
@@ -10,17 +16,20 @@
         if (match && match[1]) {
           const nombre = match[1].trim();
           window.AGENT_NAME = nombre;
-          console.log("[deterAgente]✅ Nombre del agente detectado:", nombre);
+          console.log("[detectarNombreAgente] ✅ Nombre detectado:", nombre);
           clearInterval(intervalo);
+          if (typeof onDetectado === 'function') {
+            onDetectado(nombre);
+          }
           return;
         }
       }
     }
   }
 
-  // Buscar cada 500ms hasta encontrar el nombre
-  const intervalo = setInterval(buscarNombre, 500);
+  const intervalo = setInterval(buscarNombre, intervaloMs);
+  setTimeout(() => clearInterval(intervalo), tiempoMaxMs);
+}
 
-  // Detener intento tras 60 segundos si no aparece
-  setTimeout(() => clearInterval(intervalo), 60000);
-})();
+// 🌍 Exponer como función global
+window.detectarNombreAgente = detectarNombreAgente;
