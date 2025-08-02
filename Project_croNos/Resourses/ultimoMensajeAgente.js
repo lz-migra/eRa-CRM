@@ -1,14 +1,20 @@
 //============= Descripcion =============
 // 🧠 Esta función busca el último mensaje enviado por un agente específico en la interfaz de mensajes.
-// ✅ Puedes llamarla así: UltimoMensajeAgente("Nombre del Agente")
+// ✅ Puedes llamarla así: UltimoMensajeAgente("Nombre del Agente") ó UltimoMensajeAgente() este ultimo solo si window.AGENT_NAME ya esta definido.
 // 🧩 Devuelve un string en texto plano con la hora y el texto del mensaje, o `null` si no encuentra nada.
 // 📦 Usara window.AGENT_NAME [Que es definida por la funcion detectarNombreAgente()] para evitar pasar el nombre cada vez.
-// ✅ Llama a UltimoMensajeAgente() y:
+// 📞 Llama a UltimoMensajeAgente() y:
 //    - Verás el resultado en consola.
 //    - También se guardará automáticamente en window.ULTIMO_MENSAJE para que lo uses desde otros scripts.
 //=======================================
 
 function UltimoMensajeAgente(agentName = window.AGENT_NAME) {
+  // ⚠️ Verificar si se proporcionó un nombre de agente
+  if (!agentName) {
+    console.warn("⚠️ El nombre del agente no está definido ni en window.AGENT_NAME ni como argumento.");
+    return null;
+  }
+
   // 🔍 Selectores para identificar los elementos clave del DOM
   const messageSelector = '[data-message-item="true"]';         // 🧱 Contenedor de cada mensaje
   const senderSelector = '[data-testid="message-sendername"]';  // 🏷️ Nombre del remitente
@@ -44,6 +50,7 @@ function UltimoMensajeAgente(agentName = window.AGENT_NAME) {
     const resultado = `🕒 ${hora} - 💬 ${texto}`;   // 🧩 Formato de salida
 
     console.log("[RESULTADO]", resultado);         // 🖨️ Mostrar en consola
+    window.ULTIMO_MENSAJE = resultado;             // 💾 Guardar el resultado para otros scripts
     return resultado;                              // 📤 Devolver resultado
   } else {
     // 🚨 Algo salió mal: no se encontró el cuerpo o la hora
