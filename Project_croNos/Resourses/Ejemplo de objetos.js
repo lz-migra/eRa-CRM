@@ -1,8 +1,8 @@
 [
     {
-        "nombre": "⏰ ['Remesas Round 1 | Acc: 1002731']",
-        "reloj": "🕒 17:59:08",
-        "timestamp": 1754089363521
+        "nombre": "⏰ ['Remesas Round 1 | Acc: 1002731']", // Nombre para identificar la tarjeta
+        "reloj": "🕒 17:59:08",                            // El reloj guardado
+        "timestamp": 1754089363521                         // El tiempa desde la ultima actulizacion. "Este solo o usa la funcion listartarjetas()?"
     },
     {
         "nombre": "+1 813-368-8728",
