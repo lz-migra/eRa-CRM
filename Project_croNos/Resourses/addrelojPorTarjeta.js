@@ -1,78 +1,77 @@
 (function () {
-    const relojesMap = new Map(); // 🗺️ Mapa para evitar duplicar relojes en tarjetas
-    const STORAGE_KEY = 'tarjetas_guardadas'; // 🔐 Clave usada en localStorage
+    const relojesMap = new Map(); // 🗺️ Evita duplicar relojes
+    const STORAGE_KEY = 'tarjetas_guardadas'; // 🔐 Clave en localStorage
 
-    // 🔍 Buscar si hay una hora guardada en localStorage para una tarjeta específica
+    // 🔍 Buscar si hay una hora guardada en localStorage para esa tarjeta
     function obtenerHoraGuardada(nombreTarjeta) {
         try {
-            const tarjetas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); // 📥 Cargar datos del almacenamiento
-            const encontrada = tarjetas.find(t => t.nombre === nombreTarjeta);      // 🔎 Buscar por nombre
-            return encontrada?.reloj || null; // ✅ Devolver hora si existe, si no, null
+            const tarjetas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            const encontrada = tarjetas.find(t => t.nombre === nombreTarjeta);
+            return encontrada?.reloj || null;
         } catch (e) {
-            return null; // ❌ En caso de error, devolver null
+            return null;
         }
     }
 
-    // 🕒 Agregar reloj estático a una tarjeta
+    // 🕒 Agrega un reloj estático a la tarjeta
     function agregarRelojEstatico(tarjeta, contenedor) {
-        const reloj = document.createElement('div'); // 🧱 Crear elemento visual
+        const reloj = document.createElement('div');
         reloj.className = 'custom-crono-line';
         reloj.style.fontSize = '13px';
         reloj.style.color = '#0066cc';
         reloj.style.marginTop = '4px';
         reloj.style.fontFamily = 'monospace';
 
-        // 🏷️ Extraer el nombre identificador de la tarjeta
-        const nombreTarjeta = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim();
+        const nombreTarjeta = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim() || '🆔 Desconocido';
 
-        // 🔁 Ver si ya hay una hora guardada para esta tarjeta
+        console.log(`📥 Nueva tarjeta encontrada: "${nombreTarjeta}"`);
+
         let horaParaMostrar = obtenerHoraGuardada(nombreTarjeta);
 
-        // 🆕 Si no hay hora guardada, usar la hora actual del sistema
         if (!horaParaMostrar) {
+            // 🆕 No hay hora previa, usamos la del sistema
             const ahora = new Date();
             const hrs = String(ahora.getHours()).padStart(2, '0');
             const mins = String(ahora.getMinutes()).padStart(2, '0');
             const secs = String(ahora.getSeconds()).padStart(2, '0');
-            horaParaMostrar = `🕒 ${hrs}:${mins}:${secs}`; // 🕒 Formato de reloj
+            horaParaMostrar = `🕒 ${hrs}:${mins}:${secs}`;
+
+            console.warn(`⚠️ No se encontró la tarjeta "${nombreTarjeta}" en localStorage. Generando nuevo reloj.`);
+        } else {
+            console.log(`✅ Se encontró la tarjeta "${nombreTarjeta}" en localStorage. Usando hora guardada.`);
         }
 
-        // 📌 Mostrar la hora en pantalla
         reloj.textContent = horaParaMostrar;
         contenedor.appendChild(reloj);
-
-        // 💾 Registrar en el mapa local
         relojesMap.set(tarjeta, reloj);
     }
 
-    // 🔄 Buscar todas las tarjetas visibles y agregar reloj si no lo tienen
+    // 🔄 Recorre todas las tarjetas visibles y les agrega reloj si no lo tienen
     function agregarRelojesATarjetas() {
-        const tarjetas = document.querySelectorAll('.Twilio-TaskListBaseItem'); // 🧱 Todas las tarjetas
+        const tarjetas = document.querySelectorAll('.Twilio-TaskListBaseItem');
 
         tarjetas.forEach(tarjeta => {
-            if (relojesMap.has(tarjeta)) return; // 🛑 Ya tiene reloj, saltar
+            if (relojesMap.has(tarjeta)) return;
 
-            const contenedor = tarjeta.querySelector('.Twilio-TaskListBaseItem-Content'); // 📦 Contenedor interno
-            if (!contenedor) return; // ❌ No se encontró, salir
+            const contenedor = tarjeta.querySelector('.Twilio-TaskListBaseItem-Content');
+            if (!contenedor) return;
 
-            // 🧰 Ajustes visuales por si se oculta el reloj
             tarjeta.style.height = 'auto';
             tarjeta.style.overflow = 'visible';
 
-            // ⌚ Insertar el reloj en la tarjeta
             agregarRelojEstatico(tarjeta, contenedor);
         });
     }
 
-    // 🚀 Iniciar todo una vez que la página esté lista
+    // 🚀 Arranque del script
     function iniciar() {
         if (document.readyState === 'complete') {
-            agregarRelojesATarjetas();                      // ➕ Agrega reloj a las tarjetas visibles
-            setInterval(agregarRelojesATarjetas, 2000);     // 🔁 Revisa cada 2s por nuevas tarjetas
+            agregarRelojesATarjetas();
+            setInterval(agregarRelojesATarjetas, 2000); // 🔁 Revisa periódicamente nuevas tarjetas
         } else {
-            setTimeout(iniciar, 500); // ⏱️ Espera y vuelve a intentar si aún no carga
+            setTimeout(iniciar, 500); // ⏱️ Espera si aún no carga
         }
     }
 
-    iniciar(); // 🔁 Ejecuta el flujo
+    iniciar();
 })();
