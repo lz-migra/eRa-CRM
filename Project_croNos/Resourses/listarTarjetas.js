@@ -97,4 +97,6 @@ window.borrarTarjetasGuardadas = function () {
   console.log('🧹 Tarjetas eliminadas del almacenamiento.');
 };
 
-
+//iniciarMonitorTarjetas();        // 🚀 Inicia el monitoreo
+//verTarjetasGuardadas();          // 🔍 Ver tarjetas en consola
+//borrarTarjetasGuardadas();       // 🗑️ Eliminar todas las tarjetas
