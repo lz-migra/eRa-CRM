@@ -1,3 +1,10 @@
+// 📦 Esta función permite cargar y ejecutar dinámicamente un script JS desde GitHub (o cualquier URL).
+// 🔄 Agrega un parámetro ?nocache=timestamp para evitar que el navegador use una versión en caché.
+// ✅ Para usarla: window.cargarScriptGitHub("https://tudominio.github.io/archivo.js")
+// 🧠 El script remoto se descarga, se evalúa con Function(), y se ejecuta en el entorno actual.
+// ⚠️ Si hay un error de red o en la ejecución, se muestra en consola y en una alerta.
+
+
 window.cargarScriptGitHub = function (url) {
     const timestamp = Date.now();
     const scriptUrl = `${url}?nocache=${timestamp}`;

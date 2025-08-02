@@ -1,3 +1,13 @@
+//============= Descripcion =============
+// 🧠 Este script monitorea las tarjetas activas en la interfaz de Twilio.
+// 🔄 Cada 5 segundos detecta los nombres y relojes de las tarjetas visibles.
+// 💾 Guarda un máximo de 10 tarjetas en localStorage bajo la clave 'tarjetas_guardadas'.
+// 🧹 Las tarjetas con más de 1 hora sin actualizarce se eliminan automáticamente.
+// ✅ Usa iniciarMonitorTarjetas() para iniciar el monitoreo.
+// 🔍 Usa verTarjetasGuardadas() para revisar en consola.
+// 🗑️ Usa borrarTarjetasGuardadas() para limpiar el almacenamiento.
+//=======================================
+
 // 🌐 Función global para iniciar el monitor de tarjetas
 function iniciarMonitorTarjetas() {
   // 📦 Claves y configuraciones generales
@@ -45,7 +55,13 @@ function iniciarMonitorTarjetas() {
     const tarjetasNuevas = obtenerTarjetasDOM();         // 🆕 Las del DOM actual
     let tarjetasGuardadas = cargarTarjetasGuardadas();   // 📂 Las que ya estaban en localStorage
 
+    const antesLimpieza = tarjetasGuardadas.map(t => t.nombre); // 📝 Para detectar eliminadas
     tarjetasGuardadas = limpiarTarjetasObsoletas(tarjetasGuardadas); // 🧹 Limpiar viejas
+    const despuesLimpieza = tarjetasGuardadas.map(t => t.nombre);
+
+    const eliminadas = antesLimpieza.filter(nombre => !despuesLimpieza.includes(nombre)); // ❌
+
+    const nuevasAgregadas = [];
 
     // 🔁 Actualizar si ya existe o agregar si es nueva
     tarjetasNuevas.forEach(nueva => {
@@ -54,6 +70,7 @@ function iniciarMonitorTarjetas() {
         tarjetasGuardadas[index] = nueva; // 🔄 Reemplazar si ya existe
       } else {
         tarjetasGuardadas.push(nueva);    // ➕ Agregar si es nueva
+        nuevasAgregadas.push(nueva.nombre); // 🆕 Guardar nombre para log
       }
     });
 
@@ -64,10 +81,19 @@ function iniciarMonitorTarjetas() {
     // 💾 Guardar todo de nuevo
     guardarTarjetas(tarjetasGuardadas);
 
-    // 🕒 Mostrar en consola solo si han pasado 15 segundos
+    // 🕒 Mostrar logs solo si han pasado 15 segundos
     const ahora = Date.now();
     if (ahora - ultimaConsola >= 15000) {
       console.log(`[🕒 ${new Date().toLocaleTimeString()}] 💾 Tarjetas actualizadas. Total: ${tarjetasGuardadas.length}`);
+
+      if (nuevasAgregadas.length > 0) {
+        console.log("🆕 Nuevas tarjetas agregadas:", nuevasAgregadas.join(", "));
+      }
+
+      if (eliminadas.length > 0) {
+        console.log("❌ Tarjetas eliminadas por antigüedad:", eliminadas.join(", "));
+      }
+
       ultimaConsola = ahora;
     }
   }
