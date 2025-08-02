@@ -3,7 +3,7 @@
 // 📌 Busca la tarjeta en la lista lateral que coincida con el encabezado del panel derecho.
 // 🎯 Guarda el valor en una variable global: window.claseTarjetaActiva
 // 🧪 Ideal para identificar, resaltar o aplicar estilos/comportamientos a la tarjeta activa.
-// ✅ Llama a obtenerClaseTarjetaActiva() y luego usa: window.claseTarjetaActiva
+// ✅ Llama a obtenerClaseTarjetaActiva() y luego usa: window.claseTarjetaActiva para usar su resultado
 //=======================================
 
 // 🌐 Función global para obtener la clase de la tarjeta activa

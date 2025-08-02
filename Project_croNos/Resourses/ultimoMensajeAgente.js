@@ -1,7 +1,9 @@
+//============= Descripcion =============
 // 🧠 Esta función busca el último mensaje enviado por un agente específico en la interfaz de mensajes.
 // ✅ Puedes llamarla así: UltimoMensajeAgente("Nombre del Agente")
 // 🧩 Devuelve un string en texto plano con la hora y el texto del mensaje, o `null` si no encuentra nada.
 // 📦 Usara window.AGENT_NAME [Que es definida por la funcion detectarNombreAgente()] para evitar pasar el nombre cada vez.
+//=======================================
 
 function UltimoMensajeAgente(agentName = window.AGENT_NAME) {
   // 🔍 Selectores para identificar los elementos clave del DOM
