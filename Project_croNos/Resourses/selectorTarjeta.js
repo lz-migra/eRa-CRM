@@ -1,3 +1,11 @@
+//============= Descripcion =============
+// 🧠 Esta función obtiene la clase CSS de la tarjeta activa actualmente en el panel derecho.
+// 📌 Busca la tarjeta en la lista lateral que coincida con el encabezado del panel derecho.
+// 🎯 Guarda el valor en una variable global: window.claseTarjetaActiva
+// 🧪 Ideal para identificar, resaltar o aplicar estilos/comportamientos a la tarjeta activa.
+// ✅ Llama a obtenerClaseTarjetaActiva() y luego usa: window.claseTarjetaActiva
+//=======================================
+
 // 🌐 Función global para obtener la clase de la tarjeta activa
 function obtenerClaseTarjetaActiva() {
   // 🔍 Paso 1: Obtener el texto del encabezado de la tarjeta activa (panel derecho)
