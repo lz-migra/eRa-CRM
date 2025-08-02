@@ -1,6 +1,6 @@
 (function () {
   // 📦 Claves y configuraciones generales
-  const STORAGE_KEY = 'tarjetas_guardadas';       // 🗝️ Nombre usado en localStorage
+  const STORAGE_KEY = 'tarjetas_guardadas';        // 🗝️ Nombre usado en localStorage
   const LIMITE_TARJETAS = 10;                      // 🔢 Máximo de tarjetas a guardar
   const TIEMPO_EXPIRACION_MS = 60 * 60 * 1000;     // ⏳ 1 hora en milisegundos
   let ultimaConsola = 0;                           // 🕒 Última vez que se mostró el log en consola
