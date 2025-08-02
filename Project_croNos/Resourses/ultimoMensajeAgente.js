@@ -3,6 +3,9 @@
 // ✅ Puedes llamarla así: UltimoMensajeAgente("Nombre del Agente")
 // 🧩 Devuelve un string en texto plano con la hora y el texto del mensaje, o `null` si no encuentra nada.
 // 📦 Usara window.AGENT_NAME [Que es definida por la funcion detectarNombreAgente()] para evitar pasar el nombre cada vez.
+// ✅ Llama a UltimoMensajeAgente() y:
+//    - Verás el resultado en consola.
+//    - También se guardará automáticamente en window.ULTIMO_MENSAJE para que lo uses desde otros scripts.
 //=======================================
 
 function UltimoMensajeAgente(agentName = window.AGENT_NAME) {
