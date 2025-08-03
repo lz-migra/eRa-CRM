@@ -115,7 +115,7 @@ const EjecutorCHAT = (() => {
       }, 500);
     });
 
-    observerMensajes.observe(contenedor, { childList: true, subtree: true });
+    observerMensajes.observe(contenedor, { childList: true, subtree: false });
     console.log('📡 Observando mensajes nuevos...');
   }
 
