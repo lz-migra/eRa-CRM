@@ -4,7 +4,7 @@
 // 📦 Al detectar el nombre, lo guarda en window.AGENT_NAME y llama al callback si se proporciona.
 // ⚙️ Opcionalmente puedes configurar el intervalo de búsqueda, el tiempo máximo y un callback con:
 //    detectarNombreAgente({ intervaloMs: 300, tiempoMaxMs: 10000, onDetectado: (nombre) => { ... } })
-//=======================================
+//============= Descripcion =============
 
 function detectarNombreAgente(opciones = {}) {
   const {

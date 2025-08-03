@@ -4,7 +4,7 @@
 // ✅ Para usarla: window.cargarScriptGitHub("https://tudominio.github.io/archivo.js")
 // 🧠 El script remoto se descarga, se evalúa con Function(), y se ejecuta en el entorno actual.
 // ⚠️ Si hay un error de red o en la ejecución, se muestra en consola y en una alerta.
-//=======================================
+//============= Descripcion =============
 
 window.cargarScriptGitHub = function (url) {
   const timestamp = Date.now();                       // 🕒 Usado para evitar caché

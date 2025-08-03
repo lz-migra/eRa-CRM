@@ -1,6 +1,13 @@
-// 🧠 Función global para agregar relojes estáticos a las tarjetas visibles en Twilio
-window.ADDRELOJTARJETA = function () {
-  const relojesMap = new Map();                         // 🗺️ Evita duplicar relojes
+//============= Descripcion =============
+// 🧠 Esta función busca todas las tarjetas visibles en la interfaz de Twilio y les agrega un reloj estático personalizado.
+// ⏱️ El reloj se obtiene desde localStorage si ya estaba guardado (clave 'tarjetas_guardadas').
+// ⏳ Si no hay hora guardada, se usa la hora actual del sistema.
+// 🔁 Revisa periódicamente nuevas tarjetas cada 2 segundos y evita agregar relojes duplicados.
+// ✅ Para usarla: window.agregarRelojesEstaticos(); o con 
+//============= Descripcion =============
+
+window.ADDRELOJS = function () {
+  const relojesMap = new Map();                         // 🗺️ Evita duplicar relojes por tarjeta procesada
   const STORAGE_KEY = 'tarjetas_guardadas';             // 🔐 Clave en localStorage
 
   // 🔍 Busca si hay una hora guardada para esa tarjeta en localStorage
@@ -74,5 +81,3 @@ window.ADDRELOJTARJETA = function () {
 
   iniciar(); // ▶️ Iniciar función
 };
-
-// Para ejecutarla: ADDRELOJTARJETA();

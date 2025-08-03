@@ -6,7 +6,7 @@
 // 📞 Llama a UltimoMensajeAgente() y:
 //    - Verás el resultado en consola.
 //    - También se guardará automáticamente en window.ULTIMO_MENSAJE para que lo uses desde otros scripts.
-//=======================================
+//============= Descripcion =============
 
 function UltimoMensajeAgente(agentName = window.AGENT_NAME) {
   // ⚠️ Verificar si se proporcionó un nombre de agente
