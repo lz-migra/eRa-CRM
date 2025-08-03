@@ -94,9 +94,9 @@ function iniciarMonitorTarjetas() {
     // 💾 Guardar todo de nuevo
     guardarTarjetas(tarjetasGuardadas);
 
-    // 🕒 Mostrar logs solo si han pasado 15 segundos
+    // 🕒 Mostrar logs solo si han pasado 5 minutos
     const ahora = Date.now();
-    if (ahora - ultimaConsola >= 15000) {
+if (ahora - ultimaConsola >= 5 * 60 * 1000) { // ⏱️ Mostrar log cada 5 minutos
       console.log(`[🕒 ${new Date().toLocaleTimeString()}] 💾 Tarjetas actualizadas. Total: ${tarjetasGuardadas.length}`);
 
       if (nuevasAgregadas.length > 0) {
