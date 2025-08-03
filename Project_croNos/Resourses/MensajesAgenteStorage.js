@@ -5,15 +5,15 @@
 // 🔢 Solo se conservan las últimas 5 tarjetas activas.
 // ⏳ Si una tarjeta tiene más de 1 hora sin actualizarse, se elimina automáticamente.
 // ✅ Métodos disponibles:
-//MensajesAgenteStorage.Guardar();                         // 💾 Guarda o actualiza tarjeta actual
-//MensajesAgenteStorage.Ver();                             // 📊 Ver todos los mensajes en tabla
-//MensajesAgenteStorage.Eliminar("WA-IN | 📞 | NO | ..."); // ❌ Eliminar uno específico
-//MensajesAgenteStorage.EliminarTodos();                   // 💣 Eliminar todo
+//       MensajesAgenteStorage.Guardar();                         // 💾 Guarda o actualiza tarjeta actual
+//       MensajesAgenteStorage.Ver();                             // 📊 Ver todos los mensajes en tabla
+//       MensajesAgenteStorage.Eliminar("Nombre Tarjeta");        // ❌ Eliminar uno específico
+//       MensajesAgenteStorage.EliminarTodos();                   // 💣 Eliminar todo
 //============= Descripción =============
 
 const MensajesAgenteStorage = {
-  STORAGE_KEY: 'mensajes_agente_por_tarjeta',   // 🗂️ Clave de almacenamiento en localStorage
-  LIMITE: 5,                                     // 🔢 Máximo de tarjetas a guardar
+  STORAGE_KEY: 'mensajes_agente_por_tarjeta',    // 🗂️ Clave de almacenamiento en localStorage
+  LIMITE: 10,                                    // 🔢 Máximo de tarjetas a guardar
   EXPIRA_MS: 60 * 60 * 1000,                     // ⏳ Tiempo de expiración: 1 hora
 
   // 💾 Guarda el mensaje del agente actual para la tarjeta activa
