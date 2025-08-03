@@ -9,10 +9,19 @@
 //    - MensajesAgenteStorage.Eliminar(nombre);  // Elimina un mensaje específico por nombre
 //    - MensajesAgenteStorage.EliminarTodos();   // Borra todos los mensajes
 // 🔢 Solo se guardan hasta 5 tarjetas activas y se eliminan automáticamente si no se actualizan en 1 hora.
+//
+{
+//  "WA-IN | 📞 | NO | +4747950140 |": {
+//    "mensaje": "🕒 06:09 p. m. - 💬 ¡Muy buenos días, le habla Lorenzo, con gusto le asistiré!",
+//    "timestamp": 1722718072393
+//  },
+
+
+
 //============= Descripción =============
 
 const MensajesAgenteStorage = {
-  STORAGE_KEY: 'mensajes_agente_por_tarjeta',   // 🗂️ Clave de almacenamiento en localStorage
+  STORAGE_KEY: 'mensajes_agente_por_tarjeta',    // 🗂️ Clave de almacenamiento en localStorage
   LIMITE: 5,                                     // 🔢 Máximo de tarjetas a guardar
   EXPIRA_MS: 60 * 60 * 1000,                     // ⏳ Tiempo de expiración: 1 hora (en milisegundos)
 
