@@ -2,7 +2,7 @@
 // 🧠 Este módulo guarda los últimos mensajes enviados por agentes, organizados por tarjeta.
 // 💬 Usa la función UltimoMensajeAgente() y el nombre visible de la tarjeta actual como clave.
 // 📦 Guarda los datos en localStorage bajo la clave 'mensajes_agente_por_tarjeta'.
-// 🔢 Solo se conservan las últimas 5 tarjetas activas.
+// 🔢 Solo se conservan las últimas 10 tarjetas activas.
 // ⏳ Si una tarjeta tiene más de 1 hora sin actualizarse, se elimina automáticamente.
 // ✅ Métodos disponibles:
 //       MensajesAgenteStorage.Guardar();                         // 💾 Guarda o actualiza tarjeta actual
