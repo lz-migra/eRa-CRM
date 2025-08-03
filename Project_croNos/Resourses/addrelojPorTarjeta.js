@@ -3,10 +3,10 @@
 // ⏱️ El reloj se obtiene desde localStorage si ya estaba guardado (clave 'tarjetas_guardadas').
 // ⏳ Si no hay hora guardada, se usa la hora actual del sistema.
 // 🔁 Revisa periódicamente nuevas tarjetas cada 2 segundos y evita agregar relojes duplicados.
-// ✅ Para usarla: window.agregarRelojesEstaticos(); o con 
+// ✅ Para usarla: window.ADDRELOJES(); o con 
 //============= Descripcion =============
 
-window.ADDRELOJ = function () {
+window.ADDRELOJES = function () {
   const relojesMap = new Map();                         // 🗺️ Evita duplicar relojes por tarjeta procesada
   const STORAGE_KEY = 'tarjetas_guardadas';             // 🔐 Clave en localStorage
 
@@ -81,3 +81,4 @@ window.ADDRELOJ = function () {
 
   iniciar(); // ▶️ Iniciar función
 };
+
