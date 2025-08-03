@@ -1,10 +1,10 @@
 //============= Descripción =============
-// 👁️ Este script observa nuevas tarjetas en Twilio Flex.
+// 👁️ Observa nuevas tarjetas en Twilio Flex.
 // 📋 Mantiene una lista de tarjetas activas actualizada.
 // 🧠 Identifica su tipo (voice, chat, ivr) y ejecuta lógica por tipo.
-// 🕒 Si ya no hay tarjetas de un tipo, espera 2 minutos antes de detener el entorno.
-// 🧩 Puedes definir tus funciones de inicio/detención por tipo si lo deseas.
-//============= Descripción =============
+// 🚦 Decide dinámicamente qué entorno iniciar o detener.
+// 🕒 Espera 2 minutos antes de detener entornos inactivos.
+//=======================================
 
 // 🗂️ Lista global de tarjetas activas (clave: ID o aria-label, valor: nodo)
 const TARJETAS_ACTIVAS = new Map();
@@ -16,14 +16,14 @@ const timersDeDetencion = {
   ivr: null
 };
 
-// 🧠 Control de estado por tipo para evitar mensajes repetidos
+// 🔁 Estado actual de cada entorno
 const estadoEntornos = {
   chat: false,
   voice: false,
   ivr: false
 };
 
-// 🧠 Función para identificar el tipo de tarjeta (task)
+// 🧠 Función para identificar el tipo de tarjeta
 function getTipoDeTarjeta(tarjetaElement) {
   const ariaLabel = tarjetaElement.getAttribute('aria-label') || '';
 
@@ -35,22 +35,13 @@ function getTipoDeTarjeta(tarjetaElement) {
   return null;
 }
 
-// 📞 Función para tareas VOICE
-function ejecutarVoice(tarjeta) {
-  console.log('📞 VOICE task detectada:', tarjeta);
-  // 🔧 Lógica específica para VOICE
-}
+// 🧩 Ejecutar lógica personalizada por tipo
+function ejecutarTipo(tarjeta, tipo) {
+  const tipoMayus = tipo.toUpperCase();
+  const ejecutor = window[`Ejecutor${tipoMayus}`];
 
-// 💬 Función para tareas CHAT
-function ejecutarChat(tarjeta) {
-  console.log('💬 CHAT task detectada:', tarjeta);
-  // 🔧 Lógica específica para CHAT
-}
-
-// 📟 Función para tareas IVR
-function ejecutarIVR(tarjeta) {
-  console.log('📟 IVR task detectada:', tarjeta);
-  // 🔧 Lógica específica para IVR
+  console.log(`🎯 ${tipoMayus} task detectada:`, tarjeta);
+  ejecutor?.iniciar?.(); // Inicia entorno dinámico si existe
 }
 
 // 👁️‍🗨️ Observador de tarjetas
@@ -70,15 +61,11 @@ function iniciarObservadorDeTarjetas() {
             const tipo = getTipoDeTarjeta(nodo);
             if (!tipo) return;
 
-            const id = nodo.getAttribute('aria-label') || Date.now().toString() + Math.random();
+            const id = nodo.getAttribute('aria-label') || `${Date.now()}-${Math.random()}`;
             TARJETAS_ACTIVAS.set(id, nodo);
 
-            if (tipo === 'voice') ejecutarVoice(nodo);
-            if (tipo === 'chat') ejecutarChat(nodo);
-            if (tipo === 'ivr') ejecutarIVR(nodo);
-
-            // 📊 Evaluar tipos activos
-            gestionarTarjetasActivas();
+            ejecutarTipo(nodo, tipo); // 👈 Ejecutar entorno por tipo
+            gestionarTarjetasActivas(); // 📊 Evaluar tipos activos
           }
         });
       }
@@ -89,16 +76,16 @@ function iniciarObservadorDeTarjetas() {
   console.log('👁️ Observador de tarjetas activado sobre .Twilio-TaskList-default ✅');
 }
 
-// 🔄 Función que analiza los tipos activos y gestiona entornos por tipo
+// 🔄 Evalúa tarjetas activas y gestiona entornos dinámicos
 function gestionarTarjetasActivas() {
-  // 🧹 Eliminar tarjetas que ya no están en el DOM
+  // 🧹 Limpieza: eliminar nodos que ya no existen
   for (const [id, nodo] of TARJETAS_ACTIVAS.entries()) {
     if (!document.body.contains(nodo)) {
       TARJETAS_ACTIVAS.delete(id);
     }
   }
 
-  // 🔢 Contadores de tipos activos
+  // 🔢 Contar tarjetas activas por tipo
   let hayChat = false;
   let hayVoice = false;
   let hayIVR = false;
@@ -110,47 +97,46 @@ function gestionarTarjetasActivas() {
     if (tipo === 'ivr') hayIVR = true;
   }
 
-  // 🧩 Evaluar lógica para cada tipo
+  // ⚙️ Lógica por tipo
   gestionarEntornoPorTipo('chat', hayChat);
   gestionarEntornoPorTipo('voice', hayVoice);
   gestionarEntornoPorTipo('ivr', hayIVR);
 }
 
-// ⚙️ Gestiona activación o detención por tipo, con delay de 2 minutos
+// ⚙️ Inicia o detiene entornos según estado
 function gestionarEntornoPorTipo(tipo, estaActivo) {
-  // ✅ Si hay tarjetas activas del tipo y no estaba activo antes
+  const tipoMayus = tipo.toUpperCase();
+  const ejecutor = window[`Ejecutor${tipoMayus}`];
+
   if (estaActivo && !estadoEntornos[tipo]) {
-    console.log(`✅ Tarjetas ${tipo.toUpperCase()} encontradas — iniciando entorno`);
+    console.log(`✅ Tarjetas ${tipoMayus} encontradas — iniciando entorno`);
     estadoEntornos[tipo] = true;
 
-    // ⛔ Cancelar temporizador de detención si existía
     if (timersDeDetencion[tipo]) {
       clearTimeout(timersDeDetencion[tipo]);
       timersDeDetencion[tipo] = null;
     }
 
-    // 🧩 Aquí podrías llamar: iniciarEntornoDeTipo(tipo);
+    ejecutor?.iniciar?.();
     return;
   }
 
-  // 🛑 Si ya no hay tarjetas de ese tipo, iniciar temporizador
   if (!estaActivo && estadoEntornos[tipo]) {
     if (!timersDeDetencion[tipo]) {
       timersDeDetencion[tipo] = setTimeout(() => {
-        // Verificar si realmente sigue inactivo
         const sigueInactivo = !Array.from(TARJETAS_ACTIVAS.values()).some(n => getTipoDeTarjeta(n) === tipo);
         if (sigueInactivo) {
-          console.log(`🛑 No hay tarjetas ${tipo.toUpperCase()} — deteniendo entorno`);
+          console.log(`🛑 No hay tarjetas ${tipoMayus} — deteniendo entorno`);
           estadoEntornos[tipo] = false;
-
-          // 🧩 Aquí podrías llamar: detenerEntornoDeTipo(tipo);
+          ejecutor?.detener?.();
         }
 
         timersDeDetencion[tipo] = null;
-      }, 2 * 60 * 1000); // ⏳ 2 minutos
+      }, 2 * 60 * 1000); // 2 minutos
     }
   }
 }
 
-// 🚀 Ejecutar automáticamente
+// 🚀 Activar observador de tarjetas al cargar
 iniciarObservadorDeTarjetas();
+
