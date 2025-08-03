@@ -1,83 +1,90 @@
-//============= Descripcion =============
-// 🧠 Esta función busca todas las tarjetas visibles en la interfaz de Twilio y les agrega un reloj estático personalizado.
-// ⏱️ El reloj se obtiene desde localStorage si ya estaba guardado (clave 'tarjetas_guardadas').
-// ⏳ Si no hay hora guardada, se usa la hora actual del sistema.
-// 🔁 Revisa periódicamente nuevas tarjetas cada 2 segundos y evita agregar relojes duplicados.
-// ✅ Para usarla: window.agregarRelojesEstaticos(); o con 
-//============= Descripcion =============
+// 🧠 Esta función busca una tarjeta visible en Twilio según su nombre y le agrega (o actualiza) un reloj estático.
+// ⚙️ Opciones disponibles:
+//    - nombre: Nombre visible de la tarjeta que deseas modificar. (🎯 Obligatorio)
+//    - actualizar: true/false => Si ya tiene reloj, ¿debe reemplazarlo? (por defecto: false)
+//    - localStorage: true/false => ¿Debe buscar la hora guardada en localStorage? (por defecto: false)
+// ✅ Ejemplo de uso:
+//    agregarRelojATarjeta({ nombre: "+1 813-368-8728", actualizar: true, localStorage: false });
 
-window.ADDRELOJ = function () {
-  const relojesMap = new Map();                         // 🗺️ Evita duplicar relojes por tarjeta procesada
-  const STORAGE_KEY = 'tarjetas_guardadas';             // 🔐 Clave en localStorage
+window.agregarRelojATarjeta = function ({ nombre, actualizar = false, localStorage: usarStorage = false }) {
+  const STORAGE_KEY = 'tarjetas_guardadas';
+  const selectorTarjetas = '.Twilio-TaskListBaseItem';
 
-  // 🔍 Busca si hay una hora guardada para esa tarjeta en localStorage
-  function obtenerHoraGuardada(nombreTarjeta) {
+  if (!nombre) {
+    console.warn("⚠️ Debes proporcionar un nombre de tarjeta.");
+    return;
+  }
+
+  // 🧠 Buscar tarjeta visible que coincida con el nombre
+  const tarjetas = document.querySelectorAll(selectorTarjetas);
+  let tarjetaObjetivo = null;
+
+  tarjetas.forEach(tarjeta => {
+    const nombreDOM = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim();
+    if (nombreDOM === nombre) {
+      tarjetaObjetivo = tarjeta;
+    }
+  });
+
+  if (!tarjetaObjetivo) {
+    console.warn(`❌ No se encontró la tarjeta con nombre: "${nombre}"`);
+    return;
+  }
+
+  const contenedor = tarjetaObjetivo.querySelector('.Twilio-TaskListBaseItem-Content');
+  if (!contenedor) {
+    console.warn("⚠️ No se encontró el contenedor interno para agregar el reloj.");
+    return;
+  }
+
+  const relojExistente = tarjetaObjetivo.querySelector('.custom-crono-line');
+  if (relojExistente && !actualizar) {
+    console.log(`⏱️ La tarjeta "${nombre}" ya tiene reloj y no se solicitó actualizar.`);
+    return;
+  }
+
+  if (relojExistente && actualizar) {
+    contenedor.removeChild(relojExistente);
+    console.log(`🔄 Actualizando reloj de la tarjeta "${nombre}"`);
+  }
+
+  // 🧩 Crear nuevo reloj
+  const reloj = document.createElement('div');
+  reloj.className = 'custom-crono-line';
+  reloj.style.fontSize = '13px';
+  reloj.style.color = '#0066cc';
+  reloj.style.marginTop = '4px';
+  reloj.style.fontFamily = 'monospace';
+
+  // 🕒 Obtener hora: desde storage o generar nueva
+  let horaParaMostrar = null;
+
+  if (usarStorage) {
     try {
-      const tarjetas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      const encontrada = tarjetas.find(t => t.nombre === nombreTarjeta);
-      return encontrada?.reloj || null;
+      const tarjetasGuardadas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const encontrada = tarjetasGuardadas.find(t => t.nombre === nombre);
+      if (encontrada) {
+        horaParaMostrar = encontrada.reloj;
+        console.log(`✅ Usando hora guardada en localStorage para "${nombre}"`);
+      }
     } catch (e) {
-      return null;
+      console.warn("⚠️ Error al acceder a localStorage");
     }
   }
 
-  // 🕒 Agrega un reloj estático a una tarjeta
-  function agregarRelojEstatico(tarjeta, contenedor) {
-    const reloj = document.createElement('div');
-    reloj.className = 'custom-crono-line';
-    reloj.style.fontSize = '13px';
-    reloj.style.color = '#0066cc';
-    reloj.style.marginTop = '4px';
-    reloj.style.fontFamily = 'monospace';
-
-    const nombreTarjeta = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim() || '🆔 Desconocido';
-
-    console.log(`📥 Nueva tarjeta encontrada: "${nombreTarjeta}"`);
-
-    let horaParaMostrar = obtenerHoraGuardada(nombreTarjeta);
-
-    if (!horaParaMostrar) {
-      const ahora = new Date();
-      const hrs = String(ahora.getHours()).padStart(2, '0');
-      const mins = String(ahora.getMinutes()).padStart(2, '0');
-      const secs = String(ahora.getSeconds()).padStart(2, '0');
-      horaParaMostrar = `🕒 ${hrs}:${mins}:${secs}`;
-      console.warn(`⚠️ No se encontró la tarjeta "${nombreTarjeta}" en localStorage. Generando nuevo reloj.`);
-    } else {
-      console.log(`✅ Se encontró la tarjeta "${nombreTarjeta}" en localStorage. Usando hora guardada.`);
-    }
-
-    reloj.textContent = horaParaMostrar;
-    contenedor.appendChild(reloj);
-    relojesMap.set(tarjeta, reloj);
+  if (!horaParaMostrar) {
+    const ahora = new Date();
+    const hrs = String(ahora.getHours()).padStart(2, '0');
+    const mins = String(ahora.getMinutes()).padStart(2, '0');
+    const secs = String(ahora.getSeconds()).padStart(2, '0');
+    horaParaMostrar = `🕒 ${hrs}:${mins}:${secs}`;
+    console.log(`🆕 Generando hora actual para "${nombre}": ${horaParaMostrar}`);
   }
 
-  // 🔄 Busca tarjetas y les agrega relojes si no los tienen aún
-  function agregarRelojesATarjetas() {
-    const tarjetas = document.querySelectorAll('.Twilio-TaskListBaseItem');
+  reloj.textContent = horaParaMostrar;
+  tarjetaObjetivo.style.height = 'auto';
+  tarjetaObjetivo.style.overflow = 'visible';
+  contenedor.appendChild(reloj);
 
-    tarjetas.forEach(tarjeta => {
-      if (relojesMap.has(tarjeta)) return;
-
-      const contenedor = tarjeta.querySelector('.Twilio-TaskListBaseItem-Content');
-      if (!contenedor) return;
-
-      tarjeta.style.height = 'auto';
-      tarjeta.style.overflow = 'visible';
-
-      agregarRelojEstatico(tarjeta, contenedor);
-    });
-  }
-
-  // 🚀 Arranque automático cuando el DOM está listo
-  function iniciar() {
-    if (document.readyState === 'complete') {
-      agregarRelojesATarjetas();
-      setInterval(agregarRelojesATarjetas, 2000); // 🔁 Revisa nuevas tarjetas cada 2s
-    } else {
-      setTimeout(iniciar, 500); // 🕰️ Espera si aún no carga
-    }
-  }
-
-  iniciar(); // ▶️ Iniciar función
+  console.log(`✅ Reloj agregado a la tarjeta "${nombre}"`);
 };
