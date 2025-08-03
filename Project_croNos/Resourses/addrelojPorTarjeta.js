@@ -6,7 +6,7 @@
 // ✅ Para usarla: window.agregarRelojesEstaticos(); o con 
 //============= Descripcion =============
 
-window.ADDRELOJS = function () {
+window.ADDRELOJ = function () {
   const relojesMap = new Map();                         // 🗺️ Evita duplicar relojes por tarjeta procesada
   const STORAGE_KEY = 'tarjetas_guardadas';             // 🔐 Clave en localStorage
 
