@@ -1,29 +1,20 @@
 //============= Descripción =============
-// 🧠 Este módulo almacena mensajes recientes de agente por tarjeta usando localStorage.
-// 📌 Cada tarjeta se identifica por su encabezado visible en el panel de conversación.
-// 💬 Guarda automáticamente el resultado de UltimoMensajeAgente() usando el nombre de la tarjeta como clave.
-// 📦 Usa 'mensajes_agente_por_tarjeta' como STORAGE_KEY para no interferir con otros scripts.
-// ✅ Puedes llamar:
-//    - MensajesAgenteStorage.Guardar();         // Guarda o actualiza el mensaje actual
-//    - MensajesAgenteStorage.Ver();             // Muestra todos los mensajes guardados
-//    - MensajesAgenteStorage.Eliminar(nombre);  // Elimina un mensaje específico por nombre
-//    - MensajesAgenteStorage.EliminarTodos();   // Borra todos los mensajes
-// 🔢 Solo se guardan hasta 5 tarjetas activas y se eliminan automáticamente si no se actualizan en 1 hora.
-//
-{
-//  "WA-IN | 📞 | NO | +4747950140 |": {
-//    "mensaje": "🕒 06:09 p. m. - 💬 ¡Muy buenos días, le habla Lorenzo, con gusto le asistiré!",
-//    "timestamp": 1722718072393
-//  },
-
-
-
+// 🧠 Este módulo guarda los últimos mensajes enviados por agentes, organizados por tarjeta.
+// 💬 Usa la función UltimoMensajeAgente() y el nombre visible de la tarjeta actual como clave.
+// 📦 Guarda los datos en localStorage bajo la clave 'mensajes_agente_por_tarjeta'.
+// 🔢 Solo se conservan las últimas 5 tarjetas activas.
+// ⏳ Si una tarjeta tiene más de 1 hora sin actualizarse, se elimina automáticamente.
+// ✅ Métodos disponibles:
+//MensajesAgenteStorage.Guardar();                         // 💾 Guarda o actualiza tarjeta actual
+//MensajesAgenteStorage.Ver();                             // 📊 Ver todos los mensajes en tabla
+//MensajesAgenteStorage.Eliminar("WA-IN | 📞 | NO | ..."); // ❌ Eliminar uno específico
+//MensajesAgenteStorage.EliminarTodos();                   // 💣 Eliminar todo
 //============= Descripción =============
 
 const MensajesAgenteStorage = {
-  STORAGE_KEY: 'mensajes_agente_por_tarjeta',    // 🗂️ Clave de almacenamiento en localStorage
+  STORAGE_KEY: 'mensajes_agente_por_tarjeta',   // 🗂️ Clave de almacenamiento en localStorage
   LIMITE: 5,                                     // 🔢 Máximo de tarjetas a guardar
-  EXPIRA_MS: 60 * 60 * 1000,                     // ⏳ Tiempo de expiración: 1 hora (en milisegundos)
+  EXPIRA_MS: 60 * 60 * 1000,                     // ⏳ Tiempo de expiración: 1 hora
 
   // 💾 Guarda el mensaje del agente actual para la tarjeta activa
   Guardar() {
@@ -41,11 +32,11 @@ const MensajesAgenteStorage = {
       return;
     }
 
-    // 📤 Cargar datos existentes desde localStorage
+    // 📤 Cargar datos existentes
     const data = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '{}');
     const ahora = Date.now();
 
-    // 🧹 Eliminar tarjetas expiradas (más de 1 hora)
+    // 🧹 Eliminar entradas vencidas
     for (const [tarjeta, info] of Object.entries(data)) {
       if (ahora - info.timestamp > this.EXPIRA_MS) {
         console.log(`🗑️ Tarjeta eliminada por antigüedad: ${tarjeta}`);
@@ -53,27 +44,30 @@ const MensajesAgenteStorage = {
       }
     }
 
-    // ➕ Agregar o actualizar la tarjeta actual
-    data[encabezado] = {
-      mensaje,
-      timestamp: ahora
-    };
-    console.log(`💾 Tarjeta guardada/actualizada: ${encabezado}`);
+    // ➕ Agregar o actualizar tarjeta actual
+    const esNueva = !data[encabezado];
+    data[encabezado] = { mensaje, timestamp: ahora };
 
-    // ⚖️ Verificar si hay más de 5 tarjetas guardadas
-    const tarjetas = Object.entries(data);
-    if (tarjetas.length > this.LIMITE) {
-      tarjetas.sort((a, b) => a[1].timestamp - b[1].timestamp);  // 🕰️ Ordenar por tiempo
-      const [tarjetaMasVieja] = tarjetas[0];
-      delete data[tarjetaMasVieja];
-      console.log(`⚠️ Límite alcanzado. Se eliminó: ${tarjetaMasVieja}`);
+    if (esNueva) {
+      console.log(`🆕 Nueva tarjeta guardada: ${encabezado}`);
+    } else {
+      console.log(`🔁 Tarjeta actualizada: ${encabezado}`);
     }
 
-    // 📥 Guardar datos nuevamente en localStorage
+    // 📉 Limitar a 5 tarjetas
+    const tarjetas = Object.entries(data);
+    if (tarjetas.length > this.LIMITE) {
+      tarjetas.sort((a, b) => a[1].timestamp - b[1].timestamp);  // 🕰️ Orden por tiempo
+      const [tarjetaMasVieja] = tarjetas[0];
+      delete data[tarjetaMasVieja];
+      console.log(`⚠️ Límite alcanzado. Eliminada tarjeta más antigua: ${tarjetaMasVieja}`);
+    }
+
+    // 📥 Guardar en localStorage
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
   },
 
-  // 👁️ Muestra todos los mensajes guardados en consola
+  // 👁️ Muestra los mensajes guardados en formato de tabla
   Ver() {
     const data = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '{}');
 
@@ -82,11 +76,15 @@ const MensajesAgenteStorage = {
       return;
     }
 
+    // 🧾 Convertir a formato tabla
+    const tabla = Object.entries(data).map(([tarjeta, info]) => ({
+      Tarjeta: tarjeta,
+      'Fecha guardado': new Date(info.timestamp).toLocaleString(),
+      'Mensaje del agente': info.mensaje
+    }));
+
     console.log('📋 Mensajes guardados por tarjeta:');
-    for (const [tarjeta, info] of Object.entries(data)) {
-      const fecha = new Date(info.timestamp).toLocaleString();
-      console.log(`📌 ${tarjeta}\n🕒 ${fecha}\n💬 ${info.mensaje}\n---`);
-    }
+    console.table(tabla);
   },
 
   // ❌ Elimina un mensaje específico por nombre de tarjeta
