@@ -1,5 +1,6 @@
 //============= Descripcion =============
-// 🧠 Este script monitorea las tarjetas activas en la interfaz de Twilio.
+// 🧠 Este script monitorea las tarjetas activas en la interfaz de Twilio, se peude usar como 
+//    copia de seguridad en caso de reinicio de la pestaña del navegador.
 // 🔄 Cada 5 segundos detecta los nombres y relojes de las tarjetas visibles.
 // 💾 Guarda un máximo de 10 tarjetas en localStorage bajo la clave 'tarjetas_guardadas'.
 // 🧹 Las tarjetas con más de 1 hora sin actualizarce se eliminan automáticamente.
@@ -128,3 +129,4 @@ window.borrarTarjetasGuardadas = function () {
 // iniciarMonitorTarjetas();        // 🚀 Inicia el monitoreo
 // verTarjetasGuardadas();          // 🔍 Ver tarjetas en consola
 // borrarTarjetasGuardadas();       // 🗑️ Eliminar todas las tarjetas
+
