@@ -1,37 +1,25 @@
 // ==UserScript==
 // @name         Cargador de entorno (Carga remota)
-// @version      2.1
+// @version      2.2
 // @namespace    http://era-crm.local/
 // @description  Agrega herramientas (identificador global + carga remota)
-// @author       Lorenzo Navarro (Lz-Migra)
+// @author       Lorenzo Navarro
 // @match        https://*/*
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue
+// @grant        unsafeWindow
 // @connect      raw.githubusercontent.com
 // @license      MIT
 // @run-at       document-start
 // ==/UserScript==
 
-//============= Descripción =============
-// 🧠 Este módulo permite almacenar y gestionar un identificador personalizado GLOBAL (compartido entre dominios).
-// ✅ Se solicita solo una vez y se recuerda en futuras sesiones.
-// ✅ Accesible globalmente desde consola: MiIdentificador()
-// 🛠️ Métodos disponibles:
-//    - MiIdentificador()          → Devuelve el valor actual
-//    - MiIdentificador.ver()      → Muestra el valor en consola
-//    - MiIdentificador.editar()   → Solicita nuevo valor
-//    - MiIdentificador.resetear() → Borra y vuelve a pedir
-//    - MiIdentificador.borrar()   → Borra sin pedir nuevamente
-//========================================
-
 (function () {
-  if (window.MiIdentificador) return; // 🛡️ Evita múltiples ejecuciones
+  if (unsafeWindow.MiIdentificador) return; // 🛡️ Evita múltiples ejecuciones
 
   const CLAVE = "miIdentificador";
   let valorInterno = null;
 
-  // 📝 Pedir nuevo valor
   const pedirNuevoValor = async () => {
     const nuevo = prompt("📝 Ingresa Identificador de Entornos:");
     if (nuevo && nuevo.trim() !== "") {
@@ -43,7 +31,6 @@
     }
   };
 
-  // 📥 Inicializa: intenta cargar desde almacenamiento global
   const inicializar = async () => {
     valorInterno = await GM_getValue(CLAVE, null);
     if (valorInterno) {
@@ -53,7 +40,6 @@
       await pedirNuevoValor();
     }
 
-    // 🏗️ Función principal que devuelve el valor actual
     function Identificador() {
       if (valorInterno === null) {
         console.warn("⏳ Identificador aún no está listo.");
@@ -61,7 +47,6 @@
       return valorInterno;
     }
 
-    // 🧩 Métodos públicos
     Identificador.ver = () => {
       console.log("🔍 Valor actual:", valorInterno);
       return valorInterno;
@@ -84,8 +69,8 @@
       console.log("🗑️ Valor eliminado del almacenamiento global.");
     };
 
-    // 🌍 Exponer globalmente cuando ya está listo
-    window.MiIdentificador = Identificador;
+    // 🌍 Exponer al contexto real de la página
+    unsafeWindow.MiIdentificador = Identificador;
 
     console.log(`🧠 Métodos disponibles para MiIdentificador:
 - MiIdentificador()          → Devuelve el valor actual
@@ -95,9 +80,9 @@
 - MiIdentificador.borrar()   → Borra sin pedir nuevamente`);
   };
 
-  // 🚀 Iniciar
   inicializar();
 })();
+
 
 //============= Descripción =============
 // 📦 Carga y ejecuta dinámicamente un script JS desde GitHub (o cualquier URL).
