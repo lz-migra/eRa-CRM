@@ -2,10 +2,10 @@ console.log("Cargando funciones globales")
 
 
 VOICE
-- EjecutorVOISE.js
+- EjecutorVOISE.js                
 
 IVR
-- EjecutorIVR.js
+- EjecutorIVR.js                  https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/IVR/EjecutorIVR.js
 
 
 CHAT
@@ -16,10 +16,10 @@ CHAT
 
 
 GLOBAL
-3. AddRelojes.js              https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/AddRelojes.js
-2. MonitorTarjetas.js         https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/MonitorTarjetas.js
-1. getTipoDeTarjeta.js        https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js
-4. detectarNombreAgente.js    
+3. AddRelojes.js                  https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/AddRelojes.js
+2. MonitorTarjetas.js             https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/MonitorTarjetas.js
+1. getTipoDeTarjeta.js            https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js
+4. detectarNombreAgente.js        
 
 
 
