@@ -1,23 +1,23 @@
-//============= Descripcion =============
-// 🧠 Este script monitorea las tarjetas activas en la interfaz de Twilio, se peude usar como 
-//    copia de seguridad en caso de reinicio de la pestaña del navegador.
+//============= Descripción =============
+// 🧠 Este script monitorea las tarjetas activas en la interfaz de Twilio.
 // 🔄 Cada 5 segundos detecta los nombres y relojes de las tarjetas visibles.
 // 💾 Guarda un máximo de 10 tarjetas en localStorage bajo la clave 'tarjetas_guardadas'.
-// 🧹 Las tarjetas con más de 1 hora sin actualizarce se eliminan automáticamente.
-// ✅ Usa iniciarMonitorTarjetas() para iniciar el monitoreo.
-// 🔍 Usa verTarjetasGuardadas() para revisar en consola.
-// 🗑️ Usa borrarTarjetasGuardadas() para limpiar el almacenamiento.
+// 🧹 Las tarjetas con más de 1 hora sin actualizarse se eliminan automáticamente.
+// ✅ Usa MonitorTarjetas.iniciar() para iniciar el monitoreo.
+// 🛑 Usa MonitorTarjetas.detener() para detenerlo.
+// 🔍 Usa MonitorTarjetas.ver() para revisar en consola.
+// 🗑️ Usa MonitorTarjetas.eliminar("Nombre") o MonitorTarjetas.EliminarTodos()
 //=======================================
 
-// 🌐 Función global para iniciar el monitor de tarjetas
-function iniciarMonitorTarjetas() {
-  const STORAGE_KEY = 'tarjetas_guardadas';        // 🗝️ Nombre usado en localStorage
-  const LIMITE_TARJETAS = 10;                      // 🔢 Máximo de tarjetas a guardar
+window.MonitorTarjetas = (function () {
+  const STORAGE_KEY = 'tarjetas_guardadas';        // 🗝️ Clave de almacenamiento
+  const LIMITE_TARJETAS = 10;                      // 🔢 Límite de tarjetas guardadas
   const TIEMPO_EXPIRACION_MS = 60 * 60 * 1000;     // ⏳ 1 hora
-  let ultimaConsola = 0;                           // 🕒 Último log
+  let intervalo = null;                            // ⏱️ Referencia al setInterval
+  let ultimaConsola = 0;                           // 🕒 Tiempo del último log
 
   // 🧾 Cargar tarjetas desde localStorage
-  function cargarTarjetasGuardadas() {
+  function cargarTarjetas() {
     const data = localStorage.getItem(STORAGE_KEY);
     return data ? JSON.parse(data) : [];
   }
@@ -27,13 +27,13 @@ function iniciarMonitorTarjetas() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tarjetas));
   }
 
-  // 🧹 Eliminar tarjetas obsoletas
-  function limpiarTarjetasObsoletas(tarjetas) {
+  // 🧹 Eliminar tarjetas obsoletas (1h)
+  function limpiarObsoletas(tarjetas) {
     const ahora = Date.now();
     return tarjetas.filter(t => ahora - t.timestamp < TIEMPO_EXPIRACION_MS);
   }
 
-  // 🔍 Obtener tarjetas visibles en DOM
+  // 🔍 Obtener tarjetas del DOM
   function obtenerTarjetasDOM() {
     const tarjetasDOM = document.querySelectorAll('.Twilio-TaskListBaseItem');
 
@@ -42,91 +42,111 @@ function iniciarMonitorTarjetas() {
       const reloj = tarjeta.querySelector('.custom-crono-line')?.textContent?.trim();
       if (!nombre || !reloj) return null;
 
-      return {
-        nombre,
-        reloj,
-        timestamp: Date.now()
-      };
+      return { nombre, reloj, timestamp: Date.now() };
     }).filter(Boolean);
   }
 
-  // 🔄 Comparar y actualizar almacenamiento
+  // 🔄 Lógica de actualización periódica
   function actualizarAlmacenamiento() {
-    const tarjetasNuevas = obtenerTarjetasDOM();
-    let tarjetasGuardadas = cargarTarjetasGuardadas();
+    const nuevas = obtenerTarjetasDOM();
+    let almacenadas = cargarTarjetas();
 
-    const antesLimpieza = tarjetasGuardadas.map(t => t.nombre);
-    tarjetasGuardadas = limpiarTarjetasObsoletas(tarjetasGuardadas);
-    const despuesLimpieza = tarjetasGuardadas.map(t => t.nombre);
+    const antes = almacenadas.map(t => t.nombre);
+    almacenadas = limpiarObsoletas(almacenadas);
+    const despues = almacenadas.map(t => t.nombre);
+    const eliminadas = antes.filter(nombre => !despues.includes(nombre));
 
-    const eliminadas = antesLimpieza.filter(nombre => !despuesLimpieza.includes(nombre));
     const nuevasAgregadas = [];
-    let huboActualizaciones = false;
+    let huboCambios = false;
 
-    tarjetasNuevas.forEach(nueva => {
-      const index = tarjetasGuardadas.findIndex(t => t.nombre === nueva.nombre);
+    nuevas.forEach(nueva => {
+      const index = almacenadas.findIndex(t => t.nombre === nueva.nombre);
       if (index !== -1) {
-        const actual = tarjetasGuardadas[index];
-        if (actual.reloj !== nueva.reloj) {
-          tarjetasGuardadas[index] = nueva;
-          huboActualizaciones = true;
+        if (almacenadas[index].reloj !== nueva.reloj) {
+          almacenadas[index] = nueva;
+          huboCambios = true;
         }
       } else {
-        tarjetasGuardadas.push(nueva);
+        almacenadas.push(nueva);
         nuevasAgregadas.push(nueva.nombre);
+        huboCambios = true;
       }
     });
 
-    tarjetasGuardadas.sort((a, b) => b.timestamp - a.timestamp);
-    tarjetasGuardadas = tarjetasGuardadas.slice(0, LIMITE_TARJETAS);
+    almacenadas.sort((a, b) => b.timestamp - a.timestamp);
+    almacenadas = almacenadas.slice(0, LIMITE_TARJETAS);
 
-    guardarTarjetas(tarjetasGuardadas);
+    guardarTarjetas(almacenadas);
 
     const ahora = Date.now();
-    if ((nuevasAgregadas.length > 0 || huboActualizaciones || eliminadas.length > 0) && ahora - ultimaConsola >= 15000) {
-      console.log(`[🕒 ${new Date().toLocaleTimeString()}] 💾 Tarjetas actualizadas. Total: ${tarjetasGuardadas.length}`);
+    if ((nuevasAgregadas.length > 0 || huboCambios || eliminadas.length > 0) && ahora - ultimaConsola >= 15000) {
+      console.log(`[🕒 ${new Date().toLocaleTimeString()}] 💾 Tarjetas actualizadas. Total: ${almacenadas.length}`);
 
-      if (nuevasAgregadas.length > 0) {
-        console.log("🆕 Nuevas tarjetas agregadas:", nuevasAgregadas.join(", "));
-      }
-
-      if (huboActualizaciones) {
-        console.log("🔄 Tarjetas actualizadas por cambio en reloj.");
-      }
-
-      if (eliminadas.length > 0) {
-        console.log("❌ Tarjetas eliminadas por antigüedad:", eliminadas.join(", "));
-      }
+      if (nuevasAgregadas.length > 0) console.log("🆕 Nuevas tarjetas:", nuevasAgregadas.join(", "));
+      if (huboCambios) console.log("🔄 Tarjetas actualizadas por reloj.");
+      if (eliminadas.length > 0) console.log("❌ Tarjetas eliminadas por antigüedad:", eliminadas.join(", "));
 
       ultimaConsola = ahora;
     }
   }
 
-  setInterval(actualizarAlmacenamiento, 5000); // ⏱️ Cada 5 segundos
-  console.log('✅ Monitor de tarjetas iniciado. Usa verTarjetasGuardadas() o borrarTarjetasGuardadas() desde la consola.');
-}
+  return {
+    iniciar: function () {
+      if (intervalo) {
+        console.warn("⚠️ El monitor ya está en ejecución.");
+        return;
+      }
+      intervalo = setInterval(actualizarAlmacenamiento, 5000);
+      console.log("✅ Monitor de tarjetas iniciado.");
+    },
 
-// 🌐 Funciones globales auxiliares
-window.iniciarMonitorTarjetas = iniciarMonitorTarjetas;
+    detener: function () {
+      if (!intervalo) {
+        console.warn("⚠️ El monitor no está en ejecución.");
+        return;
+      }
+      clearInterval(intervalo);
+      intervalo = null;
+      console.log("🛑 Monitor de tarjetas detenido.");
+    },
 
-window.verTarjetasGuardadas = function () {
-  const data = localStorage.getItem('tarjetas_guardadas');
-  const tarjetas = data ? JSON.parse(data) : [];
-  if (tarjetas.length === 0) {
-    console.warn('📭 No hay tarjetas guardadas.');
-  } else {
-    console.table(tarjetas);
-    console.log(`💾 Tarjetas actuales en almacenamiento. Total: ${tarjetas.length}`);
-  }
-};
+    ver: function () {
+      const tarjetas = cargarTarjetas();
+      if (tarjetas.length === 0) {
+        console.warn('📭 No hay tarjetas guardadas.');
+      } else {
+        console.table(tarjetas);
+        console.log(`💾 Tarjetas actuales. Total: ${tarjetas.length}`);
+      }
+    },
 
-window.borrarTarjetasGuardadas = function () {
-  localStorage.removeItem('tarjetas_guardadas');
-  console.log('🧹 Tarjetas eliminadas del almacenamiento.');
-  console.log('💾 Tarjetas actualizadas. Total: 0');
-};
+    eliminar: function (nombre) {
+      if (!nombre) {
+        console.warn("⚠️ Debes especificar el nombre de la tarjeta a eliminar.");
+        return;
+      }
+      let tarjetas = cargarTarjetas();
+      const inicial = tarjetas.length;
+      tarjetas = tarjetas.filter(t => t.nombre !== nombre);
+      guardarTarjetas(tarjetas);
+      const eliminadas = inicial - tarjetas.length;
+      if (eliminadas > 0) {
+        console.log(`🗑️ Tarjeta "${nombre}" eliminada.`);
+      } else {
+        console.warn(`⚠️ No se encontró la tarjeta "${nombre}".`);
+      }
+    },
 
-// iniciarMonitorTarjetas();        // 🚀 Inicia el monitoreo
-// verTarjetasGuardadas();          // 🔍 Ver tarjetas en consola
-// borrarTarjetasGuardadas();       // 🗑️ Eliminar todas las tarjetas
+    EliminarTodos: function () {
+      localStorage.removeItem(STORAGE_KEY);
+      console.log("🧹 Todas las tarjetas eliminadas del almacenamiento.");
+    }
+  };
+})();
+
+// MonitorTarjetas.iniciar();           // 🔄 Inicia el monitoreo
+// MonitorTarjetas.detener();           // 🛑 Detiene el monitoreo
+// MonitorTarjetas.ver();               // 🔍 Muestra tarjetas en consola
+// MonitorTarjetas.eliminar("Nombre");  // 🗑️ Elimina tarjeta por nombre
+// MonitorTarjetas.EliminarTodos();     // 🧹 Borra todas las tarjetas
 
