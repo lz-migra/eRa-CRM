@@ -116,3 +116,5 @@ window.cargarScriptGitHub = function (url) {
 
 // ✅ 🛰️ Llamar solo después de que cargarScriptGitHub esté definido
 cargarScriptGitHub('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/pageSelector.js');
+
+// No carga!!!!!
