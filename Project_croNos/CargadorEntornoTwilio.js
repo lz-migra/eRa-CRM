@@ -10,7 +10,7 @@ IVR
 
 CHAT
 5. EjecutorCHAT.js                https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/EjecutorCHAT.js
-- CompararMensajeConGuardado.js  
+- CompararMensajeConGuardado.js   https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/CompararMensajeConGuardado.js
 - MensajesAgenteStorage.js        https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/MensajesAgenteStorage.js
 - UltimoMensajeAgente.js          https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/UltimoMensajeAgente.js
 
@@ -19,7 +19,7 @@ GLOBAL
 3. AddRelojes.js                  https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/AddRelojes.js
 2. MonitorTarjetas.js             https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/MonitorTarjetas.js
 1. getTipoDeTarjeta.js            https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js
-4. detectarNombreAgente.js        
+4. detectarNombreAgente.js        https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/detectarNombreAgente.js
 
 
 
