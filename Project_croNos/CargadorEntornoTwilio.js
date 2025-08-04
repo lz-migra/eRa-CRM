@@ -2,7 +2,7 @@ console.log("Cargando funciones globales")
 
 
 VOICE
-- EjecutorVOISE.js                
+- EjecutorVOISE.js                https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/VOISE/EjecutorVOISE.js
 
 IVR
 - EjecutorIVR.js                  https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/IVR/EjecutorIVR.js
