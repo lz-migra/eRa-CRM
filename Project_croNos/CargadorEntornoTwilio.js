@@ -1,25 +1,38 @@
 console.log("Cargando funciones globales")
 
-- AddRelojes.js
 
-- CompararMensajeConGuardado.js
-
-- EjecutorCHAT.js
-
-- EjecutorIVR.js
-
+VOICE
 - EjecutorVOISE.js
 
+IVR
+- EjecutorIVR.js
+
+
+CHAT
+- EjecutorCHAT.js
+- CompararMensajeConGuardado.js
 - MensajesAgenteStorage.js
-
-- MonitorTarjetas.js
-
 - UltimoMensajeAgente.js
-
-- cargarScriptGitHub.js
-
 - detectarNombreAgente.js
 
-- getTipoDeTarjeta.js
+GLOBAL
+3. AddRelojes.js       
+2. MonitorTarjetas.js  https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/MonitorTarjetas.js
+1. getTipoDeTarjeta.js https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js
 
+
+
+
+- cargarScriptGitHub.js
 - obtenerClaseTarjetaActiva.js
+
+
+
+
+
+
+
+
+
+
+
