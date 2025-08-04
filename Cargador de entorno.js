@@ -1,6 +1,6 @@
 /// ==UserScript==
 // @name         Cargador de entorno (Carga remota)
-// @version      2.2
+// @version      2.3
 // @namespace    http://era-crm.local/
 // @description  Agrega herramientas (identificador global + carga remota)
 // @author       Lorenzo Navarro
