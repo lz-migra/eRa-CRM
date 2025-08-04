@@ -1,17 +1,21 @@
 // ==UserScript==
 // @name         Cargador de entorno (Carga remota)
-// @version      1.5
+// @version      2.0
 // @namespace    http://era-crm.local/
-// @description  Agrega herramientas
+// @description  Agrega herramientas (identificador global + carga remota)
 // @author       Lorenzo Navarro (Lz-Migra)
-// @match        https://*
+// @match        https://*/*
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        GM_deleteValue
 // @connect      raw.githubusercontent.com
 // @license      MIT
+// @run-at       document-start
 // ==/UserScript==
 
 //============= Descripción =============
-// 🧠 Este módulo permite almacenar y gestionar un valor personalizado usando LocalStorage.
-// ✅ Si no existe, se solicita al cargar mediante un prompt.
+// 🧠 Este módulo permite almacenar y gestionar un valor personalizado usando almacenamiento GLOBAL de Tampermonkey.
+// ✅ El valor se solicita solo una vez, sin importar el dominio.
 // ✅ Provee acceso directo al valor mediante MiIdentificador()
 // 🛠️ Métodos disponibles:
 //    - MiIdentificador()          → Devuelve el valor actual
@@ -21,30 +25,30 @@
 //    - MiIdentificador.borrar()   → Borra sin pedir nuevamente
 //========================================
 
-//Primera funcion
-
 (function () {
+  if (window.MiIdentificador) return; // 🛡️ Evita múltiples ejecuciones
+
   const CLAVE = "miIdentificador";
   let valorInterno = null;
 
-  // 📥 Inicializa y solicita el valor si no está guardado
-  const inicializar = () => {
-    valorInterno = localStorage.getItem(CLAVE);
+  // 📥 Inicializa: intenta cargar desde almacenamiento global
+  const inicializar = async () => {
+    valorInterno = await GM_getValue(CLAVE, null);
     if (valorInterno) {
-      console.log("🔁 Valor cargado desde localStorage:", valorInterno);
+      console.log("🔁 Valor cargado desde almacenamiento global:", valorInterno);
     } else {
       console.log("🧪 No se encontró valor, solicitando uno nuevo...");
-      pedirNuevoValor();
+      await pedirNuevoValor();
     }
   };
 
   // 📝 Pedir nuevo valor
-  const pedirNuevoValor = () => {
+  const pedirNuevoValor = async () => {
     const nuevo = prompt("📝 Ingresa Identificador de Entornos:");
     if (nuevo && nuevo.trim() !== "") {
       valorInterno = nuevo.trim();
-      localStorage.setItem(CLAVE, valorInterno);
-      console.log("✅ Valor guardado correctamente:", valorInterno);
+      await GM_setValue(CLAVE, valorInterno);
+      console.log("✅ Valor guardado globalmente:", valorInterno);
     } else {
       console.warn("⚠️ No se ingresó un valor válido.");
     }
@@ -61,28 +65,28 @@
     return valorInterno;
   };
 
-  Identificador.editar = () => {
-    pedirNuevoValor();
+  Identificador.editar = async () => {
+    await pedirNuevoValor();
   };
 
-  Identificador.resetear = () => {
-    localStorage.removeItem(CLAVE);
+  Identificador.resetear = async () => {
+    await GM_deleteValue(CLAVE);
     valorInterno = null;
     console.log("♻️ Valor eliminado. Solicitando uno nuevo...");
-    pedirNuevoValor();
+    await pedirNuevoValor();
   };
 
-  Identificador.borrar = () => {
-    localStorage.removeItem(CLAVE);
+  Identificador.borrar = async () => {
+    await GM_deleteValue(CLAVE);
     valorInterno = null;
-    console.log("🗑️ Valor eliminado del almacenamiento.");
+    console.log("🗑️ Valor eliminado del almacenamiento global.");
   };
-
-  // 🚀 Inicializar inmediatamente al cargar
-  inicializar();
 
   // 🌍 Exponer globalmente
   window.MiIdentificador = Identificador;
+
+  // 🚀 Inicializar (async, no se puede usar await aquí directamente)
+  inicializar();
 
   console.log(`🧠 Métodos disponibles para MiIdentificador:
 - MiIdentificador()          → Devuelve el valor actual
@@ -92,20 +96,17 @@
 - MiIdentificador.borrar()   → Borra sin pedir nuevamente`);
 })();
 
-//============= Descripcion =============
+//============= Descripción =============
 // 📦 Esta función permite cargar y ejecutar dinámicamente un script JS desde GitHub (o cualquier URL).
 // 🔄 Agrega un parámetro ?nocache=timestamp para evitar que el navegador use una versión en caché.
 // ✅ Para usarla: window.cargarScriptGitHub("https://tudominio.github.io/archivo.js")
 // 🧠 El script remoto se descarga, se evalúa con Function(), y se ejecuta en el entorno actual.
 // ⚠️ Si hay un error de red o en la ejecución, se muestra en consola y en una alerta.
-// 🧠 Muestra en consola el nombre del archivo cargado.
-//============= Descripcion =============
+//============= ==========================
 
 window.cargarScriptGitHub = function (url) {
-  const timestamp = Date.now();                      // 🕒 Usado para evitar caché
-  const scriptUrl = `${url}?nocache=${timestamp}`;   // 🔁 URL con timestamp
-
-  // 🧠 Extraemos el nombre del archivo desde la URL
+  const timestamp = Date.now();
+  const scriptUrl = `${url}?nocache=${timestamp}`;
   const nombreArchivo = url.split("/").pop().split("?")[0];
 
   console.log(`📡 Cargando script desde: ${scriptUrl}`);
@@ -117,7 +118,7 @@ window.cargarScriptGitHub = function (url) {
     })
     .then(code => {
       try {
-        new Function(code)(); // 🧠 Ejecutar el script
+        new Function(code)();
         console.log(`✅ Script ejecutado con éxito: ${nombreArchivo}`);
       } catch (e) {
         console.error('❌ Error al ejecutar el script:', e);
@@ -128,4 +129,5 @@ window.cargarScriptGitHub = function (url) {
     });
 };
 
-cargarScriptGitHub('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/pageSelector.js')
+// 🛰️ Cargar script remoto principal
+cargarScriptGitHub('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/pageSelector.js');
