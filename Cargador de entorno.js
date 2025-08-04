@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cargador de entorno (Carga remota)
-// @version      2.4
+// @version      2.5
 // @namespace    http://era-crm.local/
 // @description  Agrega herramientas (identificador global + carga remota expuesto en entorno real)
 // @author       Lorenzo Navarro
@@ -99,7 +99,11 @@
   });
 
   console.log(`✅ Listo. Puedes usar desde consola:
-MiIdentificador()
-MiIdentificador.ver()
-cargarScriptGitHub("https://...")`);
+- MiIdentificador()          → Devuelve el valor actual
+- MiIdentificador.ver()      → Muestra el valor en consola
+- MiIdentificador.editar()   → Solicita nuevo valor
+- MiIdentificador.resetear() → Borra y vuelve a pedir
+- MiIdentificador.borrar()   → Borra sin pedir nuevamente
+
+- cargarScriptGitHub("https://...")`);
 })();
