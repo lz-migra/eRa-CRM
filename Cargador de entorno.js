@@ -1,4 +1,4 @@
-// ==UserScript==
+/// ==UserScript==
 // @name         Cargador de entorno (Carga remota)
 // @version      2.2
 // @namespace    http://era-crm.local/
@@ -69,7 +69,6 @@
       console.log("🗑️ Valor eliminado del almacenamiento global.");
     };
 
-    // 🌍 Exponer al contexto real de la página
     unsafeWindow.MiIdentificador = Identificador;
 
     console.log(`🧠 Métodos disponibles para MiIdentificador:
@@ -82,7 +81,6 @@
 
   inicializar();
 })();
-
 
 //============= Descripción =============
 // 📦 Carga y ejecuta dinámicamente un script JS desde GitHub (o cualquier URL).
@@ -105,7 +103,7 @@ window.cargarScriptGitHub = function (url) {
     })
     .then(code => {
       try {
-        new Function(code)();
+        new Function(code)(); // Ejecutar el script remoto
         console.log(`✅ Script ejecutado con éxito: ${nombreArchivo}`);
       } catch (e) {
         console.error('❌ Error al ejecutar el script:', e);
@@ -116,5 +114,5 @@ window.cargarScriptGitHub = function (url) {
     });
 };
 
-// 🛰️ Cargar script principal remoto
+// ✅ 🛰️ Llamar solo después de que cargarScriptGitHub esté definido
 cargarScriptGitHub('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/pageSelector.js');
