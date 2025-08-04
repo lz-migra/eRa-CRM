@@ -5,10 +5,6 @@
 // @description  Agrega herramientas
 // @author       Lorenzo Navarro (Lz-Migra)
 // @match        https://*
-// @grant        GM_addStyle
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @grant        GM_xmlhttpRequest
 // @connect      raw.githubusercontent.com
 // @license      MIT
 // ==/UserScript==
@@ -87,6 +83,13 @@
 
   // 🌍 Exponer globalmente
   window.MiIdentificador = Identificador;
+
+  console.log(`🧠 Métodos disponibles para MiIdentificador:
+- MiIdentificador()          → Devuelve el valor actual
+- MiIdentificador.ver()      → Muestra el valor en consola
+- MiIdentificador.editar()   → Solicita nuevo valor
+- MiIdentificador.resetear() → Borra y vuelve a pedir
+- MiIdentificador.borrar()   → Borra sin pedir nuevamente`);
 })();
 
 //============= Descripcion =============
@@ -125,4 +128,4 @@ window.cargarScriptGitHub = function (url) {
     });
 };
 
-cargarScriptGitHub()
+cargarScriptGitHub('https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/pageSelector.js')
