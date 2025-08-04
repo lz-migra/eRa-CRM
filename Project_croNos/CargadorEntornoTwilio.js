@@ -9,10 +9,10 @@ IVR
 
 
 CHAT
-5. EjecutorCHAT.js               https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/EjecutorCHAT.js
-- CompararMensajeConGuardado.js 
-- MensajesAgenteStorage.js
-- UltimoMensajeAgente.js
+5. EjecutorCHAT.js                https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/EjecutorCHAT.js
+- CompararMensajeConGuardado.js  
+- MensajesAgenteStorage.js        https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/MensajesAgenteStorage.js
+- UltimoMensajeAgente.js          https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/UltimoMensajeAgente.js
 
 
 GLOBAL
