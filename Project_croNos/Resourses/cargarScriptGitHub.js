@@ -4,33 +4,32 @@
 // ✅ Para usarla: window.cargarScriptGitHub("https://tudominio.github.io/archivo.js")
 // 🧠 El script remoto se descarga, se evalúa con Function(), y se ejecuta en el entorno actual.
 // ⚠️ Si hay un error de red o en la ejecución, se muestra en consola y en una alerta.
+// 🧠 Muestra en consola el nombre del archivo cargado.
 //============= Descripcion =============
 
 window.cargarScriptGitHub = function (url) {
-  const timestamp = Date.now();                       // 🕒 Usado para evitar caché
-  const scriptUrl = `${url}?nocache=${timestamp}`;    // 🔁 URL con marca de tiempo
+  const timestamp = Date.now();                      // 🕒 Usado para evitar caché
+  const scriptUrl = `${url}?nocache=${timestamp}`;   // 🔁 URL con timestamp
 
-  console.log(`Cargando script desde: ${scriptUrl}`);
+  // 🧠 Extraemos el nombre del archivo desde la URL
+  const nombreArchivo = url.split("/").pop().split("?")[0];
+
+  console.log(`📡 Cargando script desde: ${scriptUrl}`);
 
   fetch(scriptUrl)
     .then(response => {
-      if (!response.ok) throw new Error(`Estado: ${response.status}`); // 🚫 Error de red
-      return response.text(); // 📥 Leer el contenido JS
+      if (!response.ok) throw new Error(`Estado: ${response.status}`);
+      return response.text();
     })
     .then(code => {
       try {
-        new Function(code)();                         // 🧠 Ejecutar el script cargado
-        console.log('✅ Script ejecutado con éxito.');
+        new Function(code)(); // 🧠 Ejecutar el script
+        console.log(`✅ Script ejecutado con éxito: ${nombreArchivo}`);
       } catch (e) {
-        console.error('❌ Error al ejecutar el script:', e); // 🚨 Error al ejecutar
+        console.error('❌ Error al ejecutar el script:', e);
       }
     })
     .catch(error => {
-//      alert(`⚠️ Error al cargar el script.\n${error}`);     // 🚨 Mostrar alerta
-      console.error(error);                                // 🪵 Mostrar en consola
+      console.error('⚠️ Error al cargar el script:', error);
     });
 };
-
-// 📌 Puedes llamar esta función de dos formas:
-//    window.cargarScriptGitHub("url") ✅ Siempre funciona (más seguro)
-//    cargarScriptGitHub("url") ✅ También funciona si estás en contexto global
