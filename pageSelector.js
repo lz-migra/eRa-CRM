@@ -38,7 +38,7 @@
 //    console.log("🌐 Entorno Odoo detectado");
 
   } else if (url.startsWith(twilio)) {
-    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/Twilio/Main.js");
+    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/CargadorEntornoTwilio.js");
     console.log("🌐 Entorno Twilio detectado");
 
   } else {
