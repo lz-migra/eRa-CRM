@@ -7,18 +7,13 @@
 // - Identifica tarjetas de tipo VOICE.
 // - Agrega relojes a tarjetas VOICE que no los tengan.
 // - Detecta cambios de estado en cada tarjeta VOICE activa.
-// - Si cambia el estado, actualiza el reloj de la tarjeta que sufrio cambios.
+// - Si cambia el estado, actualiza el reloj de la tarjeta que sufrió cambios.
 //
 // 📌 Requiere que existan globalmente:
 // - TARJETAS_ACTIVAS (Map con todas las tarjetas activas)
 // - getTipoDeTarjeta(nodo) → 'chat' | 'voice' | 'ivr'
 // - agregarRelojATarjeta({ nombre, actualizar, localStorage })
 // - obtenerEstadoDeTarjeta(tarjetaElement)
-// - La función obtenerEstadoDeTarjeta se define a continuación para filtrar contadores y separar por "|"
-//
-// 🛠️ Métodos disponibles:
-// - EjecutorVOICE.iniciar()  → Inicia el observador
-// - EjecutorVOICE.detener()  → Detiene el observador
 //========================================
 
 // 📌 Función auxiliar para extraer el estado filtrado de una tarjeta VOICE
@@ -72,11 +67,6 @@ const EjecutorVOICE = (() => {
         const nombre = tarjeta.innerText.trim();
         console.log(`🕒 Actualizando reloj en tarjeta VOICE: ${nombre}`);
         agregarRelojATarjeta({ nombre, actualizar: true, localStorage: true });
-      });
-        console.log(`🔁 Estado cambiado. Reloj actualizado en: ${nombre}`);
-      });
-        console.log(`🔁 Estado cambiado. Reloj actualizado en: ${nombre}`);
-      });
         console.log(`🔁 Estado cambiado. Reloj actualizado en: ${nombre}`);
       }
     });
@@ -89,11 +79,15 @@ const EjecutorVOICE = (() => {
   function agregarRelojesYObservarEstados() {
     const tarjetas = obtenerTarjetasVOICE();
     tarjetas.forEach(({ nodo, nombre }) => {
-      const yaTiene = document.querySelector(`[data-reloj="${nombre}"]`);
+      // 🔒 Búsqueda segura de elementos con [data-reloj="nombre"]
+      const yaTiene = Array.from(document.querySelectorAll('[data-reloj]'))
+        .find(el => el.getAttribute('data-reloj') === nombre);
+
       if (!yaTiene) {
         agregarRelojATarjeta({ nombre, actualizar: false, localStorage: true });
         console.log(`📞 Reloj agregado a tarjeta VOICE: ${nombre}`);
       }
+
       if (!observersPorTarjeta.has(nodo)) {
         observarEstadoDeTarjeta(nodo);
       }
