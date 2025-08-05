@@ -1,5 +1,5 @@
 //============= Descripción =============
-// 👁️ Observa nuevas tarjetas en Twilio Flex.
+// 🔁 Escanea tarjetas cada 2 segundos en Twilio Flex.
 // 📋 Mantiene una lista de tarjetas activas actualizada.
 // 🧠 Identifica su tipo (voice, chat, ivr) y ejecuta lógica por tipo.
 // 🚦 Decide dinámicamente qué entorno iniciar o detener.
@@ -26,7 +26,6 @@ const estadoEntornos = {
 // 🧠 Función para identificar el tipo de tarjeta
 function getTipoDeTarjeta(tarjetaElement) {
   const ariaLabel = tarjetaElement.getAttribute('aria-label') || '';
-
   if (ariaLabel.includes('voice task')) return 'voice';
   if (ariaLabel.includes('chat task')) return 'chat';
   if (ariaLabel.includes('ivr-live-callback task')) return 'ivr';
@@ -44,41 +43,9 @@ function ejecutarTipo(tarjeta, tipo) {
   ejecutor?.iniciar?.(); // Inicia entorno dinámico si existe
 }
 
-// 👁️‍🗨️ Observador de tarjetas
-function iniciarObservadorDeTarjetas() {
-  const contenedor = document.querySelector('.Twilio-TaskList-default');
-
-  if (!contenedor) {
-    console.warn('⚠️ Contenedor .Twilio-TaskList-default no encontrado');
-    return;
-  }
-
-  const observer = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'childList') {
-        mutation.addedNodes.forEach((nodo) => {
-          if (nodo.nodeType === 1 && nodo.matches('[data-testid="task-item"]')) {
-            const tipo = getTipoDeTarjeta(nodo);
-            if (!tipo) return;
-
-            const id = nodo.getAttribute('aria-label') || `${Date.now()}-${Math.random()}`;
-            TARJETAS_ACTIVAS.set(id, nodo);
-
-            ejecutarTipo(nodo, tipo); // 👈 Ejecutar entorno por tipo
-            gestionarTarjetasActivas(); // 📊 Evaluar tipos activos
-          }
-        });
-      }
-    }
-  });
-
-  observer.observe(contenedor, { childList: true, subtree: false });
-  console.log('👁️ Observador de tarjetas activado sobre .Twilio-TaskList-default ✅');
-}
-
 // 🔄 Evalúa tarjetas activas y gestiona entornos dinámicos
 function gestionarTarjetasActivas() {
-  // 🧹 Limpieza: eliminar nodos que ya no existen
+  // 🧹 Eliminar nodos que ya no existen
   for (const [id, nodo] of TARJETAS_ACTIVAS.entries()) {
     if (!document.body.contains(nodo)) {
       TARJETAS_ACTIVAS.delete(id);
@@ -97,7 +64,6 @@ function gestionarTarjetasActivas() {
     if (tipo === 'ivr') hayIVR = true;
   }
 
-  // ⚙️ Lógica por tipo
   gestionarEntornoPorTipo('chat', hayChat);
   gestionarEntornoPorTipo('voice', hayVoice);
   gestionarEntornoPorTipo('ivr', hayIVR);
@@ -130,13 +96,33 @@ function gestionarEntornoPorTipo(tipo, estaActivo) {
           estadoEntornos[tipo] = false;
           ejecutor?.detener?.();
         }
-
         timersDeDetencion[tipo] = null;
       }, 2 * 60 * 1000); // 2 minutos
     }
   }
 }
 
-// 🚀 Activar observador de tarjetas al cargar
-iniciarObservadorDeTarjetas();
+// 🔄 Escanear tarjetas activas periódicamente
+function iniciarEscaneoPeriodico() {
+  setInterval(() => {
+    const tarjetas = document.querySelectorAll('[data-testid="task-item"]');
+
+    tarjetas.forEach((nodo) => {
+      const id = nodo.getAttribute('aria-label');
+      if (!id || TARJETAS_ACTIVAS.has(id)) return;
+
+      const tipo = getTipoDeTarjeta(nodo);
+      if (!tipo) return;
+
+      TARJETAS_ACTIVAS.set(id, nodo);
+      ejecutarTipo(nodo, tipo); // Ejecutar entorno
+    });
+
+    gestionarTarjetasActivas(); // Recalcular activos
+  }, 2000); // Cada 2 segundos
+}
+
+// 🚀 Iniciar escaneo al cargar
+iniciarEscaneoPeriodico();
+
 
