@@ -47,9 +47,10 @@
   await cargarEnOrden(chatScripts);
   console.log("💬 Funciones CHAT cargadas.");
 
-  console.log("✅✅✅ Todos los entornos fueron cargados correctamente.");
+ 
 })();
 
+ console.log("✅✅✅ Todos los entornos fueron cargados correctamente.");
 
 
 
