@@ -41,6 +41,19 @@
         const clienteID = generales.clienteID;
         const status    = topup.status;
 
+        // 🎨 Animación base CSS
+        const style = document.createElement("style");
+        style.textContent = `
+          .fade-in {
+            animation: fadeIn 0.3s ease-out;
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+        `;
+        document.head.appendChild(style);
+
         // 🎨 Modal paso 1: elegir canal
         const modal = document.createElement('div');
         modal.innerHTML = `
@@ -50,7 +63,7 @@
             display: flex; align-items: center; justify-content: center;
             z-index: 9999;
           ">
-            <div style="
+            <div class="fade-in" style="
               background: white;
               padding: 20px;
               border-radius: 12px;
@@ -92,7 +105,7 @@
               display: flex; align-items: center; justify-content: center;
               z-index: 9999;
             ">
-              <div style="
+              <div class="fade-in" style="
                 background: white;
                 padding: 20px;
                 border-radius: 12px;
@@ -101,7 +114,7 @@
                 box-shadow: 0 4px 10px rgba(0,0,0,0.3);
                 max-width: 360px; width: 90%;
               ">
-                <h3 style="margin-bottom: 15px;">📝 Campo Solicitud</h3>
+                <h3 style="margin-bottom: 15px;">📝Solicitud</h3>
                 <div id="preview" style="
                   border: 1px solid #ddd;
                   padding: 10px;
@@ -110,6 +123,7 @@
                   max-height: 80px;
                   overflow-y: auto;
                   text-align: left;
+                  white-space: pre-wrap;
                 ">Cargando portapapeles...</div>
                 <button id="solicitud-portapapeles" style="
                   background: #17a2b8; color: white;
