@@ -47,6 +47,26 @@
         const provincia  = beneficiario.provincia;
         const nroReparto = beneficiario.nroReparto;
 
+        // 🎨 Estilos animaciones
+        const style = document.createElement("style");
+        style.innerHTML = `
+          .fade-in {
+            animation: fadeInScale 0.3s ease forwards;
+          }
+          .fade-out {
+            animation: fadeOutScale 0.3s ease forwards;
+          }
+          @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+          }
+          @keyframes fadeOutScale {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.8); }
+          }
+        `;
+        document.head.appendChild(style);
+
         // 🎨 Modal paso 1: elegir canal
         const modal = document.createElement('div');
         modal.innerHTML = `
@@ -56,7 +76,7 @@
             display: flex; align-items: center; justify-content: center;
             z-index: 9999;
           ">
-            <div style="
+            <div class="fade-in" style="
               background: white;
               padding: 20px;
               border-radius: 12px;
@@ -86,70 +106,82 @@
         document.getElementById('canal-chat').onclick = () => seleccionarCanal("Chat");
         document.getElementById('canal-llamada').onclick = () => seleccionarCanal("Llamada");
 
+        function cerrarConAnimacion(id, callback) {
+          const modalEl = document.getElementById(id);
+          if (!modalEl) return;
+          const inner = modalEl.querySelector("div");
+          inner.classList.remove("fade-in");
+          inner.classList.add("fade-out");
+          setTimeout(() => {
+            modalEl.remove();
+            if (callback) callback();
+          }, 300); // coincide con duración animación
+        }
+
         function seleccionarCanal(canal) {
-          document.getElementById('canal-modal').remove();
+          cerrarConAnimacion('canal-modal', () => {
 
-          // 🎨 Modal paso 2: elegir solicitud
-          const modal2 = document.createElement('div');
-          modal2.innerHTML = `
-            <div id="solicitud-modal" style="
-              position: fixed; inset: 0;
-              background: rgba(0,0,0,0.5);
-              display: flex; align-items: center; justify-content: center;
-              z-index: 9999;
-            ">
-              <div style="
-                background: white;
-                padding: 20px;
-                border-radius: 12px;
-                text-align: center;
-                font-family: sans-serif;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-                max-width: 360px; width: 90%;
+            // 🎨 Modal paso 2: elegir solicitud
+            const modal2 = document.createElement('div');
+            modal2.innerHTML = `
+              <div id="solicitud-modal" style="
+                position: fixed; inset: 0;
+                background: rgba(0,0,0,0.5);
+                display: flex; align-items: center; justify-content: center;
+                z-index: 9999;
               ">
-                <h3 style="margin-bottom: 15px;">📝 Campo Solicitud</h3>
-                <div id="preview" style="
-                  border: 1px solid #ddd;
-                  padding: 10px;
-                  margin-bottom: 10px;
-                  font-size: 12px;
-                  max-height: 80px;
-                  overflow-y: auto;
-                  text-align: left;
-                  white-space: pre-wrap;
-                ">Cargando portapapeles...</div>
-                <button id="solicitud-portapapeles" style="
-                  background: #17a2b8; color: white;
-                  padding: 8px 15px;
-                  border: none; border-radius: 8px;
-                  cursor: pointer; margin: 5px;
-                ">📋 Usar portapapeles</button>
-                <button id="solicitud-vacio" style="
-                  background: #6c757d; color: white;
-                  padding: 8px 15px;
-                  border: none; border-radius: 8px;
-                  cursor: pointer; margin: 5px;
-                ">⬜ Dejar en blanco</button>
+                <div class="fade-in" style="
+                  background: white;
+                  padding: 20px;
+                  border-radius: 12px;
+                  text-align: center;
+                  font-family: sans-serif;
+                  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                  max-width: 360px; width: 90%;
+                ">
+                  <h3 style="margin-bottom: 15px;">📝 Campo Solicitud</h3>
+                  <div id="preview" style="
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    font-size: 12px;
+                    max-height: 80px;
+                    overflow-y: auto;
+                    text-align: left;
+                    white-space: pre-wrap;
+                  ">Cargando portapapeles...</div>
+                  <button id="solicitud-portapapeles" style="
+                    background: #17a2b8; color: white;
+                    padding: 8px 15px;
+                    border: none; border-radius: 8px;
+                    cursor: pointer; margin: 5px;
+                  ">📋 Usar portapapeles</button>
+                  <button id="solicitud-vacio" style="
+                    background: #6c757d; color: white;
+                    padding: 8px 15px;
+                    border: none; border-radius: 8px;
+                    cursor: pointer; margin: 5px;
+                  ">⬜ Dejar en blanco</button>
+                </div>
               </div>
-            </div>
-          `;
-          document.body.appendChild(modal2);
+            `;
+            document.body.appendChild(modal2);
 
-          // Intentar leer portapapeles
-          navigator.clipboard.readText().then(texto => {
-            document.getElementById('preview').innerText = texto || "(Portapapeles vacío)";
-          }).catch(() => {
-            document.getElementById('preview').innerText = "(No se pudo acceder al portapapeles)";
+            navigator.clipboard.readText().then(texto => {
+              document.getElementById('preview').innerText = texto || "(Portapapeles vacío)";
+            }).catch(() => {
+              document.getElementById('preview').innerText = "(No se pudo acceder al portapapeles)";
+            });
+
+            document.getElementById('solicitud-portapapeles').onclick = () => seleccionarSolicitud(canal, document.getElementById('preview').innerText);
+            document.getElementById('solicitud-vacio').onclick = () => seleccionarSolicitud(canal, "");
           });
-
-          document.getElementById('solicitud-portapapeles').onclick = () => seleccionarSolicitud(canal, document.getElementById('preview').innerText);
-          document.getElementById('solicitud-vacio').onclick = () => seleccionarSolicitud(canal, "");
         }
 
         function seleccionarSolicitud(canal, solicitud) {
-          document.getElementById('solicitud-modal').remove();
+          cerrarConAnimacion('solicitud-modal', () => {
 
-          const resultado = `
+            const resultado = `
 ID del cliente: ${clienteID}
 Tipo de remesa: MLC
 Provincia: ${provincia}
@@ -162,7 +194,7 @@ Canal: ${canal}
 Solicitud: ${solicitud}
 `.trim();
 
-          const resultadoalert = `
+            const resultadoalert = `
 💳 Orden de Remesa MLC
 =========================
 
@@ -178,22 +210,22 @@ Solicitud: ${solicitud}
 📝 Solicitud: ${solicitud || "(vacío)"}
 `.trim();
 
-          navigator.clipboard.writeText(resultado).then(() => {
-            console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
-            alert(
-              nombreScript + '\n\n' +
-              '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-              '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
-              resultadoalert
-            );
+            navigator.clipboard.writeText(resultado).then(() => {
+              console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
+              alert(
+                nombreScript + '\n\n' +
+                '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+                '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
+                resultadoalert
+              );
 
-            // 🧹 Limpiar
-            delete window.datosExtraidos;
-            delete window.bloqueElemento;
-            delete window.datosPanel;
-            delete window.bloqueHTMLCapturado;
-          }).catch((err) => {
-            console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
+              delete window.datosExtraidos;
+              delete window.bloqueElemento;
+              delete window.datosPanel;
+              delete window.bloqueHTMLCapturado;
+            }).catch((err) => {
+              console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
+            });
           });
         }
 
