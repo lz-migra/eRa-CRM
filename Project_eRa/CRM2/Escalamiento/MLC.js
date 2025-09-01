@@ -139,7 +139,7 @@
                   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
                   max-width: 360px; width: 90%;
                 ">
-                  <h3 style="margin-bottom: 15px;">📝 Campo Solicitud</h3>
+                  <h3 style="margin-bottom: 15px;">📝 Solicitud</h3>
                   <div id="preview" style="
                     border: 1px solid #ddd;
                     padding: 10px;
