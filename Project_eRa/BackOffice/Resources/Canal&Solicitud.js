@@ -103,7 +103,6 @@
       window.CanalSeleccionado = canal;
       window.SolicitudIngresada = solicitud;
       console.log(nombreScript + ' ✅ Canal y Solicitud disponibles:', canal, solicitud);
-      alert(`🎧 Canal: ${canal}\n📝 Solicitud: ${solicitud || "(vacío)"}`);
     });
   }
 
