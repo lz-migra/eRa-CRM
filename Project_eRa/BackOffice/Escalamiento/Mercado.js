@@ -34,7 +34,6 @@
   cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`, function () {
     cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`, function () {
 
-      // ⏳ Esperar que se generen los datos
       setTimeout(() => {
         const datos = window.datosExtraidos;
 
@@ -44,58 +43,54 @@
         }
 
         // 🧷 Extraer campos necesarios
-        const {
-          orden,
-          cuenta,
-          total,
-          creado,
-          fechaProgramada,
-          nombre,
-          telefono,
-          direccion,
-          negocio
-        } = datos;
+        const { orden, cuenta, total, creado, fechaProgramada, nombre, telefono, direccion, negocio } = datos;
 
-        // 📋 Crear plantilla con los datos
-        const resultadoalert = `
+        // 📌 Ahora cargamos el modal de Canal & Solicitud
+        cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Canal%26Solicitud.js', function () {
+          // ⚡ Esperamos a que el usuario seleccione Canal y Solicitud
+          const esperarCanalSolicitud = setInterval(() => {
+            if (window.CanalSeleccionado !== undefined && window.SolicitudIngresada !== undefined) {
+              clearInterval(esperarCanalSolicitud);
+
+              // 📋 Crear plantilla con los datos y los valores seleccionados
+              const resultadoalert = `
 🛒 Orden de Mercado
 =========================
 
 🆔 Nro de orden: ${orden}
 👤 ID cliente: ${cuenta}
-📝 Solicitud:
+🎧 Canal: ${window.CanalSeleccionado}
+📝 Solicitud: ${window.SolicitudIngresada || "(vacío)"}
 `.trim();
 
-//💰 Total: ${total}
-//📅 Creado: ${creado}
-//🗓️ Fecha programada: ${fechaProgramada}
-//👨‍💼 Nombre: ${nombre}
-//📞 Teléfono: ${telefono}
-//📍 Dirección: ${direccion}
-//🏢 Negocio: ${negocio}
-
-        // 📋 Crear plantilla con los datos
-        const resultado = `
+              const resultado = `
 ID cliente: ${cuenta}
 Nro de orden: ${orden}
-Solicitud: 
+Canal: ${window.CanalSeleccionado}
+Solicitud: ${window.SolicitudIngresada || ""}
 `.trim();
 
-        // 📋 Copiar al portapapeles
-        navigator.clipboard.writeText(resultado).then(() => {
-          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
-          alert(
-            nombreScript + '\n\n' +
-            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultadoalert
-          );
+              // 📋 Copiar al portapapeles
+              navigator.clipboard.writeText(resultado).then(() => {
+                console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
+                alert(
+                  nombreScript + '\n\n' +
+                  '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
+                  '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
+                  resultadoalert
+                );
 
-          // 🧹 Limpiar variables globales si deseas
-          delete window.datosExtraidos;
-          delete window.bloqueHTMLCapturado;
-        }).catch((err) => {
-          console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
+                // 🧹 Limpiar variables globales
+                delete window.datosExtraidos;
+                delete window.bloqueHTMLCapturado;
+                delete window.CanalSeleccionado;
+                delete window.SolicitudIngresada;
+              }).catch(err => {
+                console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
+              });
+            }
+          }, 200);
+
         });
 
       }, 600); // ⏱️ Espera para asegurar ejecución de módulos
