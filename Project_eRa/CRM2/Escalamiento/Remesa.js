@@ -78,9 +78,12 @@ Solicitud: ${window.SolicitudIngresada || ""}
                       alert(nombreScript + '\n\n📋 ¡Datos copiados con éxito! 📋\n\n' + resultadoalert);
 
                       // Limpiar variables
-                      delete window.datosExtraidos;
-                      delete window.CanalSeleccionado;
-                      delete window.SolicitudIngresada;
+          delete window.datosExtraidos;
+          delete window.bloqueElemento;
+          delete window.datosPanel;
+          delete window.bloqueHTMLCapturado;
+          delete window.CanalSeleccionado;
+          delete window.SolicitudIngresada;
                     }).catch(err => console.error(nombreScript + ' ❌ Error al copiar:', err));
 
                   }
