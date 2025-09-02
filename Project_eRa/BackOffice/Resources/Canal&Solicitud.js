@@ -4,7 +4,7 @@
   // 🎯 Identidad del script
   const nombreScript = '[Modal Canal & Solicitud]';
 
-  // 🎨 Estilos del modal (copiado del original)
+  // 🎨 Estilos del modal
   const style = document.createElement("style");
   style.innerHTML = `
     .fade-in { animation: fadeInScale 0.3s ease forwards; }
@@ -37,15 +37,36 @@
   `;
   document.head.appendChild(style);
 
-  // ✨ Función para cerrar modales con animación
+  // 🧹 Función para limpiar variables globales
+  function limpiarScope() {
+    delete window.datosExtraidos;
+    delete window.bloqueElemento;
+    delete window.datosPanel;
+    delete window.bloqueHTMLCapturado;
+    console.log(nombreScript + ' Cancelado 🗑 Scope limpiado');
+  }
+
+  // ✨ Función para cerrar modales con animación y limpiar scope
   window.cerrarConAnimacion = function(id, callback) {
     const modalEl = document.getElementById(id);
     if (!modalEl) return;
+
     const inner = modalEl.querySelector(".modal-card");
-    if (!inner) { modalEl.remove(); if (callback) callback(); return; }
+    if (!inner) {
+      modalEl.remove();
+      limpiarScope();
+      if (callback) callback();
+      return;
+    }
+
     inner.classList.remove("fade-in");
     inner.classList.add("fade-out");
-    setTimeout(() => { modalEl.remove(); if (callback) callback(); }, 300);
+
+    setTimeout(() => {
+      modalEl.remove();
+      limpiarScope();
+      if (callback) callback();
+    }, 300);
   };
 
   // 🪄 Modal Canal
