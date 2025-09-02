@@ -81,8 +81,10 @@ Solicitud: ${window.SolicitudIngresada || ""}
                 );
 
                 // 🧹 Limpiar variables globales
-                delete window.datosExtraidos;
-                delete window.bloqueHTMLCapturado;
+          delete window.datosExtraidos;
+          delete window.bloqueElemento;
+          delete window.datosPanel;
+          delete window.bloqueHTMLCapturado;
                 delete window.CanalSeleccionado;
                 delete window.SolicitudIngresada;
               }).catch(err => {
