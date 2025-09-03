@@ -3,6 +3,10 @@
 
   const nombreScript = '[Modal Estado Ejecución]';
 
+  // 📝 Mensaje configurable
+  const mensajeDetenido = "El proceso fue detenido por el usuario.";
+
+  // 🎨 Estilos para el modal con blur animado
   const style = document.createElement("style");
   style.innerHTML = `
     .modal-bg {
@@ -70,11 +74,13 @@
   `;
   document.head.appendChild(style);
 
+  // 🧹 Limpieza: elimina solo la bandera
   function limpiarEstado() {
     delete window.EstadoEjecucion;
     console.log(nombreScript + ' 🗑 Se eliminó EstadoEjecucion');
   }
 
+  // ✨ Cerrar modal con animación
   window.cerrarModalEstado = function(id) {
     const modalEl = document.getElementById(id);
     if (!modalEl) return;
@@ -99,13 +105,14 @@
     setTimeout(finalizarCierre, 300);
   };
 
+  // 🪄 Crear modal y mostrarlo de inmediato
   (function mostrarAlInstante() {
     const modal = document.createElement('div');
     modal.innerHTML = `
       <div id="estado-modal" class="modal-bg">
         <div class="modal-card fade-in">
-          <div class="modal-title">⚠️ Error</div>
-          <div class="modal-message">Ha ocurrido un problema en la ejecución.</div>
+          <div class="modal-title">⚠️ Estado detenido</div>
+          <div class="modal-message">${mensajeDetenido}</div>
           <div class="modal-actions">
             <button class="modal-btn btn-cerrar" onclick="cerrarModalEstado('estado-modal')">Cerrar</button>
           </div>
