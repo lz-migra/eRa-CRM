@@ -15,38 +15,42 @@
   `;
   document.head.appendChild(style);
 
-  // 🧹 Función para limpiar variables globales
-  function limpiarScope() {
+  // 🛑 Función para cancelar ejecución
+  function ejecucionCancelada() {
+    delete window.CanalSeleccionado;
+    delete window.SolicitudIngresada;
     delete window.datosExtraidos;
     delete window.bloqueElemento;
     delete window.datosPanel;
     delete window.bloqueHTMLCapturado;
-    console.log(nombreScript + ' Cancelado 🗑 Scope limpiado');
+
+    window.EstadoEjecucion = "Cancelado"; // 🚩 bandera cancelada
+    console.log(nombreScript + ' ❌ Ejecución cancelada 🗑 Scope limpiado / EstadoEjecucion = Cancelado');
   }
 
   // ✨ Función para cerrar modales con animación
-  //    limpiar = true -> limpia el scope
-  //    limpiar = false -> NO limpia el scope
-  window.cerrarConAnimacion = function(id, callback, limpiar = false) {
+  //    cancelar = true -> marca cancelación y limpia scope
+  //    cancelar = false -> flujo normal
+  window.cerrarConAnimacion = function(id, callback, cancelar = false) {
     const modalEl = document.getElementById(id);
     if (!modalEl) return;
 
     const inner = modalEl.querySelector(".modal-card");
-    if (!inner) {
+    const finalizarCierre = () => {
       modalEl.remove();
-      if (limpiar) limpiarScope();
+      if (cancelar) ejecucionCancelada();
       if (callback) callback();
+    };
+
+    if (!inner) {
+      finalizarCierre();
       return;
     }
 
     inner.classList.remove("fade-in");
     inner.classList.add("fade-out");
 
-    setTimeout(() => {
-      modalEl.remove();
-      if (limpiar) limpiarScope();
-      if (callback) callback();
-    }, 300);
+    setTimeout(finalizarCierre, 300);
   };
 
   // 🪄 Modal Canal
@@ -54,7 +58,7 @@
   modalCanal.innerHTML = `
     <div id="canal-modal" class="modal-bg">
       <div class="modal-card fade-in">
-        <!-- ❌ aquí sí limpiamos scope -->
+        <!-- ❌ aquí sí marca cancelación -->
         <button class="modal-close" onclick="cerrarConAnimacion('canal-modal', null, true)">✖</button>
         <div class="modal-title"><span class="title-icon">📞</span><span>Seleccione el Canal</span></div>
         <div class="modal-actions">
@@ -76,7 +80,7 @@
       modalSolicitud.innerHTML = `
         <div id="solicitud-modal" class="modal-bg">
           <div class="modal-card fade-in">
-            <!-- ❌ aquí también solo limpia si se presiona -->
+            <!-- ❌ aquí también solo cancelación -->
             <button class="modal-close" onclick="cerrarConAnimacion('solicitud-modal', null, true)">✖</button>
             <div class="modal-title"><span class="title-icon">📝</span><span>Solicitud</span></div>
             <div id="preview" class="modal-preview">Cargando portapapeles...</div>
@@ -105,8 +109,9 @@
       // Devuelve valores en window para otros scripts
       window.CanalSeleccionado = canal;
       window.SolicitudIngresada = solicitud;
-      console.log(nombreScript + ' ✅ Canal y Solicitud disponibles:', canal, solicitud);
-    }, false); // 🚫 no limpiar scope al finalizar
+      window.EstadoEjecucion = "Activo"; // 🚩 bandera activa
+      console.log(nombreScript + ' ✅ Canal y Solicitud disponibles:', canal, solicitud, '| Estado:', window.EstadoEjecucion);
+    }, false); // 🚫 no cancelar en flujo normal
   }
 
 })();
