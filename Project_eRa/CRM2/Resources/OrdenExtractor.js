@@ -4,10 +4,8 @@
   // 🧪 Verificación: Asegurarse que el bloque HTML esté disponible
   const bloque = window.bloqueElemento;
   if (!bloque) {
-    alert('[OrdenExtractor] \n\n' +
-      '❌ Error: No se encontró el bloque expandido.\n' +
-      '⚠️ No se pudo identificar la orden con la que estás trabajando.\n' +
-      '✔️ Asegúrate de haber desplegado correctamente la orden o verifica tu conexión de red antes de volver a intentarlo.');
+   // alert('[🧩 Extractor] ❌ No se encontró el HTML capturado o no es válido.');
+    window.estadoEjecucion = "❌ No se encontró el HTML esperado o no es válido. Esto puede deberse a cambios en la estructura de la página. Por favor, recarga la pagina o contacta al soporte.";
     return;
   }
 
