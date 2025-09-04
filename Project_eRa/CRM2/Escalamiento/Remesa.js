@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  // ℹ️ INFORMACIÓN DEL SCRIPT
+  // versión 1.2.0
+  const entornoEjecucion = 'CRM2';
   const nombreScript = '[Remesa 💵]';
   const tipoScript   = 'Escalamiento';
   const timestamp = '?nocache=' + Date.now();

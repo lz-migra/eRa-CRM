@@ -3,7 +3,7 @@
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
   // Version 1.3.0 (adaptado)
-  const entornoEjecucion = 'BackOffice';
+  const entornoEjecucion = 'CRM2';
   const nombreScript = '[MLC💳]';
   const tipoScript = 'Escalamiento';
   const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
