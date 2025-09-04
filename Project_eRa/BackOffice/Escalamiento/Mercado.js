@@ -16,27 +16,6 @@
     error: msg => console.error(`${nombreScript} ❌ ${msg}`)
   };
 
-  // 🔁 Función para cargar scripts remotos
-  function cargarYEjecutarScript(url) {
-    return fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-        return response.text();
-      })
-      .then(code => {
-        try {
-          new Function(code)();
-          log.info(`Script ejecutado ✅: ${url}`);
-        } catch (e) {
-          throw new Error(`Error al ejecutar script (${url}): ${e.message}`);
-        }
-      })
-      .catch(err => {
-        log.error(err);
-        throw err;
-      });
-  }
-
   // 🧹 Limpiar variables globales
   function limpiarVariables() {
     const varsGlobales = [
@@ -51,42 +30,70 @@
     varsGlobales.forEach(v => delete window[v]);
   }
 
+  // 🔁 Función para cargar scripts remotos
+  async function cargarYEjecutarScript(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Estado: ${response.status}`);
+      const code = await response.text();
+      new Function(code)();
+      log.info(`Script ejecutado ✅: ${url}`);
+    } catch (err) {
+      log.error(`Error al cargar/ejecutar el módulo (${url}): ${err}`);
+      window.estadoEjecucion = `Error al cargar/ejecutar módulo: ${url}`;
+    }
+  }
+
+  // 🔹 Bandera para cargar Detenido.js solo una vez
+  let detenidoCargado = false;
+  async function manejarCancelacion() {
+    if (!detenidoCargado) {
+      detenidoCargado = true;
+      log.warn(`🛑 Ejecución cancelada. Motivo: ${window.estadoEjecucion}`);
+      limpiarVariables();
+      await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+    }
+  }
+
   // 🚀 EJECUCIÓN PRINCIPAL
   (async function main() {
     try {
-      // 1️⃣ Cargar todos los módulos en secuencia
       const modulos = [
         'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js',
         'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js',
         'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js'
       ];
 
+      // ⏩ Cargar módulos en secuencia y detener si alguno falla
       for (const url of modulos) {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
         await cargarYEjecutarScript(url + timestamp);
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
       }
 
       const datos = window.datosExtraidos;
       if (!datos) {
         alert(`${nombreScript}\n\n❌ Error: "datosExtraidos" no está definido.`);
-        await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
-        limpiarVariables();
+        await manejarCancelacion();
         return;
       }
 
       const { orden, cuenta } = datos;
 
-      // 2️⃣ SetInterval unificado para monitorear cancelación o finalización
+      // 2️⃣ SetInterval para esperar datos finales
       const verificarInterval = setInterval(async () => {
-        // 🛑 Cancelación detectada
         if (typeof window.estadoEjecucion !== 'undefined') {
           clearInterval(verificarInterval);
-          log.warn(`🛑 Ejecución cancelada. Motivo: ${window.estadoEjecucion}`);
-          limpiarVariables();
-          await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+          await manejarCancelacion();
           return;
         }
 
-        // ✅ Variables listas para procesar
         if (typeof window.CanalSeleccionado !== 'undefined' &&
             typeof window.SolicitudIngresada !== 'undefined') {
 
@@ -95,7 +102,6 @@
           const canal = window.CanalSeleccionado;
           const solicitud = window.SolicitudIngresada;
 
-          // 📝 Crear resultados
           const resultadoalert = `🛒 Orden de Mercado
 =========================
 🆔 Nro de orden: ${orden}
@@ -108,7 +114,6 @@ Nro de orden: ${orden}
 Canal: ${canal}
 Solicitud: ${solicitud || ""}`.trim();
 
-          // 📋 Copiar al portapapeles
           try {
             await navigator.clipboard.writeText(resultado);
             log.info('Información copiada al portapapeles ✅');
@@ -119,7 +124,7 @@ Solicitud: ${solicitud || ""}`.trim();
             limpiarVariables();
           }
         }
-      }, 200); // ⏱️ Intervalo de verificación cada 200ms
+      }, 200);
 
     } catch (err) {
       log.error(`Error crítico en la ejecución: ${err}`);
