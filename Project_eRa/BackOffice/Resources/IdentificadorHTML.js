@@ -22,7 +22,8 @@
   }
 
   if (ordenesExpandidas.length > 1) {
-    alert("[IdentificadorHTML] ⚠️ Hay más de una orden desplegada. Por favor, colapsa las demás. solo se permite tener ");
+   // alert("[IdentificadorHTML] ⚠️ Se detectaron varias órdenes desplegadas. Por favor, cierra las demás; solo puedes tener una activa a la vez.");
+    window.estadoEjecucion = "[IdentificadorHTML] ⚠️ Se detectaron varias órdenes desplegadas. Por favor, cierra las demás; solo puedes tener una activa a la vez.";
     console.warn("Varias órdenes expandidas detectadas:", ordenesExpandidas);
     return;
   }
