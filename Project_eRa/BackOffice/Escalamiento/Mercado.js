@@ -68,7 +68,7 @@
               delete window.SolicitudIngresada;
               
               // 🔄 Cargamos el script de cancelación con la URL fija
-              const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Detenido.js';
+              const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
               
               cargarYEjecutarScript(scriptCancelacionURL + timestamp, () => {
                  // Limpiamos la variable de estado después de usarla
