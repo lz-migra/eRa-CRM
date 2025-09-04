@@ -49,7 +49,7 @@
         cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js', function () {
           
           // Limpiamos el estado de ejecución previo para asegurar que la cancelación sea intencional
-          delete window.estadoEjecucion;
+          // delete window.estadoEjecucion;
 
           // ⚡ Se inicia un único intervalo para verificar el estado
           const verificarEstadoInterval = setInterval(() => {
