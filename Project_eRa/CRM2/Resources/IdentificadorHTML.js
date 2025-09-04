@@ -13,8 +13,9 @@
 
   // 🛑 Validaciones: ningún panel o múltiples paneles expandidos
   if (topLevelExpanded.length === 0) {
-    alert("[IdentificadorHTML] ❌ No se encontró ningúna orden deplegada.");
-    console.warn("No hay panel principal expandido.");
+   // alert("[IdentificadorHTML] ❌ No se encontró ninguna orden expandida.");
+    console.warn("No hay ninguna orden expandida en el DOM.");
+    window.estadoEjecucion = "❌ No se detectó ninguna orden activa. Por favor, despliega la orden con la que estás trabajando.";
     return;
   }
 
