@@ -35,7 +35,7 @@
 
             // Cargar modal Canal & Solicitud
             cargarYEjecutarScript(
-              'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Canal%26Solicitud.js',
+              'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js',
               () => {
 
                 const esperarCanalSolicitud = setInterval(() => {
