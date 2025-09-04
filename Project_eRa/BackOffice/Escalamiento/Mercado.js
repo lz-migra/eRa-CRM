@@ -116,12 +116,20 @@ Canal: ${canal}
 Solicitud: ${solicitud || ""}`.trim();
 
           try {
+            // 📋 Copiar al portapapeles
             await navigator.clipboard.writeText(resultado);
             log.info('Información copiada al portapapeles ✅');
-            alert(`${nombreScript}\n\n📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n✅ ${tipoScript} generado con éxito ✅\n\n${resultadoalert}`);
+
+            // 🟢 Guardar mensaje de finalización
+            window.estadoFinalizacion = `${nombreScript}\n\n📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n✅ ${tipoScript} generado con éxito ✅\n\n${resultadoalert}`;
+
+            // 🚀 Ejecutar script de finalización
+            await cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Finalizado.js' + timestamp);
+
           } catch (err) {
             log.error(`Error al copiar al portapapeles: ${err}`);
           } finally {
+            // 🧹 Limpiar variables globales
             limpiarVariables();
           }
         }
@@ -135,3 +143,4 @@ Solicitud: ${solicitud || ""}`.trim();
   })();
 
 })();
+
