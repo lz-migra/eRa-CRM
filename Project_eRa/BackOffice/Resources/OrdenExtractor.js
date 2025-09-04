@@ -5,6 +5,7 @@
   const htmlCrudo = window.bloqueHTMLCapturado;
   if (!htmlCrudo || typeof htmlCrudo !== 'string') {
     alert('[🧩 Extractor] ❌ No se encontró el HTML capturado o no es válido.');
+    window.estadoEjecucion = "cancelado";
     return;
   }
 
