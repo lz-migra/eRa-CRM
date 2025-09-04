@@ -1,50 +1,114 @@
 (function () {
   'use strict';
- // Version 1.2.0
+
+  // ℹ️ INFORMACIÓN DEL SCRIPT
+  // Version 1.3.0 (adaptado)
+  const entornoEjecucion = 'BackOffice';
   const nombreScript = '[MLC💳]';
-  const tipoScript   = 'Escalamiento';
+  const tipoScript = 'Escalamiento';
+  const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
   const timestamp = '?nocache=' + Date.now();
 
-  function cargarYEjecutarScript(url, callback) {
-    fetch(url)
-      .then(res => res.ok ? res.text() : Promise.reject(res.status))
-      .then(code => { new Function(code)(); if (callback) callback(); })
-      .catch(err => console.error(`${nombreScript} ❌ Error en ${url}:`, err));
+  // 📝 LOGGER
+  const log = {
+    info: msg => console.log(`${nombreScript} ℹ️ ${msg}`),
+    warn: msg => console.warn(`${nombreScript} ⚠️ ${msg}`),
+    error: msg => console.error(`${nombreScript} ❌ ${msg}`)
+  };
+
+  // 🧹 Limpiar variables globales
+  function limpiarVariables() {
+    const varsGlobales = [
+      'datosExtraidos',
+      'bloqueElemento',
+      'datosPanel',
+      'bloqueHTMLCapturado',
+      'CanalSeleccionado',
+      'SolicitudIngresada'
+    ];
+    varsGlobales.forEach(v => delete window[v]);
   }
 
-  // Carga inicial de módulos
-  cargarYEjecutarScript(
-    `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/IdentificadorHTML.js${timestamp}`,
-    () => {
-      cargarYEjecutarScript(
-        `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/OrdenExtractor.js${timestamp}`,
-        () => {
+  // 🔁 Función para cargar scripts remotos
+  async function cargarYEjecutarScript(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Estado: ${response.status}`);
+      const code = await response.text();
+      new Function(code)();
+      log.info(`Script ejecutado ✅: ${url}`);
+    } catch (err) {
+      log.error(`Error al cargar/ejecutar el módulo (${url}): ${err}`);
+      window.estadoEjecucion = `Error al cargar/ejecutar módulo: ${url}`;
+    }
+  }
 
-          setTimeout(() => {
-            if (!window.datosExtraidos) {
-              alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
-              return;
-            }
+  // 🔹 Bandera para cargar Detenido.js solo una vez
+  let detenidoCargado = false;
+  async function manejarCancelacion() {
+    if (!detenidoCargado) {
+      detenidoCargado = true;
+      log.warn(`🛑 Ejecución cancelada. Motivo: ${window.estadoEjecucion}`);
+      limpiarVariables();
+      await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+    }
+  }
 
-            const { generales, topup, beneficiario } = window.datosExtraidos;
-            const ordenID    = generales.ordenID;
-            const clienteID  = generales.clienteID;
-            const provincia  = beneficiario.provincia;
-            const nroReparto = beneficiario.nroReparto;
-            const idTopup    = topup.id;
-            const proveedor  = topup.proveedor;
-            const status     = topup.status;
+  // 🚀 EJECUCIÓN PRINCIPAL
+  (async function main() {
+    try {
+      const modulos = [
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/IdentificadorHTML.js',
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/OrdenExtractor.js',
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js'
+      ];
 
-            // Cargar modal Canal & Solicitud
-            cargarYEjecutarScript(
-              'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js',
-              () => {
+      // ⏩ Cargar módulos en secuencia y detener si alguno falla
+      for (const url of modulos) {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
+        await cargarYEjecutarScript(url + timestamp);
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
+      }
 
-                const esperarCanalSolicitud = setInterval(() => {
-                  if (window.CanalSeleccionado !== undefined && window.SolicitudIngresada !== undefined) {
-                    clearInterval(esperarCanalSolicitud);
+      const datos = window.datosExtraidos;
+      if (!datos) {
+        alert(`${nombreScript}\n\n❌ Error: "datosExtraidos" no está definido.`);
+        await manejarCancelacion();
+        return;
+      }
 
-                    const resultadoalert = `
+      const { generales, topup, beneficiario } = datos;
+      const ordenID    = generales.ordenID;
+      const clienteID  = generales.clienteID;
+      const provincia  = beneficiario.provincia;
+      const nroReparto = beneficiario.nroReparto;
+      const idTopup    = topup.id;
+      const proveedor  = topup.proveedor;
+      const status     = topup.status;
+
+      // 2️⃣ SetInterval para esperar Canal y Solicitud
+      const verificarInterval = setInterval(async () => {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          clearInterval(verificarInterval);
+          await manejarCancelacion();
+          return;
+        }
+
+        if (typeof window.CanalSeleccionado !== 'undefined' &&
+            typeof window.SolicitudIngresada !== 'undefined') {
+
+          clearInterval(verificarInterval);
+
+          const canal = window.CanalSeleccionado;
+          const solicitud = window.SolicitudIngresada;
+
+          const resultadoalert = `
 💳 Orden de Remesa MLC
 =========================
 
@@ -55,11 +119,10 @@
 🆔 ID o FOI: ${idTopup}
 ✅ Status: ${status}
 🧑‍🔧 Proveedor: ${proveedor}
-🎧 Canal: ${window.CanalSeleccionado}
-📝 Solicitud: ${window.SolicitudIngresada || ""}
-`.trim();
+🎧 Canal: ${canal}
+📝 Solicitud: ${solicitud || "(vacío)"}`.trim();
 
-                    const resultado = `
+          const resultado = `
 ID del cliente: ${clienteID}
 Tipo de remesa: Domicilio
 Provincia: ${provincia}
@@ -68,33 +131,34 @@ Order code: ${ordenID}
 ID o FOI: ${idTopup}
 Status: ${status}
 Proveedor: ${proveedor}
-Canal: ${window.CanalSeleccionado}
-Solicitud: ${window.SolicitudIngresada || ""}
-`.trim();
+Canal: ${canal}
+Solicitud: ${solicitud || ""}`.trim();
 
-                    navigator.clipboard.writeText(resultado).then(() => {
-                      console.log(nombreScript + ' ✅ Copiado al portapapeles:', resultado);
-                      alert(nombreScript + '\n\n📋 Datos copiados con éxito\n\n' + resultadoalert);
+          try {
+            // 📋 Copiar al portapapeles
+            await navigator.clipboard.writeText(resultado);
+            log.info('Información copiada al portapapeles ✅');
 
-                      // Limpiar variables
-          delete window.datosExtraidos;
-          delete window.bloqueElemento;
-          delete window.datosPanel;
-          delete window.bloqueHTMLCapturado;
-          delete window.CanalSeleccionado;
-          delete window.SolicitudIngresada;
-                    }).catch(err => console.error(nombreScript + ' ❌ Error al copiar:', err));
-                  }
-                }, 200);
+            // 🟢 Guardar mensaje de finalización
+            window.estadoFinalizacion = `${nombreScript}\n\n📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n✅ ${tipoScript} generado con éxito ✅\n\n${resultadoalert}`;
 
-              }
-            );
+            // 🚀 Ejecutar script de finalización
+            await cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Finalizado.js' + timestamp);
 
-          }, 600); // Espera para asegurar que los scripts carguen
-
+          } catch (err) {
+            log.error(`Error al copiar al portapapeles: ${err}`);
+          } finally {
+            // 🧹 Limpiar variables globales
+            limpiarVariables();
+          }
         }
-      );
+      }, 200);
+
+    } catch (err) {
+      log.error(`Error crítico en la ejecución: ${err}`);
+      alert(`${nombreScript}\n\n❌ Error crítico: ${err}`);
+      limpiarVariables();
     }
-  );
+  })();
 
 })();
