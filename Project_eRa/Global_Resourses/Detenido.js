@@ -4,7 +4,7 @@
   const nombreScript = '[Modal Estado Ejecución]';
 
   // 📝 Mensaje configurable
-  const mensajeDetenido = "El proceso fue detenido por el usuario.";
+  const mensajeDetenido = window.estadoEjecucion || 'No hay estado definido';
 
   // 🎨 Estilos para el modal con blur animado
   const style = document.createElement("style");
@@ -16,7 +16,7 @@
       z-index: 9999;
       background: rgba(0,0,0,0);
       backdrop-filter: blur(0px);
-      transition: background 0.3s ease, backdrop-filter 0.3s ease; /* ✨ transición */
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
     .modal-bg.fade-in-bg {
       background: rgba(0,0,0,0.45);
@@ -89,43 +89,40 @@
     modalEl.classList.remove("fade-in-bg");
     modalEl.classList.add("fade-out-bg");
 
-    const finalizarCierre = () => {
-      modalEl.remove();
-      limpiarEstado();
-    };
-
-    if (!inner) {
-      finalizarCierre();
-      return;
+    if (inner) {
+      inner.classList.remove("fade-in");
+      inner.classList.add("fade-out");
     }
 
-    inner.classList.remove("fade-in");
-    inner.classList.add("fade-out");
-
-    setTimeout(finalizarCierre, 300);
+    setTimeout(() => {
+      modalEl.remove();
+      limpiarEstado();
+    }, 300);
   };
 
   // 🪄 Crear modal y mostrarlo de inmediato
   (function mostrarAlInstante() {
-    const modal = document.createElement('div');
-    modal.innerHTML = `
-      <div id="estado-modal" class="modal-bg">
-        <div class="modal-card fade-in">
-          <div class="modal-title">⚠️</div>
-          <div class="modal-message">${mensajeDetenido}</div>
-          <div class="modal-actions">
-            <button class="modal-btn btn-cerrar" onclick="cerrarModalEstado('estado-modal')">Cerrar</button>
-          </div>
+    const modalEl = document.createElement('div');
+    modalEl.id = "estado-modal";
+    modalEl.className = "modal-bg";
+    modalEl.innerHTML = `
+      <div class="modal-card fade-in">
+        <div class="modal-title">⚠️</div>
+        <div class="modal-message">${mensajeDetenido}</div>
+        <div class="modal-actions">
+          <button class="modal-btn btn-cerrar" onclick="cerrarModalEstado('estado-modal')">Cerrar</button>
         </div>
       </div>
     `;
-    const modalEl = modal.querySelector(".modal-bg");
-    document.body.appendChild(modal);
-    // 🚀 forzar la animación de blur con un pequeño delay
+    document.body.appendChild(modalEl);
+
+    // 🚀 Forzar animación de blur
     requestAnimationFrame(() => {
       modalEl.classList.add("fade-in-bg");
     });
+
     console.log(nombreScript + ' 📌 Modal mostrado automáticamente con blur animado');
   })();
 
 })();
+

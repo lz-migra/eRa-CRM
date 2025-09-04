@@ -70,7 +70,7 @@
     if (!inner) {
       modalEl.remove();
       if (cancelar) {
-        window.estadoEjecucion = "cancelado";
+        window.estadoEjecucion = "El proceso fue detenido por el usuario.";
         limpiarScope();
         console.log(nombreScript + " ❌ Cancelado por el usuario");
       }
@@ -86,7 +86,7 @@
     setTimeout(() => {
       modalEl.remove();
       if (cancelar) {
-        window.estadoEjecucion = "cancelado";
+        window.estadoEjecucion = "El proceso fue detenido por el usuario.";
         limpiarScope();
         console.log(nombreScript + " ❌ Cancelado por el usuario");
       }
