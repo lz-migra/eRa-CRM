@@ -1,92 +1,112 @@
 (function () {
   'use strict';
 
-// INFORMACION DEL SCRIPT
-const nombreScript = '[Recarga 📲]'; // define el nombre del script
-const tipoScript   = 'Resumen'; // Define el tipo de script, los alert y console.log se definen como Mensaje o Escalamiento
-  
-  // 📦 Función reutilizable para cargar y ejecutar scripts remotos
-  function cargarYEjecutarScript(url, callback) {
-    console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-        return response.text();
-      })
-      .then(code => {
-        try {
-          new Function(code)(); // Ejecuta el código
-          console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
-          if (typeof callback === 'function') callback();
-        } catch (e) {
-          console.error(`${nombreScript} ❌ Error al ejecutar script (${url}):`, e);
-        }
-      })
-      .catch(error => {
-        console.error(`${nombreScript} ❌ Error al cargar el script (${url}):`, error);
-      });
+  // ℹ️ INFORMACIÓN DEL SCRIPT
+  // 1.3.0
+  const nombreScript = '[Recarga 📲]';
+  const tipoScript   = 'Resumen';
+  const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
+
+  // 🚫 Evitar cache
+  const timestamp = '?nocache=' + Date.now();
+
+  // 📝 LOGGER
+  const log = {
+    info: msg => console.log(`${nombreScript} ℹ️ ${msg}`),
+    warn: msg => console.warn(`${nombreScript} ⚠️ ${msg}`),
+    error: msg => console.error(`${nombreScript} ❌ ${msg}`)
+  };
+
+  // 🧹 Limpiar variables globales
+  function limpiarVariables() {
+    delete window.datosExtraidos;
+    delete window.bloqueElemento;
+    delete window.datosPanel;
+    delete window.bloqueHTMLCapturado;
   }
 
-// 🚫 Evitar cache
-const timestamp = '?nocache=' + Date.now();
+  // 🔁 Función para cargar scripts remotos
+  async function cargarYEjecutarScript(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Estado: ${response.status}`);
+      const code = await response.text();
+      new Function(code)();
+      log.info(`Script ejecutado ✅: ${url}`);
+    } catch (err) {
+      log.error(`Error al cargar/ejecutar el módulo (${url}): ${err}`);
+      window.estadoEjecucion = `Error al cargar/ejecutar módulo: ${url}`;
+    }
+  }
 
-// 🚀 Inicia la carga en cadena
-  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/IdentificadorHTML.js${timestamp}`, function () {
-    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/OrdenExtractor.js${timestamp}`, function () {
+  // 🔹 Bandera para cargar Detenido.js solo una vez
+  let detenidoCargado = false;
+  async function manejarCancelacion() {
+    if (!detenidoCargado) {
+      detenidoCargado = true;
+      log.warn(`🛑 Ejecución cancelada. Motivo: ${window.estadoEjecucion}`);
+      limpiarVariables();
+      await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+    }
+  }
 
-      // Esperar un momento para asegurar que los scripts hayan terminado de procesar
-      setTimeout(() => {
-        if (!window.datosExtraidos) {
-          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.\nNo se generó ningún ' + tipoScript);
+  // 🚀 EJECUCIÓN PRINCIPAL
+  (async function main() {
+    try {
+      const modulos = [
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/IdentificadorHTML.js',
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/CRM2/Resources/OrdenExtractor.js'
+      ];
+
+      // ⏩ Cargar módulos en secuencia y detener si alguno falla
+      for (const url of modulos) {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
+        await cargarYEjecutarScript(url + timestamp);
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
+      }
+
+      // 2️⃣ Esperar con setInterval hasta que datosExtraidos esté disponible
+      const verificarInterval = setInterval(async () => {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          clearInterval(verificarInterval);
+          await manejarCancelacion();
           return;
         }
 
-        const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
+        if (typeof window.datosExtraidos !== 'undefined') {
+          clearInterval(verificarInterval);
 
-        // 🔢 Datos generales
-        const ordenID        = generales.ordenID;
-        const clienteID      = generales.clienteID;
-        const fecha          = generales.fecha;
-        const estadoOrden    = generales.estadoOrden;
-        const montoPagado    = generales.montoPagado;
-        const tarjeta        = generales.tarjeta;
-        const moneda         = montoPagado.replace(/[0-9.\s]+/g, '').trim();
+          const { generales, oferta, topup, beneficiario } = window.datosExtraidos;
 
-        // 🎁 Datos de oferta
-        const tituloOferta   = oferta.titulo;
-        const estadoOferta   = oferta.estado;
-        const precioListado  = oferta.precioListado;
-        const descuento      = oferta.descuento;
-        const precioTotal    = oferta.precioTotal;
+          // 🔢 Datos generales
+          const ordenID     = generales.ordenID;
+          const fecha       = generales.fecha;
+          const montoPagado = generales.montoPagado;
+          const moneda      = montoPagado.replace(/[0-9.\s]+/g, '').trim();
 
-        // 📦 Datos Topup
-        const idTopup       = topup.id;
-        const proveedor     = topup.proveedor;
-        const status        = topup.status;
-        const operador      = topup.operador;
-        const destino       = topup.destino;
-        const rawNombre     = topup.nombre || '';
+          // 🎁 Datos de oferta
+          const tituloOferta  = oferta.titulo;
+          const precioTotal   = oferta.precioTotal;
 
-        // ✅ Capitalizar respetando acentos y paréntesis
-        const nombreTopup = rawNombre
-          .replace(/[^\p{L}() ]+/gu, '') // Solo letras, paréntesis y espacios
-          .toLowerCase()
-          .replace(/\b\p{L}/gu, c => c.toUpperCase());
+          // 📦 Datos Topup
+          const destino   = topup.destino;
+          const rawNombre = topup.nombre || '';
+          const nombreTopup = rawNombre
+            .replace(/[^\p{L}() ]+/gu, '') // Solo letras, paréntesis y espacios
+            .toLowerCase()
+            .replace(/\b\p{L}/gu, c => c.toUpperCase());
 
-        // 👤 Datos del beneficiario
-        const provincia     = beneficiario.provincia;
-        const municipio     = beneficiario.municipio;
-        const direccion     = beneficiario.direccion;
-        const barrio        = beneficiario.barrio;
-        const instrucciones = beneficiario.instrucciones;
-        const nroReparto    = beneficiario.nroReparto;
-        const celular       = beneficiario.celular;
-        const nombre        = beneficiario.nombre;
-        const monto         = beneficiario.monto;
-        const fee           = beneficiario.fee;
+          // 👤 Datos del beneficiario
+          const nombre = beneficiario.nombre;
 
-        // 📋 Plantilla de resultado Alert
-const resultadoalert = `
+          // 📋 Plantilla de resultado Alert
+          const resultadoalert = `
 📲 Resumen de recarga
 ========================
 
@@ -96,36 +116,40 @@ const resultadoalert = `
 💰 ${precioTotal} ${moneda}
 `.trim();
 
-        // 📋 Plantilla de resultado
-        const resultado = `
+          // 📋 Plantilla de resultado
+          const resultado = `
 Orden Nro. ${ordenID} (${fecha})
 ${nombreTopup} | +${destino}
 *${tituloOferta}*
 ${precioTotal} ${moneda}
 `.trim();
 
-        // 📋 Copiar al portapapeles
-        navigator.clipboard.writeText(resultado).then(() => {
-          console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
-          alert(
-            nombreScript + '\n\n' +
-            '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-            '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
-            resultadoalert
-          );
+          try {
+            // 📋 Copiar al portapapeles
+            await navigator.clipboard.writeText(resultado);
+            log.info('Información copiada al portapapeles ✅');
 
-          // 🧹 Limpiar variables globales
-          delete window.datosExtraidos;
-          delete window.bloqueElemento;
-          delete window.datosPanel;
-          delete window.bloqueHTMLCapturado;
+            // 🟢 Guardar mensaje de finalización
+            window.estadoFinalizacion = `${nombreScript}\n\n📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n✅ ${tipoScript} generado con éxito ✅\n\n${resultadoalert}`;
 
-        }).catch((err) => {
-          console.error(nombreScript + '❌ ¡Error al copiar al portapapeles!', err);
-        });
+            // 🚀 Ejecutar script de finalización
+            await cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Finalizado.js' + timestamp);
 
-      }, 600);
-    });
-  });
+          } catch (err) {
+            log.error(`Error al copiar al portapapeles: ${err}`);
+            window.estadoEjecucion = 'Error al copiar al portapapeles';
+            await manejarCancelacion();
+          } finally {
+            limpiarVariables();
+          }
+        }
+      }, 200); // ⏱️ Verifica cada 200ms
+
+    } catch (err) {
+      log.error(`Error crítico en la ejecución: ${err}`);
+      window.estadoEjecucion = `Error crítico: ${err}`;
+      await manejarCancelacion();
+    }
+  })();
 
 })();
