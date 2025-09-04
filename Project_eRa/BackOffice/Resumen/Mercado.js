@@ -2,81 +2,92 @@
   'use strict';
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
+  // 1.3.0
   const nombreScript = '[Mercado 🛒]';
   const tipoScript = 'Resumen';
+  const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
 
   // 🚫 Evitar cache
   const timestamp = '?nocache=' + Date.now();
 
-  // 🔁 Función para cargar scripts remotos
-  function cargarYEjecutarScript(url, callback) {
-    console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error(`Estado: ${response.status}`);
-        return response.text();
-      })
-      .then(code => {
-        try {
-          new Function(code)();
-          console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
-          if (typeof callback === 'function') callback();
-        } catch (e) {
-          console.error(`${nombreScript} ❌ Error al ejecutar script (${url}):`, e);
-        }
-      })
-      .catch(error => {
-        console.error(`${nombreScript} ❌ Error al cargar el script (${url}):`, error);
-      });
+  // 📝 LOGGER
+  const log = {
+    info: msg => console.log(`${nombreScript} ℹ️ ${msg}`),
+    warn: msg => console.warn(`${nombreScript} ⚠️ ${msg}`),
+    error: msg => console.error(`${nombreScript} ❌ ${msg}`)
+  };
+
+  // 🧹 Limpiar variables globales
+  function limpiarVariables() {
+    delete window.datosExtraidos;
+    delete window.bloqueHTMLCapturado;
   }
 
-  // 🔃 Ejecutar en cadena los módulos de Mercado
-  cargarYEjecutarScript(
-    `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`,
-    function () {
-      cargarYEjecutarScript(
-        `https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`,
-        function () {
+  // 🔁 Función para cargar scripts remotos
+  async function cargarYEjecutarScript(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Estado: ${response.status}`);
+      const code = await response.text();
+      new Function(code)();
+      log.info(`Script ejecutado ✅: ${url}`);
+    } catch (err) {
+      log.error(`Error al cargar/ejecutar el módulo (${url}): ${err}`);
+      window.estadoEjecucion = `Error al cargar/ejecutar módulo: ${url}`;
+    }
+  }
 
-          // ⏳ Esperar que se generen los datos
-          setTimeout(() => {
-            const datos = window.datosExtraidos;
+  // 🔹 Bandera para cargar Detenido.js solo una vez
+  let detenidoCargado = false;
+  async function manejarCancelacion() {
+    if (!detenidoCargado) {
+      detenidoCargado = true;
+      log.warn(`🛑 Ejecución cancelada. Motivo: ${window.estadoEjecucion}`);
+      limpiarVariables();
+      await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+    }
+  }
 
-            if (!datos) {
-              alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
-              return;
-            }
+  // 🚀 EJECUCIÓN PRINCIPAL
+  (async function main() {
+    try {
+      const modulos = [
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js',
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js'
+      ];
 
-            // 🧷 Extraer campos necesarios
-            const {
-              orden,
-              cuenta,
-              total,
-              creado,
-              fechaProgramada,
-              nombre,
-              telefono,
-              direccion,
-              negocio
-            } = datos;
+      // ⏩ Cargar módulos en secuencia y detener si alguno falla
+      for (const url of modulos) {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
+        await cargarYEjecutarScript(url + timestamp);
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          await manejarCancelacion();
+          return;
+        }
+      }
 
-            // ✅ Resumir dirección
-            function resuDireccion(texto) {
-              const match = texto.match(/(?:[^,]*,){2}\s*(.*)$/);
-              return match ? match[1].trim() : texto;
-            }
+      // 2️⃣ Esperar con setInterval hasta que datosExtraidos esté disponible
+      const verificarInterval = setInterval(async () => {
+        if (typeof window.estadoEjecucion !== 'undefined') {
+          clearInterval(verificarInterval);
+          await manejarCancelacion();
+          return;
+        }
 
-            // ✅ Resumir fecha
-            function resuFecha(texto) {
-              const match = texto.match(/\d{4}-\d{2}-\d{2}/);
-              return match ? match[0] : texto;
-            }
+        if (typeof window.datosExtraidos !== 'undefined') {
+          clearInterval(verificarInterval);
 
-            const direccionResumida = resuDireccion(direccion);
-            const fechaResumida = resuFecha(creado);
+          const datos = window.datosExtraidos;
+          const { orden, cuenta, total, creado, fechaProgramada, nombre, telefono, direccion, negocio } = datos;
 
-            // 📋 Crear plantilla con los datos
-            const resultadoalert = `
+          // ✅ Resumir dirección y fecha
+          const direccionResumida = (direccion.match(/(?:[^,]*,){2}\s*(.*)$/) || [])[1] || direccion;
+          const fechaResumida = (creado.match(/\d{4}-\d{2}-\d{2}/) || [])[0] || creado;
+
+          const resultadoalert = `
 🛒 Orden de Mercado
 =========================
 
@@ -87,7 +98,7 @@
 🗓️ Fecha programada: ${fechaProgramada}
 `.trim();
 
-            const resultado = `
+          const resultado = `
 Orden Nro. ${orden} (${fechaResumida})
 ${nombre} | ${telefono}
 ${direccionResumida}
@@ -95,26 +106,32 @@ Comercio: ${negocio}
 Fecha programada: ${fechaProgramada}
 `.trim();
 
+          try {
             // 📋 Copiar al portapapeles
-            navigator.clipboard.writeText(resultado).then(() => {
-              console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
-              alert(
-                nombreScript + '\n\n' +
-                '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-                '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
-                resultadoalert
-              );
+            await navigator.clipboard.writeText(resultado);
+            log.info('Información copiada al portapapeles ✅');
 
-              // 🧹 Limpiar variables globales
-              delete window.datosExtraidos;
-              delete window.bloqueHTMLCapturado;
-            }).catch((err) => {
-              console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
-            });
+            // 🟢 Guardar mensaje de finalización
+            window.estadoFinalizacion = `${nombreScript}\n\n📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n✅ ${tipoScript} generado con éxito ✅\n\n${resultadoalert}`;
 
-          }, 600); // ⏱️ Espera para asegurar ejecución de módulos
+            // 🚀 Ejecutar script de finalización
+            await cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Finalizado.js' + timestamp);
+
+          } catch (err) {
+            log.error(`Error al copiar al portapapeles: ${err}`);
+            window.estadoEjecucion = 'Error al copiar al portapapeles';
+            await manejarCancelacion();
+          } finally {
+            limpiarVariables();
+          }
         }
-      );
+      }, 200); // ⏱️ Verifica cada 200ms
+
+    } catch (err) {
+      log.error(`Error crítico en la ejecución: ${err}`);
+      window.estadoEjecucion = `Error crítico: ${err}`;
+      await manejarCancelacion();
     }
-  );
+  })();
+
 })();
