@@ -86,7 +86,7 @@
     setTimeout(() => {
       modalEl.remove();
       if (cancelar) {
-        window.estadoEjecucion = "cancelado";
+        window.EstadoEjecucion = "cancelado";
         limpiarScope();
         console.log(nombreScript + " ❌ Cancelado por el usuario");
       }
