@@ -135,10 +135,10 @@ Solicitud: ${solicitud || ""}`.trim();
         }
       }, 200);
 
-    } catch (err) {
+     } catch (err) {
       log.error(`Error crítico en la ejecución: ${err}`);
-      alert(`${nombreScript}\n\n❌ Error crítico: ${err}`);
-      limpiarVariables();
+      window.estadoEjecucion = `Error crítico: ${err}`;
+      await manejarCancelacion();
     }
   })();
 
