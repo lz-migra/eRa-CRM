@@ -2,6 +2,7 @@
   'use strict';
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
+  // Version 1.3.0
   const entornoEjecucion = 'BackOffice';
   const nombreScript = '[Mercado 🛒]';
   const tipoScript = 'Escalamiento';
@@ -25,8 +26,7 @@
       'datosPanel',
       'bloqueHTMLCapturado',
       'CanalSeleccionado',
-      'SolicitudIngresada',
-      'estadoEjecucion'
+      'SolicitudIngresada'
     ];
     varsGlobales.forEach(v => delete window[v]);
   }
