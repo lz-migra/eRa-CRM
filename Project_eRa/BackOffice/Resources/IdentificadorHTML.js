@@ -15,7 +15,7 @@
 
   // 🛑 Validaciones
   if (ordenesExpandidas.length === 0) {
-    alert("[IdentificadorHTML] ❌ No se encontró ninguna orden expandida.");
+    // alert("[IdentificadorHTML] ❌ No se encontró ninguna orden expandida.");
     console.warn("No hay ninguna orden expandida en el DOM.");
     window.estadoEjecucion = "cancelado";
     return;

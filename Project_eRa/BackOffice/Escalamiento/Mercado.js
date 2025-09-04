@@ -2,6 +2,7 @@
   'use strict';
 
   // ℹ️ INFORMACIÓN DEL SCRIPT
+  conts entornoEjecucion = 'BackOffice';
   const nombreScript = '[Mercado 🛒]';
   const tipoScript = 'Escalamiento';
   const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
