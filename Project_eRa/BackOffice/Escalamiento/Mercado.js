@@ -9,10 +9,16 @@
   // 🚫 Evitar cache
   const timestamp = '?nocache=' + Date.now();
 
+  // 📝 LOGGER
+  const log = {
+    info: msg => console.log(`${nombreScript} ℹ️ ${msg}`),
+    warn: msg => console.warn(`${nombreScript} ⚠️ ${msg}`),
+    error: msg => console.error(`${nombreScript} ❌ ${msg}`)
+  };
+
   // 🔁 Función para cargar scripts remotos
-  function cargarYEjecutarScript(url, callback) {
-    console.log(`${nombreScript} 🔄 Cargando script desde: ${url}`);
-    fetch(url)
+  function cargarYEjecutarScript(url) {
+    return fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`Estado: ${response.status}`);
         return response.text();
@@ -20,111 +26,108 @@
       .then(code => {
         try {
           new Function(code)();
-          console.log(`${nombreScript} ✅ Script ejecutado: ${url}`);
-          if (typeof callback === 'function') callback();
+          log.info(`Script ejecutado ✅: ${url}`);
         } catch (e) {
-          console.error(`${nombreScript} ❌ Error al ejecutar script (${url}):`, e);
+          throw new Error(`Error al ejecutar script (${url}): ${e.message}`);
         }
       })
-      .catch(error => {
-        console.error(`${nombreScript} ❌ Error al cargar el script (${url}):`, error);
+      .catch(err => {
+        log.error(err);
+        throw err;
       });
   }
 
-  // 🔃 Ejecutar en cadena los módulos de Mercado
-  cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`, function () {
-    cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`, function () {
+  // ⏳ Función para esperar una variable global
+  function esperarVariable(variableName, timeout = 5000) {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(() => {
+        if (typeof window[variableName] !== 'undefined') {
+          clearInterval(interval);
+          resolve(window[variableName]);
+        }
+      }, 100);
 
       setTimeout(() => {
-        const datos = window.datosExtraidos;
+        clearInterval(interval);
+        reject(`${variableName} no se definió en ${timeout}ms`);
+      }, timeout);
+    });
+  }
 
-        if (!datos) {
-          alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
-          cargarYEjecutarScript(scriptCancelacionURL + timestamp,
-          return;
-        }
+  // 🧹 Limpiar variables globales
+  function limpiarVariables() {
+    const varsGlobales = [
+      'datosExtraidos',
+      'bloqueElemento',
+      'datosPanel',
+      'bloqueHTMLCapturado',
+      'CanalSeleccionado',
+      'SolicitudIngresada',
+      'estadoEjecucion'
+    ];
+    varsGlobales.forEach(v => delete window[v]);
+  }
 
-        // 🧷 Extraer campos necesarios
-        const { orden, cuenta } = datos;
+  // 🚀 EJECUCIÓN PRINCIPAL
+  (async function main() {
+    try {
+      // 1️⃣ Cargar módulos necesarios
+      await cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`);
+      await cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`);
 
-        // 📌 Ahora cargamos el modal de Canal & Solicitud
-        cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js', function () {
-          
-          // Limpiamos el estado de ejecución previo para asegurar que la cancelación sea intencional
-          // delete window.estadoEjecucion;
+      const datos = window.datosExtraidos;
+      if (!datos) {
+        alert(`${nombreScript}\n\n❌ Error: "datosExtraidos" no está definido.`);
+        await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+        return;
+      }
 
-          // ⚡ Se inicia un único intervalo para verificar el estado
-          const verificarEstadoInterval = setInterval(() => {
+      const { orden, cuenta } = datos;
 
-            // ==================================================================
-            // 🛑 CONDICIÓN 1: VERIFICAR SI SE CANCELÓ LA EJECUCIÓN
-            // ==================================================================
-            if (typeof window.estadoEjecucion !== 'undefined') {
-              // Detenemos el intervalo para no seguir verificando
-              clearInterval(verificarEstadoInterval);
+      // 2️⃣ Cargar modal Canal & Solicitud
+      await cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js${timestamp}`);
 
-              console.warn(`${nombreScript} 🛑 Ejecución cancelada. Motivo:`, window.estadoEjecucion);
-              
-              // 🧹 Limpiamos las variables globales que ya no se usarán
-                delete window.datosExtraidos;
-                delete window.bloqueElemento;
-                delete window.datosPanel;
-                delete window.bloqueHTMLCapturado;
-                delete window.CanalSeleccionado;
-                delete window.SolicitudIngresada;
-              
-              // 🔄 Cargamos el script de cancelación con la URL fija
-                  cargarYEjecutarScript(scriptCancelacionURL + timestamp, () => 
-              });
+      // 3️⃣ Esperar selección de Canal y Solicitud
+      try {
+        const [canal, solicitud] = await Promise.all([
+          esperarVariable('CanalSeleccionado', 10000),
+          esperarVariable('SolicitudIngresada', 10000)
+        ]);
 
-            // ==================================================================
-            // ✅ CONDICIÓN 2: VERIFICAR SI LA EJECUCIÓN CONTINÚA NORMALMENTE
-            // ==================================================================
-            } else if (typeof window.CanalSeleccionado !== 'undefined' && typeof window.SolicitudIngresada !== 'undefined') {
-              // Detenemos el intervalo porque ya tenemos los datos
-              clearInterval(verificarEstadoInterval);
-
-              // 📋 Crear plantilla con los datos y los valores seleccionados
-              const resultadoalert = `🛒 Orden de Mercado
+        // 4️⃣ Crear plantillas de resultado
+        const resultadoalert = `🛒 Orden de Mercado
 =========================
-
 🆔 Nro de orden: ${orden}
 👤 ID cliente: ${cuenta}
-🎧 Canal: ${window.CanalSeleccionado}
-📝 Solicitud: ${window.SolicitudIngresada || "(vacío)"}`.trim();
+🎧 Canal: ${canal}
+📝 Solicitud: ${solicitud || "(vacío)"}`.trim();
 
-              const resultado = `ID cliente: ${cuenta}
+        const resultado = `ID cliente: ${cuenta}
 Nro de orden: ${orden}
-Canal: ${window.CanalSeleccionado}
-Solicitud: ${window.SolicitudIngresada || ""}`.trim();
+Canal: ${canal}
+Solicitud: ${solicitud || ""}`.trim();
 
-              // 📋 Copiar al portapapeles
-              navigator.clipboard.writeText(resultado).then(() => {
-                console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
-                alert(
-                  nombreScript + '\n\n' +
-                  '📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n' +
-                  '✅ ' + tipoScript + ' generado con éxito ✅\n\n' +
-                  resultadoalert
-                );
+        // 5️⃣ Copiar al portapapeles
+        await navigator.clipboard.writeText(resultado);
+        log.info('Información copiada al portapapeles ✅');
+        alert(`${nombreScript}\n\n📋 ¡Todos los datos fueron copiados al portapapeles! 📋\n✅ ${tipoScript} generado con éxito ✅\n\n${resultadoalert}`);
 
-                // 🧹 Limpiar variables globales de la operación exitosa
-                delete window.datosExtraidos;
-                delete window.bloqueElemento;
-                delete window.datosPanel;
-                delete window.bloqueHTMLCapturado;
-                delete window.CanalSeleccionado;
-                delete window.SolicitudIngresada;
-              }).catch(err => {
-                console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
-              });
-            }
-          }, 200);
+      } catch (err) {
+        log.warn(`⏳ Tiempo de espera superado o cancelación detectada: ${err}`);
+        if (window.estadoEjecucion) {
+          log.warn(`🛑 Ejecución cancelada. Motivo: ${window.estadoEjecucion}`);
+        }
+        await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+      } finally {
+        // 6️⃣ Limpiar todas las variables globales usadas
+        limpiarVariables();
+      }
 
-        });
-
-      }, 600); // ⏱️ Espera para asegurar ejecución de módulos
-    });
-  });
+    } catch (err) {
+      log.error(`Error crítico en la ejecución: ${err}`);
+      alert(`${nombreScript}\n\n❌ Error crítico: ${err}`);
+      limpiarVariables();
+    }
+  })();
 
 })();
