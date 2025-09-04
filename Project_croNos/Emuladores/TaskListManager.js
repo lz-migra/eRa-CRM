@@ -6,7 +6,7 @@ window.TaskListManager = (function () {
     return outer ? outer.querySelector("div") : null; // 👈 el hijo interno
   };
 
-  // 📦 Diccionario de plantillas HTML personalizadas
+    // 📦 Diccionario de plantillas HTML personalizadas
   const templates = {
     "CHAT": `
       <div class="Twilio-TaskListBaseItem css-h9kan6" data-testid="task-item" tabindex="0" role="button" aria-label="chat task with status accepted from WA-IN | 📞 | US | +13053918485 | for queue IN_WHATSAPP_CLL. . Attention required.. 2 unread messages.. Customer is offline."><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-IconAreaContainer css-1r1u88g"><button class="MuiButtonBase-root MuiIconButton-root Twilio-IconButton css-169h1y7 Twilio-TaskListBaseItem-IconArea css-19145cc" tabindex="-1" type="button" aria-hidden="true"><span class="MuiIconButton-label"><div data-testid="Twilio-Icon" class="Twilio-Icon Twilio-Icon-Whatsapp  css-1j3rlv1"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="Twilio-Icon-Content"><path d="M13.973 11.729c.146.07.245.117.287.187.052.087.053.504-.122.992-.175.487-1.012.931-1.414.991a2.883 2.883 0 01-1.32-.082 12.06 12.06 0 01-1.195-.44c-1.963-.843-3.29-2.737-3.542-3.096a2.543 2.543 0 00-.037-.052l-.001-.002c-.11-.146-.855-1.134-.855-2.156 0-.96.474-1.464.693-1.695l.04-.044a.771.771 0 01.56-.261c.139 0 .279.001.4.007h.048c.122 0 .274 0 .424.358l.233.562c.18.436.378.917.413.986.053.105.088.227.018.366l-.03.058c-.052.107-.09.186-.18.29a8.54 8.54 0 00-.105.126c-.073.088-.146.176-.209.239-.105.104-.214.217-.092.426.122.208.543.891 1.166 1.444.67.595 1.251.846 1.546.973.058.025.105.045.139.063.21.104.331.087.454-.053.122-.139.524-.609.663-.817.14-.21.28-.174.472-.105.192.07 1.222.574 1.431.679l.115.056z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2a8 8 0 00-7.02 11.84c.003.005.003.01.003.01l-.78 2.916a.842.842 0 001.03 1.031l2.917-.78s.004 0 .01.003A8 8 0 1010 2zm-7.158 8a7.158 7.158 0 113.723 6.281.855.855 0 00-.632-.078l-2.917.78.78-2.916a.855.855 0 00-.077-.632A7.124 7.124 0 012.842 10z" fill="currentColor"></path></svg></div></span></button><div class="Twilio-Badge-OuterCircle css-wcl2mj"><div class="Twilio-Badge-InnerCircle css-e0wrci"><span class="Twilio-Badge-TextContainer css-dr2ko4">2</span></div></div></div><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653" data-testid="task-item-first-line"><span class="Twilio"> WA-IN | 📞 | US | +13053918485 | </span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio css-1o089kg">06:14 |    whatsapp:+13053918485:  3053918485 </span></div></div><div class="Twilio-TaskListBaseItem-Actions css-4x1hxs"></div></div></div>
@@ -33,36 +33,27 @@ window.TaskListManager = (function () {
       const newCard = template.firstChild;
 
       container.prepend(newCard);
-      console.log("✅ Tarjeta agregada manualmente.");
+      console.log("✅ Tarjeta agregada.");
       return newCard;
     },
 
     // ➕ Agregar tarjeta desde las plantillas guardadas
-    addCardFromSaved: function () {
-      const keys = Object.keys(templates);
-      const choice = prompt(
-        `👉 Elige una tarjeta para agregar:\n${keys.map((k, i) => `${i + 1}. ${k}`).join("\n")}`
-      );
-
-      if (!choice) {
-        console.warn("⚠️ Operación cancelada por el usuario.");
+    addCardFromSaved: function (key) {
+      if (!key) {
+        console.info("👉 Plantillas disponibles:", Object.keys(templates));
+        console.info('Usa: TaskListManager.addCardFromSaved("whatsapp")');
         return;
       }
 
-      let key = choice;
-      if (!isNaN(choice)) {
-        key = keys[parseInt(choice) - 1]; // Permite elegir por número
-      }
-
       if (!templates[key]) {
-        console.error("❌ No existe una plantilla con ese nombre.");
+        console.error(`❌ No existe una plantilla con el nombre "${key}".`);
         return;
       }
 
       return this.addRawCard(templates[key]);
     },
 
-    // ❌ Eliminar tarjeta por nombre
+    // ❌ Eliminar tarjeta por nombre exacto
     removeCard: function (name) {
       const container = getContainer();
       if (!container) return;
@@ -95,7 +86,7 @@ window.TaskListManager = (function () {
       console.log("🔥 Todas las tarjetas fueron eliminadas.");
     },
 
-    // 📦 Permite agregar nuevas plantillas al diccionario
+    // 💾 Guardar nueva plantilla personalizada
     saveTemplate: function (key, htmlString) {
       templates[key] = htmlString;
       console.log(`💾 Plantilla "${key}" guardada correctamente.`);
