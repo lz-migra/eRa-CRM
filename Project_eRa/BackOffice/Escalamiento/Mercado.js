@@ -43,51 +43,44 @@
         }
 
         // 🧷 Extraer campos necesarios
-        const { orden, cuenta, total, creado, fechaProgramada, nombre, telefono, direccion, negocio } = datos;
+        const { orden, cuenta } = datos;
 
         // 📌 Ahora cargamos el modal de Canal & Solicitud
         cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Canal%26Solicitud.js', function () {
           
-          let esperarCanalSolicitud;
-          let verificarCancelacion;
+          // Limpiamos el estado de ejecución previo para asegurar que la cancelación sea intencional
+          delete window.estadoEjecucion;
 
-          // ==================================================================
-          // 🛑 INICIO: LÓGICA DE CANCELACIÓN AÑADIDA
-          // ==================================================================
-verificarCancelacion = setInterval(() => {
-  // Si `estadoEjecucion` tiene cualquier valor, se cancela todo.
-  if (typeof window.estadoEjecucion !== 'undefined') {
-    // Detenemos ambos intervalos
-    clearInterval(esperarCanalSolicitud);
-    clearInterval(verificarCancelacion);
-    
-    console.warn(`${nombreScript} 🛑 Ejecución cancelada por el usuario. Motivo:`, window.estadoEjecucion);
+          // ⚡ Se inicia un único intervalo para verificar el estado
+          const verificarEstadoInterval = setInterval(() => {
 
-    // Limpiamos las variables globales para evitar estados inconsistentes
-    delete window.estadoEjecucion;
-    delete window.CanalSeleccionado;
-    delete window.SolicitudIngresada;
+            // ==================================================================
+            // 🛑 CONDICIÓN 1: VERIFICAR SI SE CANCELÓ LA EJECUCIÓN
+            // ==================================================================
+            if (typeof window.estadoEjecucion !== 'undefined') {
+              // Detenemos el intervalo para no seguir verificando
+              clearInterval(verificarEstadoInterval);
 
-    // 🔹 Cargamos y ejecutamos el script externo
-    cargarYEjecutarScript(
-      'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Detenido.js', 
-      function () {
-        console.log('Script de detención cargado y ejecutado ✅');
-      }
-    );
-  }
-}, 200);
-          // ==================================================================
-          // 🛑 FIN: LÓGICA DE CANCELACIÓN AÑADIDA
-          // ==================================================================
+              console.warn(`${nombreScript} 🛑 Ejecución cancelada. Motivo:`, window.estadoEjecucion);
+              
+              // 🧹 Limpiamos las variables globales que ya no se usarán
+              delete window.CanalSeleccionado;
+              delete window.SolicitudIngresada;
+              
+              // 🔄 Cargamos el script de cancelación con la URL fija
+              const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Detenido.js';
+              
+              cargarYEjecutarScript(scriptCancelacionURL + timestamp, () => {
+                 // Limpiamos la variable de estado después de usarla
+                 delete window.estadoEjecucion;
+              });
 
-
-          // ⚡ Esperamos a que el usuario seleccione Canal y Solicitud
-          esperarCanalSolicitud = setInterval(() => {
-            if (typeof window.CanalSeleccionado !== 'undefined' && typeof window.SolicitudIngresada !== 'undefined') {
-              // Detenemos ambos intervalos, ya que la ejecución fue exitosa
-              clearInterval(esperarCanalSolicitud);
-              clearInterval(verificarCancelacion);
+            // ==================================================================
+            // ✅ CONDICIÓN 2: VERIFICAR SI LA EJECUCIÓN CONTINÚA NORMALMENTE
+            // ==================================================================
+            } else if (typeof window.CanalSeleccionado !== 'undefined' && typeof window.SolicitudIngresada !== 'undefined') {
+              // Detenemos el intervalo porque ya tenemos los datos
+              clearInterval(verificarEstadoInterval);
 
               // 📋 Crear plantilla con los datos y los valores seleccionados
               const resultadoalert = `🛒 Orden de Mercado
@@ -102,7 +95,7 @@ verificarCancelacion = setInterval(() => {
 Nro de orden: ${orden}
 Canal: ${window.CanalSeleccionado}
 Solicitud: ${window.SolicitudIngresada || ""}`.trim();
-              
+
               // 📋 Copiar al portapapeles
               navigator.clipboard.writeText(resultado).then(() => {
                 console.log(nombreScript + ' ✅ Información copiada al portapapeles:', resultado);
@@ -113,16 +106,13 @@ Solicitud: ${window.SolicitudIngresada || ""}`.trim();
                   resultadoalert
                 );
 
-                // 🧹 Limpiar variables globales
+                // 🧹 Limpiar variables globales de la operación exitosa
                 delete window.datosExtraidos;
                 delete window.bloqueElemento;
                 delete window.datosPanel;
                 delete window.bloqueHTMLCapturado;
                 delete window.CanalSeleccionado;
                 delete window.SolicitudIngresada;
-                delete window.estadoEjecucion;
-                clearInterval(esperarCanalSolicitud);
-                clearInterval(verificarCancelacion); 
               }).catch(err => {
                 console.error(nombreScript + ' ❌ Error al copiar al portapapeles:', err);
               });
