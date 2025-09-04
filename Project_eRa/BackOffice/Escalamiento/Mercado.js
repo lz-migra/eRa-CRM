@@ -4,6 +4,7 @@
   // ℹ️ INFORMACIÓN DEL SCRIPT
   const nombreScript = '[Mercado 🛒]';
   const tipoScript = 'Escalamiento';
+  const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
 
   // 🚫 Evitar cache
   const timestamp = '?nocache=' + Date.now();
@@ -39,6 +40,7 @@
 
         if (!datos) {
           alert(nombreScript + '\n\n❌ Error: "datosExtraidos" no está definido.');
+          cargarYEjecutarScript(scriptCancelacionURL + timestamp,
           return;
         }
 
@@ -64,15 +66,15 @@
               console.warn(`${nombreScript} 🛑 Ejecución cancelada. Motivo:`, window.estadoEjecucion);
               
               // 🧹 Limpiamos las variables globales que ya no se usarán
-              delete window.CanalSeleccionado;
-              delete window.SolicitudIngresada;
+                delete window.datosExtraidos;
+                delete window.bloqueElemento;
+                delete window.datosPanel;
+                delete window.bloqueHTMLCapturado;
+                delete window.CanalSeleccionado;
+                delete window.SolicitudIngresada;
               
               // 🔄 Cargamos el script de cancelación con la URL fija
-              const scriptCancelacionURL = 'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Detenido.js';
-              
-              cargarYEjecutarScript(scriptCancelacionURL + timestamp, () => {
-                 // Limpiamos la variable de estado después de usarla
-                 delete window.estadoEjecucion;
+                  cargarYEjecutarScript(scriptCancelacionURL + timestamp, () => 
               });
 
             // ==================================================================
