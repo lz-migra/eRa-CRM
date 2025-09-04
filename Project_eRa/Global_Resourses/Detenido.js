@@ -76,7 +76,7 @@
 
   // 🧹 Limpieza: elimina solo la bandera
   function limpiarEstado() {
-    delete window.EstadoEjecucion;
+    delete window.estadoEjecucion;
     console.log(nombreScript + ' 🗑 Se eliminó EstadoEjecucion');
   }
 
