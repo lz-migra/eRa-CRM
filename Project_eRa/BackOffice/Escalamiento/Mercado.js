@@ -54,21 +54,29 @@
           // ==================================================================
           // 🛑 INICIO: LÓGICA DE CANCELACIÓN AÑADIDA
           // ==================================================================
-          verificarCancelacion = setInterval(() => {
-            // Si `estadoEjecucion` tiene cualquier valor, se cancela todo.
-            if (typeof window.estadoEjecucion !== 'undefined') {
-              // Detenemos ambos intervalos
-              clearInterval(esperarCanalSolicitud);
-              clearInterval(verificarCancelacion);
-              
-              console.warn(`${nombreScript} 🛑 Ejecución cancelada por el usuario. Motivo:`, window.estadoEjecucion);
+verificarCancelacion = setInterval(() => {
+  // Si `estadoEjecucion` tiene cualquier valor, se cancela todo.
+  if (typeof window.estadoEjecucion !== 'undefined') {
+    // Detenemos ambos intervalos
+    clearInterval(esperarCanalSolicitud);
+    clearInterval(verificarCancelacion);
+    
+    console.warn(`${nombreScript} 🛑 Ejecución cancelada por el usuario. Motivo:`, window.estadoEjecucion);
 
-              // Limpiamos las variables globales para evitar estados inconsistentes
-              delete window.estadoEjecucion;
-              delete window.CanalSeleccionado;
-              delete window.SolicitudIngresada;
-            }
-          }, 200);
+    // Limpiamos las variables globales para evitar estados inconsistentes
+    delete window.estadoEjecucion;
+    delete window.CanalSeleccionado;
+    delete window.SolicitudIngresada;
+
+    // 🔹 Cargamos y ejecutamos el script externo
+    cargarYEjecutarScript(
+      'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Detenido.js', 
+      function () {
+        console.log('Script de detención cargado y ejecutado ✅');
+      }
+    );
+  }
+}, 200);
           // ==================================================================
           // 🛑 FIN: LÓGICA DE CANCELACIÓN AÑADIDA
           // ==================================================================
