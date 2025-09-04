@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-
+ // Version 1.2.0
   const nombreScript = '[MLC💳]';
   const tipoScript   = 'Escalamiento';
   const timestamp = '?nocache=' + Date.now();
