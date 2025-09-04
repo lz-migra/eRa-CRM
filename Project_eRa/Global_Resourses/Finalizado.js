@@ -3,7 +3,7 @@
 
   const nombreScript = '[Modal Estado Finalización]';
 
-  // 📝 Mensaje de finalización
+  // 📝 Mensaje de finalización (respetando saltos de línea)
   const mensajeFinalizado = window.estadoFinalizacion || '¡Proceso finalizado con éxito!';
 
   // 🎨 Estilos para el modal con blur animado
@@ -49,6 +49,7 @@
     .modal-message {
       font-size: 16px;
       margin-bottom: 20px;
+      white-space: pre-line; /* 🔹 Respeta saltos de línea y espacios */
     }
     .modal-btn {
       padding: 10px 20px;
