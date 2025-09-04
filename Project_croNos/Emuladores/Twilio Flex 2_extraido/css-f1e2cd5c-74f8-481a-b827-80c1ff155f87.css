@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+.react-datetime-picker--disabled { background-color: var(--darkreader-background-f0f0f0, #202325); color: var(--darkreader-text-6d6d6d, #a49c8f); }
+
+.react-datetime-picker__wrapper { border-top-color: var(--darkreader-border-808080, #545b5e); border-right-color: var(--darkreader-border-808080, #545b5e); border-bottom-color: var(--darkreader-border-808080, #545b5e); border-left-color: var(--darkreader-border-808080, #545b5e); }
+
+.react-datetime-picker__inputGroup__input { border-width: 0px; border-style: initial; border-color: initial; background-image: none; background-color: initial; color: currentcolor; }
+
+.react-datetime-picker__inputGroup__input:invalid { background-image: initial; background-color: var(--darkreader-background-ff00001a, rgba(204, 0, 0, 0.1)); }
+
+.react-datetime-picker__inputGroup__amPm { color: currentcolor; }
+
+.react-datetime-picker__inputGroup__amPm option { color: var(--darkreader-text-000000, #e8e6e3); }
+
+.react-datetime-picker__button { border-width: 0px; border-style: initial; border-color: initial; background-image: initial; background-color: transparent; color: currentcolor; }
+
+.react-datetime-picker__button:enabled:hover .react-datetime-picker__button__icon, .react-datetime-picker__button:enabled:focus .react-datetime-picker__button__icon { stroke: var(--darkreader-text-0078d7, #72c3ff); }
+
+.react-datetime-picker__button:disabled .react-datetime-picker__button__icon { stroke: var(--darkreader-text-6d6d6d, #a49c8f); }
+
+.react-datetime-picker__button svg { stroke: currentcolor; }
+
+.react-datetime-picker__calendar, .react-datetime-picker__clock { color: var(--darkreader-text-000000, #e8e6e3); }
+
+.react-datetime-picker__clock { background-color: var(--darkreader-background-ffffff, #181a1b); border-top-color: var(--darkreader-border-a0a096, #4c5356); border-right-color: var(--darkreader-border-a0a096, #4c5356); border-bottom-color: var(--darkreader-border-a0a096, #4c5356); border-left-color: var(--darkreader-border-a0a096, #4c5356); color: var(--darkreader-text-000000, #e8e6e3); }

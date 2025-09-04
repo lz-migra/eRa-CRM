@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+.capitalize { text-transform: capitalize; }
+
+html { overflow: auto; }
+
+.spacer { border-bottom: 1px solid rgb(54, 54, 54); padding-bottom: 0.5rem; }
+
+.Twilio-MessageBubble-Header > div { font-size: 11px; }
+
+.Twilio-MessageBubble-Body > span, .Twilio-MessageBubble-Body > div > p { font-size: 13px; }
+
+div.Twilio-QueuesDataTable > table > tbody > tr > td > ul > li > div, div.Twilio-QueuesDataTable > table > tbody > tr > td > ul > li { font-size: 14px; }
+
+.Twilio-Side-Link:hover { background-color: var(--hover-color-sideNav-buttons); }
+
+.Twilio-Side-Link--Active:hover { background-color: var(--hover-color-sideNav-buttons); }
+
+.Twilio-MainHeader-default { align-items: center; }

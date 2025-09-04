@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+#root, body { margin: 0px; padding: 0px; width: 100vw; height: 100vh; display: flex; font-family: "Open Sans", sans-serif; }
+
+.Hosted-LoadingView { display: flex; width: 100%; flex-direction: column; height: 100%; background-color: rgb(32, 33, 37); color: rgb(255, 255, 255); }
+
+.Hosted-LoadingView-Container { position: relative; margin: auto; }
+
+.Hosted-LogoWithCircle { flex: 0 0 auto; position: relative; margin-bottom: 6px; overflow: hidden; }
+
+.Hosted-Progress-Container { position: absolute; width: 100%; height: 100%; text-align: center; }
+
+.Hosted-Progress { display: inline-block; position: relative; width: 124px; height: 124px; animation: 0.8s linear 0s infinite normal none running animation-spinner; }
+
+.Hosted-Progress::before { content: ""; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; box-sizing: border-box; border-width: 3px; border-style: solid; border-radius: 50%; border-color: rgb(96, 100, 113); }
+
+.Hosted-Progress::after { content: ""; box-sizing: border-box; display: initial; width: 50%; height: 50%; position: absolute; top: 0px; left: 0px; border-width: 3px; border-style: solid; border-color: rgb(25, 118, 210) transparent transparent rgb(25, 118, 210); border-radius: 100% 0px 0px; }
+
+@keyframes animation-spinner { 
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.Hosted-Icon-Container { position: relative; }
+
+.Hosted-LoadingView-Label { position: relative; font-size: 14px; margin-top: 30px; text-align: center; }
+
+#flex-error-text { font-size: 12px; margin-top: 40px; margin-left: 10px; display: none; position: fixed; }
+
+#flex-error-text a { color: white; }

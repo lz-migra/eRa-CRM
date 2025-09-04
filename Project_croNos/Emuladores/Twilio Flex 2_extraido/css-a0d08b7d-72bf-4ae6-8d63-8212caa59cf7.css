@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+.react-clock__face { border-top-color: var(--darkreader-border-000000, #8c8273); border-right-color: var(--darkreader-border-000000, #8c8273); border-bottom-color: var(--darkreader-border-000000, #8c8273); border-left-color: var(--darkreader-border-000000, #8c8273); }
+
+.react-clock__hand__body { background-color: var(--darkreader-background-000000, #181a1b); }
+
+.react-clock__mark__body { background-color: var(--darkreader-background-000000, #181a1b); }
+
+.react-clock__second-hand__body { background-color: var(--darkreader-background-ff0000, #cc0000); }

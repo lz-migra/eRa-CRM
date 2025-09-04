@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+.tiptap, .ProseMirror, .ProseMirror-focused { border: none transparent; overflow-y: auto; min-height: 380px; max-height: 380px; }
+
+.tiptap:focus-visible { outline: none; }
+
+.tiptap em { font-style: italic; }
+
+.tiptap strong { font-weight: 700; }
+
+.tiptap p.is-editor-empty:first-child::before { color: hsla(var(--bulma-text-h), var(--bulma-text-s), var(--bulma-text-strong-l), 0.3); content: attr(data-placeholder); float: left; height: 0px; pointer-events: none; }
+
+.tiptap p:not(:last-child) { margin-bottom: 0px; }

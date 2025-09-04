@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+.MuiIconButton-root { color: inherit; background-image: inherit; background-color: inherit; border-color: transparent; }
+
+.MuiIconButton-root:hover { background-color: var(--darkreader-background-1f304c, #213452); }
+
+.MuiIconButton-root.Mui-disabled { color: inherit; background-color: transparent; }
+
+.MuiIconButton-root:focus-visible { background-image: initial; background-color: var(--darkreader-background-1f304c, #213452); border-top-color: var(--darkreader-border-0263e0, #0252ba); border-right-color: var(--darkreader-border-0263e0, #0252ba); border-bottom-color: var(--darkreader-border-0263e0, #0252ba); border-left-color: var(--darkreader-border-0263e0, #0252ba); }
+
+.MuiIconButton-root:active { background-image: initial; background-color: var(--darkreader-background-ffffff4d, rgba(24, 26, 27, 0.3)); }
+
+.MuiIconButton-root:hover:focus-visible { outline-color: initial; }
+
+@media (hover: none) {
+  .MuiIconButton-root:hover { background-color: transparent; }
+}
+
+.MuiIconButton-colorInherit { color: inherit; }
+
+.MuiIconButton-colorPrimary { color: var(--darkreader-text-0d131c, #dbd8d3); background-image: initial; background-color: var(--darkreader-background-0263e0, #0252b9); border-top-color: var(--darkreader-border-0263e0, #0252ba); border-right-color: var(--darkreader-border-0263e0, #0252ba); border-bottom-color: var(--darkreader-border-0263e0, #0252ba); border-left-color: var(--darkreader-border-0263e0, #0252ba); }
+
+.MuiIconButton-colorPrimary:hover { border-top-color: var(--darkreader-border-99cdff, #004485); border-right-color: var(--darkreader-border-99cdff, #004485); border-bottom-color: var(--darkreader-border-99cdff, #004485); border-left-color: var(--darkreader-border-99cdff, #004485); background-color: var(--darkreader-background-cce4ff, #262a2b); }
+
+.MuiIconButton-colorPrimary:focus-visible { background-image: initial; background-color: var(--darkreader-background-cce4ff, #262a2b); border-top-color: var(--darkreader-border-0263e0, #0252ba); border-right-color: var(--darkreader-border-0263e0, #0252ba); border-bottom-color: var(--darkreader-border-0263e0, #0252ba); border-left-color: var(--darkreader-border-0263e0, #0252ba); }
+
+.MuiIconButton-colorPrimary:active { background-image: initial; background-color: var(--darkreader-background-99cdff, #003970); border-top-color: var(--darkreader-border-cce4ff, #003775); border-right-color: var(--darkreader-border-cce4ff, #003775); border-bottom-color: var(--darkreader-border-cce4ff, #003775); border-left-color: var(--darkreader-border-cce4ff, #003775); }
+
+.MuiIconButton-colorPrimary.Mui-disabled { color: var(--darkreader-text-0d131c, #dbd8d3); background-image: initial; background-color: var(--darkreader-background-0263e0, #0252b9); border-top-color: var(--darkreader-border-0263e0, #0252ba); border-right-color: var(--darkreader-border-0263e0, #0252ba); border-bottom-color: var(--darkreader-border-0263e0, #0252ba); border-left-color: var(--darkreader-border-0263e0, #0252ba); }
+
+@media (hover: none) {
+  .MuiIconButton-colorPrimary:hover { background-color: transparent; }
+}
+
+.MuiIconButton-colorSecondary { color: var(--darkreader-text-8891aa, #a8a095); background-image: initial; background-color: var(--darkreader-background-0d131c, #182334); border-top-color: var(--darkreader-border-606b85, #665f54); border-right-color: var(--darkreader-border-606b85, #665f54); border-bottom-color: var(--darkreader-border-606b85, #665f54); border-left-color: var(--darkreader-border-606b85, #665f54); }
+
+.MuiIconButton-colorSecondary:hover { background-image: initial; border-top-color: var(--darkreader-border-8891aa, #4d5356); border-right-color: var(--darkreader-border-8891aa, #4d5356); border-bottom-color: var(--darkreader-border-8891aa, #4d5356); border-left-color: var(--darkreader-border-8891aa, #4d5356); background-color: var(--darkreader-background-0d131c0a, rgba(24, 35, 52, 0.04)); }
+
+.MuiIconButton-colorSecondary:focus-visible { background-image: initial; background-color: var(--darkreader-background-121c2d, #192840); border-top-color: var(--darkreader-border-0263e0, #0252ba); border-right-color: var(--darkreader-border-0263e0, #0252ba); border-bottom-color: var(--darkreader-border-0263e0, #0252ba); border-left-color: var(--darkreader-border-0263e0, #0252ba); }
+
+.MuiIconButton-colorSecondary:active { background-image: initial; background-color: var(--darkreader-background-1f304c, #213452); border-top-color: var(--darkreader-border-8891aa, #4d5356); border-right-color: var(--darkreader-border-8891aa, #4d5356); border-bottom-color: var(--darkreader-border-8891aa, #4d5356); border-left-color: var(--darkreader-border-8891aa, #4d5356); }
+
+.MuiIconButton-colorSecondary.Mui-disabled { color: var(--darkreader-text-8891aa, #a8a095); background-image: initial; background-color: var(--darkreader-background-0d131c, #182334); border-top-color: var(--darkreader-border-606b85, #665f54); border-right-color: var(--darkreader-border-606b85, #665f54); border-bottom-color: var(--darkreader-border-606b85, #665f54); border-left-color: var(--darkreader-border-606b85, #665f54); }
+
+@media (hover: none) {
+  .MuiIconButton-colorSecondary:hover { background-color: transparent; }
+}

@@ -1,0 +1,3 @@
+@charset "utf-8";
+
+.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, img.Wirisformula, a[data-testid="headerMediumLogo"] > svg, .d2l-navigation-link-image-container, .d2l-iframe-loading-container { filter: invert(100%) hue-rotate(180deg) contrast(90%) !important; }

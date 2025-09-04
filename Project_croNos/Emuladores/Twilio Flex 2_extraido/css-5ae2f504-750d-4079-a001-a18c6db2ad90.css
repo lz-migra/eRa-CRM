@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+.MuiButtonBase-root { color: inherit; border: 0px; cursor: pointer; margin: 0px; display: inline-flex; outline: 0px; padding: 0px; position: relative; align-items: center; user-select: none; border-radius: 0px; vertical-align: middle; justify-content: center; text-decoration: none; background-color: transparent; appearance: none; -webkit-tap-highlight-color: transparent; }
+
+.MuiButtonBase-root.Mui-disabled { cursor: default; pointer-events: none; }
+
+@media print {
+  .MuiButtonBase-root { print-color-adjust: exact; }
+}

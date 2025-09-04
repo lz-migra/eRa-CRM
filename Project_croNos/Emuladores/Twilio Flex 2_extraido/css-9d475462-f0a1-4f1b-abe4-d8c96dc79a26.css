@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+.jss8 { color: rgb(13, 19, 28); background: rgb(20, 176, 83); border-color: rgb(20, 176, 83); }
+
+.jss8:hover { background: rgb(162, 246, 195); border-color: rgb(204, 228, 255); }
+
+.jss8:active { background: rgb(123, 234, 165); border-color: rgb(204, 228, 255); }
+
+.jss8:disabled { color: rgb(13, 19, 28); background: rgb(20, 176, 83); border-color: rgb(20, 176, 83); }
+
+.jss9 { color: rgb(13, 19, 28); background: rgb(214, 31, 31); border-color: rgb(214, 31, 31); }
+
+.jss9:hover { background: rgb(252, 207, 207); border-color: rgb(252, 207, 207); }
+
+.jss9:active { background: rgb(246, 177, 177); border-color: rgb(252, 207, 207); }
+
+.jss9:disabled { color: rgb(13, 19, 28); background: rgb(214, 31, 31); border-color: rgb(214, 31, 31); }
+
+.jss10 { color: rgb(0, 140, 255); min-width: 0px; background: none; font-weight: 700; border-color: transparent; }
+
+.jss10:hover { color: rgb(153, 205, 255); background: none; border-color: transparent; }
+
+.jss10:active { color: rgb(153, 205, 255); background: none; border-color: transparent; }
+
+.jss10:disabled { color: rgb(0, 140, 255); background: none; border-color: transparent; }

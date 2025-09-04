@@ -1,0 +1,815 @@
+@charset "utf-8";
+
+.css-1cu6t68 { display: flex; width: 100%; flex-direction: column; height: 100%; background-color: rgb(13, 19, 28); color: rgb(244, 244, 246); }
+
+.css-ht9ywt { position: relative; margin: auto; }
+
+.css-1kxh1k6 { position: relative; overflow: hidden; display: flex; -webkit-box-pack: center; justify-content: center; }
+
+.css-4l4ayy { position: relative; display: flex; flex-direction: column; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; }
+
+.css-1kwiafq { position: absolute; width: 100%; height: 100%; left: 0px; right: 0px; text-align: center; }
+
+.css-13v0vc8 { display: inline-block; position: relative; width: 124px; height: 124px; animation: 0.8s linear 0s infinite normal none running animation-ibxp9g; }
+
+.css-13v0vc8::before { content: ""; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border-width: 3px; border-style: solid; border-radius: 50%; border-color: rgb(57, 71, 98); box-sizing: border-box; }
+
+.css-13v0vc8::after { content: ""; border-width: 3px; border-style: solid; border-color: rgb(2, 99, 224) transparent transparent rgb(2, 99, 224); border-radius: 100% 0px 0px; box-sizing: border-box; display: initial; width: 50%; height: 50%; position: absolute; top: 0px; left: 0px; }
+
+.css-1ito8rr { position: relative; font-size: 14px; margin-top: 30px; text-align: center; }
+
+.css-11fu6i1 { display: flex; flex-flow: column; -webkit-box-flex: 1; flex-grow: 1; flex-shrink: 1; height: 100%; }
+
+.css-5i7yx { position: absolute; text-indent: -10000px; }
+
+.css-p4wb1h { padding: 0.75rem 0px 0.75rem 0.75rem; height: 3.25rem; display: flex; position: unset; -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: center; align-items: center; flex: 0 0 auto; box-sizing: border-box; background: rgb(6, 3, 58); color: rgb(255, 255, 255); }
+
+.css-16x118j { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+.css-9dke4t { display: flex; -webkit-box-align: center; align-items: center; position: relative; background: rgb(6, 3, 58); }
+
+.css-9dke4t:hover .Twilio-Badge-OuterCircle { background: rgb(6, 3, 58); }
+
+.css-yojhxt { margin-right: 0.5rem; }
+
+.css-yojhxt:hover { background-color: rgb(136, 145, 170); }
+
+.css-yojhxt:focus-visible { border-color: rgb(136, 145, 170); background-color: rgb(57, 71, 98); }
+
+.css-1j3rlv1 { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; }
+
+.css-1j3rlv1 > * { width: 24px; height: 24px; flex: 0 0 auto; margin: auto; }
+
+.css-1sf9a8 { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; }
+
+.css-1sf9a8 div[role="menu"] { padding: 1.5rem 1rem 2rem; border-radius: 8px; max-width: max-content; }
+
+.css-1sf9a8 span[role="presentation"] { font-weight: 700; }
+
+.css-1sf9a8 button[role="menuitem"] { padding: 0.125rem 1.5rem 0px; }
+
+.css-1sf9a8 button:first-of-type:focus { box-shadow: none; }
+
+.css-1sf9a8 .Twilio-Icon-VirtualAgent .Twilio-Icon-Content { padding: 2px; }
+
+.css-p0c9al { padding: 0.125rem 1.5rem 0px 3rem; border-radius: 8px; color: rgb(18, 28, 45); max-width: max-content; }
+
+.css-d55me1 { padding-bottom: 1rem; }
+
+.css-kqo72a:hover { background-color: rgb(136, 145, 170); }
+
+.css-kqo72a:focus-visible { border-color: rgb(136, 145, 170); background-color: rgb(57, 71, 98); }
+
+.css-bb8b0b { width: 10px; height: 10px; margin-right: 0.5rem; display: inline-block; background-color: green; border-radius: 50%; }
+
+.css-1vwkwm6 { display: inline-block; }
+
+.css-1vwkwm6 span { display: inline-block; min-width: 40px; text-align: right; }
+
+.css-lgb5hu { margin-right: 0.5rem; display: flex; -webkit-box-align: center; align-items: center; }
+
+.css-1ohf0ui { display: flex; flex-direction: column; }
+
+.css-1d3dmrj { display: flex; width: 2.25rem; height: 2.25rem; border-radius: 50%; margin-right: 0.25rem; overflow: hidden; background: rgb(255, 255, 255); color: rgb(18, 28, 45); border-color: rgb(202, 205, 216); }
+
+.css-1o6ajog { margin: auto; }
+
+.css-17rtuzh { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; margin: auto; }
+
+.css-17rtuzh > * { width: 24px; height: 24px; flex: 0 0 auto; margin: auto; }
+
+.css-46j71l { height: 0px; width: 0px; margin-left: 18px; }
+
+.css-18ymwkn { display: flex; flex-direction: column; -webkit-box-align: center; align-items: center; width: 240px; }
+
+.css-1w6g7d5 { display: flex; flex: 0 0 auto; position: relative; }
+
+.css-1e840c0 { display: flex; width: 3.75rem; height: 3.75rem; border-radius: 50%; overflow: hidden; border-width: 1px; border-style: solid; background: rgb(255, 255, 255); color: rgb(18, 28, 45); border-color: rgb(202, 205, 216); }
+
+.css-xrzqys { font-weight: 700; padding: 0.75rem 0px; }
+
+.css-z2tk3m { display: flex; position: relative; outline: none; flex: 0 0 3.25rem; }
+
+.css-4lys6a { display: flex; flex-direction: column; flex: 1 0 100%; z-index: 10; left: 0px; bottom: 0px; top: 0px; position: absolute; border-style: solid; overflow: hidden; border-width: 0px 1px 0px 0px; width: 3.25rem; transition: 0.05s ease-out; background: rgb(48, 69, 130); border-color: rgb(202, 205, 216); }
+
+.css-16gz79l { display: flex; font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; height: 3.25rem; outline: none; -webkit-box-align: center; align-items: center; padding: 0px; border-style: none; position: relative; cursor: pointer; background: inherit; color: rgb(255, 255, 255); }
+
+.css-16gz79l:focus-visible { outline: rgb(2, 99, 224) solid 1px; box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; }
+
+.css-16gz79l:hover, .css-16gz79l:active { background: rgb(225, 227, 234); }
+
+.css-okah69 { display: flex; flex: 0 0 3.25rem; height: 100%; -webkit-box-pack: center; justify-content: center; overflow: hidden; position: relative; color: rgb(255, 255, 255); }
+
+.css-xdwoho { flex: 1 1 auto; text-align: left; padding: 0.5rem 1rem 0.5rem 0.5rem; white-space: nowrap; transition: visibility 0.09s ease-in 0.09s, opacity 0.09s ease-out 0.09s; opacity: 0; visibility: hidden; pointer-events: none; }
+
+.css-8dz2a6 { position: relative; }
+
+.css-1xv8gso { display: flex; position: absolute; width: 100%; z-index: 6; overflow: hidden; flex-direction: column; }
+
+.css-11jpuyb { display: flex; flex: 1 1 auto; overflow: hidden; }
+
+.css-14gy4ot { display: flex; flex: 1 1 auto; max-width: 100%; flex-direction: row; overflow: hidden; }
+
+.css-189yxq9 { display: flex; overflow: hidden; flex-direction: column; }
+
+.css-aqchln { display: flex; flex-direction: column; flex: 1 1 auto; width: 100%; background: rgb(244, 244, 246); }
+
+.css-1isopyh { display: flex; flex: 1 1 auto; max-width: 100%; flex-direction: column; overflow: hidden; }
+
+.css-1v3vcp8 { overflow-y: auto; }
+
+.css-c3wlc9 { display: flex; -webkit-box-pack: justify; justify-content: space-between; border-bottom: 1px solid rgb(202, 205, 216); position: relative; z-index: 5; }
+
+.css-13hmnjo { border-style: solid; z-index: 1; position: relative; box-sizing: border-box; height: 2.25rem; background: rgb(244, 244, 246); border-color: rgb(202, 205, 216); }
+
+.css-7e90uw { display: inline-flex; flex-direction: column; flex: 1 0 auto; border-style: solid; z-index: 1; position: relative; box-sizing: border-box; height: 2.25rem; background: rgb(244, 244, 246); border-color: rgb(202, 205, 216); }
+
+.css-1i4yaon { white-space: nowrap; border: none; background: none; outline: none; text-align: left; display: flex; -webkit-box-align: center; align-items: center; height: 100%; font-size: 0.875rem; font-weight: 400; line-height: 1.25rem; padding-left: 1rem; padding-right: 0.75rem; color: rgb(18, 28, 45); }
+
+.css-1i4yaon:focus-visible { outline: rgb(2, 99, 224) solid 1px; box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; }
+
+.css-23ik00 { margin-left: 4px; margin-top: auto; margin-bottom: auto; }
+
+.css-1bbmkf3 { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; margin-left: 4px; margin-top: auto; margin-bottom: auto; }
+
+.css-1bbmkf3 > * { width: 24px; height: 24px; flex: 0 0 auto; margin: auto; }
+
+.css-1jho2b7 { display: inline-flex; flex-direction: column; flex: 1 0 auto; }
+
+.css-r2if9u { position: relative; z-index: 1300; flex: 1 1 0%; display: flex; }
+
+.css-qq2f3m { position: fixed; inset: 0px auto auto 0px; transition: visibility 0.07s ease-in, opacity 0.07s ease-out; opacity: 0; visibility: hidden; pointer-events: none; }
+
+.css-18ale8y { box-shadow: rgba(18, 28, 45, 0.2) 0px 16px 24px 0px; border-width: 1px; border-style: solid; border-color: rgb(202, 205, 216); background: rgb(244, 244, 246); }
+
+.css-r90ryp { margin: 0px; padding: 0px; list-style: none; color: rgb(18, 28, 45); box-shadow: rgba(18, 28, 45, 0.2) 0px 16px 24px 0px; border-width: 1px; border-style: solid; border-color: rgb(202, 205, 216); background: rgb(244, 244, 246); }
+
+.css-r90ryp li { display: flex; }
+
+.css-1elvtb0 { display: block; width: 100%; cursor: pointer; font-size: 0.875rem; line-height: 1.25rem; font-weight: 700; padding: 0.5rem 1.5rem; margin-top: auto; margin-bottom: auto; white-space: nowrap; border: none; outline: none; text-align: left; background: rgb(244, 244, 246); color: rgb(2, 99, 224); }
+
+.css-1elvtb0:focus-visible { color: rgb(2, 99, 224); background: rgb(225, 227, 234); }
+
+.css-1elvtb0:hover { color: rgb(2, 99, 224); }
+
+.css-1jpkjxk { display: block; width: 100%; cursor: pointer; font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; padding: 0.5rem 1.5rem; margin-top: auto; margin-bottom: auto; white-space: nowrap; border: none; outline: none; text-align: left; color: rgb(18, 28, 45); background: rgb(244, 244, 246); }
+
+.css-1jpkjxk:focus-visible { color: rgb(2, 99, 224); background: rgb(225, 227, 234); }
+
+.css-1jpkjxk:hover { color: rgb(2, 99, 224); }
+
+.css-1btr3oe { display: flex; flex: 1 1 auto; flex-direction: column; user-select: none; border-style: solid; border-width: 0px 0px 1px; overflow-y: hidden; cursor: pointer; position: relative; box-sizing: border-box; height: 3.25rem; color: rgb(18, 28, 45); border-color: rgb(202, 205, 216); background: rgb(244, 244, 246); }
+
+.css-1btr3oe:hover, .css-1btr3oe:active { background-color: rgb(225, 227, 234); background-blend-mode: color; }
+
+.css-1btr3oe:focus-visible { box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; outline: none; }
+
+.css-rfkibc { height: 100%; display: flex; -webkit-box-align: center; align-items: center; padding-left: 0.5rem; padding-right: 0.5rem; }
+
+.css-1r1u88g { position: relative; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; flex-shrink: 0; }
+
+.css-yv8oa8 { color: rgb(18, 28, 45); }
+
+.css-d2fqj9 { flex: 1 1 auto; overflow: hidden; margin-left: 0.75rem; }
+
+.css-627653 { font-size: 0.875rem; font-weight: 700; line-height: 1.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.css-5gl50z { font-size: 0.75rem; font-weight: 400; line-height: 1rem; color: rgb(96, 107, 133); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; }
+
+.css-1o089kg { -webkit-box-align: center; align-items: center; display: flex; }
+
+.css-1o089kg .Twilio-Template-Icon { margin-right: 0.25rem; }
+
+.css-4x1hxs { flex: 0 0 auto; display: flex; margin-right: 0.25rem; }
+
+.css-4x1hxs button { margin-left: 0.25rem; margin-right: 0.25rem; }
+
+.css-1yf7ow8 { display: flex; flex: 1 1 auto; flex-direction: column; user-select: none; border-style: solid; border-width: 0px 0px 1px; overflow-y: hidden; cursor: pointer; position: relative; box-sizing: border-box; height: 3.25rem; border-color: rgb(202, 205, 216); background: rgb(225, 227, 234); color: rgb(18, 28, 45); }
+
+.css-1yf7ow8::before { content: ""; width: 0.125rem; background: rgb(2, 99, 224); height: 100%; position: absolute; }
+
+.css-1yf7ow8:hover, .css-1yf7ow8:active { background-color: rgb(225, 227, 234); background-blend-mode: color; }
+
+.css-1yf7ow8:focus-visible { box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; outline: none; }
+
+.css-kc0h3c { color: rgb(2, 99, 224); }
+
+.css-wcl2mj { padding: 2px; border-radius: 1em; font-size: 10px; position: absolute; right: 0px; top: 0px; z-index: 2; animation: 0.5s cubic-bezier(0.28, 0.84, 0.42, 1) 0s 1 normal forwards running popIn; backface-visibility: hidden; background: inherit; }
+
+@-webkit-keyframes popIn { 
+  0% { opacity: 0; transform: scale(0) translateZ(0px); }
+  50% { opacity: 1; transform: scale(1.1) translateZ(0px); }
+  70% { transform: scale(0.9) translateZ(0px); }
+  100% { transform: scale(1) translateZ(0px); }
+}
+
+@keyframes popIn { 
+  0% { opacity: 0; transform: scale(0) translateZ(0px); }
+  50% { opacity: 1; transform: scale(1.1) translateZ(0px); }
+  70% { transform: scale(0.9) translateZ(0px); }
+  100% { transform: scale(1) translateZ(0px); }
+}
+
+.css-l7nxj4 { line-height: 15px; min-width: 15px; width: auto; height: 15px; padding-left: 3px; padding-right: 3px; text-align: center; border-radius: 16px; font-weight: bold; box-sizing: border-box; color: rgb(255, 255, 255); background: rgb(214, 31, 31); }
+
+.css-dr2ko4 { margin-left: auto; margin-right: auto; align-self: center; }
+
+.css-1qz9um9 { cursor: row-resize; position: relative; z-index: 2; }
+
+.css-1qz9um9::before { content: ""; position: absolute; height: calc(100% + 10px); width: 100%; left: 0px; top: -5px; }
+
+.css-1b1d9y3 { display: flex; border-style: solid; border-width: 1px 0px; height: 24px; width: 100%; background: rgb(244, 244, 246); border-color: rgb(202, 205, 216); color: rgb(96, 107, 133); }
+
+.css-1b1d9y3 div { margin: auto; }
+
+.css-ujxcul { background: rgb(255, 255, 255); }
+
+.css-mr3bn { display: flex; flex: 0 0 auto; padding-top: 0px; padding-left: 1rem; padding-right: 1rem; height: 3.25rem; background: rgb(255, 255, 255); color: rgb(18, 28, 45); }
+
+.css-m7t846 { -webkit-box-pack: center; justify-content: center; overflow: hidden; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+
+.css-yi3307 { overflow: hidden; margin-left: 0px; margin-right: 1rem; text-overflow: ellipsis; white-space: nowrap; font-size: 0.875rem; font-weight: 700; line-height: 1.25rem; }
+
+.css-yi3307 span { display: block; line-height: 1.25rem; overflow: hidden; text-overflow: ellipsis; }
+
+.css-b86gn6 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.75rem; font-weight: 400; line-height: 1rem; color: rgb(96, 107, 133); }
+
+.css-fllylo { display: inline-flex; -webkit-box-align: center; align-items: center; }
+
+.css-fllylo .Twilio-Template-Icon { margin-right: 4px; }
+
+.css-70rezh { margin: auto; padding-right: 0.8em; }
+
+.css-1ezfngk { color: rgb(18, 28, 45); }
+
+.css-zfxu4v { display: flex; border-style: solid; z-index: 1; border-width: 0px 0px 1px; box-sizing: content-box; padding-left: 1rem; padding-right: 1rem; height: 2.25rem; background: rgb(255, 255, 255); border-color: rgb(202, 205, 216); }
+
+.css-pank4p { display: flex; position: relative; -webkit-box-pack: center; justify-content: center; min-width: 2.75rem; flex: 0 1 auto; margin-right: 0px; margin-left: 0px; }
+
+.css-pank4p .Twilio-IconButton { margin: auto; }
+
+.css-pank4p:focus-visible { outline: solid 1px; box-shadow: 0px 0px 0px 4px inset; }
+
+.css-pank4p:not(:first-of-type) { margin-left: 1.5rem; }
+
+.css-pf71wj { border: none; background: none; transition: color 0.2s; padding: 0.5rem 0.25rem; color: rgb(2, 99, 224); font-size: 0.875rem; font-weight: 600; line-height: 1.25rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+
+.css-pf71wj:focus-visible { outline: none; }
+
+.css-pf71wj:hover, .css-pf71wj:focus-visible { color: rgb(2, 99, 224); }
+
+.css-orm066 { position: absolute; height: 0.125rem; inset: auto 0px 0px; background: rgb(2, 99, 224); }
+
+.css-gegxp1 { border: none; background: none; transition: color 0.2s; padding: 0.5rem 0.25rem; color: rgb(96, 107, 133); font-size: 0.875rem; font-weight: 600; line-height: 1.25rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+
+.css-gegxp1:focus-visible { outline: none; }
+
+.css-gegxp1:hover, .css-gegxp1:focus-visible { color: rgb(96, 107, 133); }
+
+.css-fzfv7v { position: absolute; height: 0.125rem; inset: auto 0px 0px; }
+
+.css-t0lbh8 { position: relative; }
+
+.css-1vw3tqz { display: flex; position: absolute; inset: 0px; transition: visibility 0.15s ease-in, opacity 0.15s ease-in; opacity: 1; visibility: visible; pointer-events: inherit; }
+
+.css-1mlmcul { margin-left: auto; margin-right: auto; font-size: 12px; width: 100%; background: rgb(255, 255, 255); }
+
+.css-krl0bu { display: flex; position: relative; flex-direction: column; -webkit-box-flex: 1; flex-grow: 1; }
+
+.css-18yzi2q { position: absolute; inset: 8px; z-index: 30; border-width: 3px; border-style: dashed; border-radius: 3px; display: none; flex-direction: column; place-content: center; -webkit-box-pack: center; padding: 24px; text-align: center; pointer-events: none; animation: auto ease 0s 1 normal none running none; background: rgba(255, 255, 255, 0.9); border-color: rgb(2, 99, 224); }
+
+@-webkit-keyframes popIn { 
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popIn { 
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.css-y53yll { color: rgb(2, 99, 224); }
+
+.css-kycj4j { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; color: rgb(2, 99, 224); }
+
+.css-kycj4j > * { width: 38.4px; height: 38.4px; flex: 0 0 auto; margin: auto; }
+
+.css-1ow5toc { font-size: 18px; font-weight: bold; }
+
+.css-qii4sh { font-size: 14px; }
+
+.css-1v7n30l { height: 0px; width: 100%; max-width: 640px; align-self: center; }
+
+.css-j9z6a9 { display: flex; flex-direction: column; overflow: hidden; margin-top: auto; position: relative; opacity: 1; }
+
+.css-173fh4i { display: flex; flex-flow: column-reverse; -webkit-box-flex: 1; flex-grow: 1; min-width: 0px; overflow-y: auto; }
+
+.css-c0bqi { display: flex; flex-flow: column; padding-left: 1rem; padding-right: 1rem; padding-bottom: 0px; }
+
+.css-c0bqi:focus-visible { box-shadow: rgba(2, 99, 224, 0.7) 0px 0px 0px 2px inset; }
+
+.css-lns7g1 { padding-top: 2.5rem; padding-bottom: 1.25rem; }
+
+.css-wo08kv { flex: 1 1 1px; margin: auto; border-style: solid; border-color: rgb(202, 205, 216); }
+
+.css-seijq2 { flex: 0 1 auto; margin-left: 1rem; margin-right: 1rem; font-size: 0.75rem; line-height: 1.25rem; color: rgb(18, 28, 45); }
+
+.css-4x5hik { flex: 1 0 auto; display: flex; flex-direction: column; overflow: visible; min-width: 0px; margin-top: 1.25rem; }
+
+.css-73bjnc { display: flex; align-self: end; width: 24px; height: 24px; -webkit-box-pack: center; justify-content: center; margin-right: 0.5rem; border-radius: 18px; overflow: hidden; color: rgb(18, 28, 45); background: rgb(244, 244, 246); }
+
+.css-73bjnc img { width: 36px; height: 36px; }
+
+.css-1jfuie8 { display: flex; flex-direction: column; max-width: 432px; min-width: 100px; margin-left: 0px; margin-right: 44px; }
+
+.css-1jfuie8:focus-visible { outline: none; }
+
+.css-oh58l4 { overflow-x: hidden; color: rgb(18, 28, 45); background: rgb(244, 244, 246); border-radius: 8px; margin-left: 0px; padding: 0.75rem; box-shadow: none; }
+
+.css-oh58l4 a { color: rgb(2, 99, 224); text-decoration: underline; }
+
+.css-zb8iww { -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: center; align-items: center; color: rgb(18, 28, 45); }
+
+.css-1ylazt5 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 0 1 auto; margin-right: 0.5rem; font-size: 0.75rem; font-weight: 700; line-height: 1rem; }
+
+.css-bgz8w0 { font-size: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 0 0 auto; }
+
+.css-56yz3v { position: relative; margin: 0.5rem 0px; padding: 4px 8px; border-radius: 8px; color: rgb(96, 107, 133); background-color: rgb(255, 255, 255); }
+
+.css-xvvwlo { margin-top: 0.25rem; margin-bottom: 0px; overflow-y: hidden; overflow-wrap: break-word; font-size: 0.875rem; line-height: 1.25rem; }
+
+.css-m23zik { display: flex; align-self: end; width: 24px; height: 24px; -webkit-box-pack: center; justify-content: center; margin-right: 0.5rem; border-radius: 18px; overflow: hidden; color: rgb(18, 28, 45); background: transparent; }
+
+.css-m23zik img { width: 36px; height: 36px; }
+
+.css-1k99f8h { display: flex; flex-direction: column; max-width: 476px; min-width: 100px; margin-left: auto; margin-right: 0px; }
+
+.css-1k99f8h:focus-visible { outline: none; }
+
+.css-1rb95p0 { overflow-x: hidden; color: rgb(255, 255, 255); background: rgb(3, 11, 93); border-radius: 8px; margin-left: 44px; padding: 0.75rem; box-shadow: none; }
+
+.css-1rb95p0 disabled { color: rgb(96, 107, 133); border-width: 1px; border-style: dashed; border-color: rgb(136, 145, 170); background: rgb(255, 255, 255); }
+
+.css-1rb95p0 a { color: rgb(255, 255, 255); text-decoration: underline; }
+
+.css-u53hpv { -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: center; align-items: center; color: rgb(255, 255, 255); }
+
+.css-u53hpv disabled { color: rgb(96, 107, 133); }
+
+.css-tv6vtq { flex: 1 0 auto; display: flex; flex-direction: column; overflow: visible; min-width: 0px; margin-top: 0.25rem; }
+
+.css-97hqzv { font-style: italic; }
+
+.css-1aupga7 { margin: 0px; }
+
+.css-15e834a { flex-wrap: wrap; -webkit-box-pack: justify; justify-content: space-between; }
+
+.css-1pucrl2 { display: flex; -webkit-box-align: center; align-items: center; border: 1px solid rgb(136, 145, 170); outline: none; text-align: left; -webkit-box-pack: justify; justify-content: space-between; cursor: pointer; width: 200px; max-width: calc(100% - 0.5rem); padding: 0px; overflow: hidden; margin-top: 0.5rem; border-radius: 4px; background: rgb(244, 244, 246); color: rgb(18, 28, 45); }
+
+.css-1pucrl2:nth-of-type(2n+1):not(:only-child) { margin-right: 0.5rem; }
+
+.css-1pucrl2[aria-disabled="true"] { cursor: not-allowed; }
+
+.css-1pucrl2:hover { background-image: linear-gradient(to top, rgb(244, 244, 246), rgb(244, 244, 246)); background-color: rgba(255, 255, 255, 0.2); background-blend-mode: color; }
+
+.css-1pucrl2:hover .Twilio-Media-MessageBubble-Action { visibility: visible; }
+
+.css-1pucrl2:focus-visible { box-shadow: rgba(2, 99, 224, 0.7) 0px 0px 0px 4px; }
+
+.css-1vuwusw { display: flex; flex-direction: row; -webkit-box-align: center; align-items: center; overflow: hidden; color: rgb(18, 28, 45); }
+
+.css-1rycupr { width: 2.75rem; height: 2.75rem; flex-shrink: 0; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; color: rgb(96, 107, 133); }
+
+.css-1fk0ydm { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; }
+
+.css-1fk0ydm > * { width: 48px; height: 48px; flex: 0 0 auto; margin: auto; }
+
+.css-12zezvo { display: flex; flex-direction: column; overflow: hidden; padding: 0.5rem 0.5rem 0.25rem; }
+
+.css-1t87h2b { font-size: 0.75rem; line-height: 1rem; font-weight: bold; display: flex; }
+
+.css-11cnisn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.css-1d0fw6d { flex-shrink: 0; }
+
+.css-19pbd09 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.625rem; line-height: 1rem; color: rgb(18, 28, 45); }
+
+.css-ru3m3q { width: 48px; height: 48px; flex-shrink: 0; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; visibility: hidden; color: rgb(18, 28, 45); }
+
+.css-upwdge { -webkit-box-align: center; align-items: center; margin-left: auto; font-size: 10px; color: rgb(18, 28, 45); }
+
+.css-upwdge .Twilio-Icon { margin-left: 4px; }
+
+.css-1bq9wcf { margin-top: 16px; height: 28px; flex-shrink: 0; display: flex; -webkit-box-align: center; align-items: center; font-size: 10px; font-style: normal; font-weight: 400; line-height: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgb(18, 28, 45); }
+
+.css-1bq9wcf .typer-name { font-weight: 600; }
+
+.css-1cv2q8w { padding-left: 1rem; padding-right: 1rem; margin-bottom: 1rem; color: rgb(18, 28, 45); background: transparent; }
+
+.css-1cv2q8w::-webkit-input-placeholder { color: rgb(96, 107, 133); }
+
+.css-1cv2q8w::placeholder { color: rgb(96, 107, 133); }
+
+.css-k7mvz9 { margin-top: 0.5rem; margin-bottom: 0.5rem; align-items: flex-end; background: rgb(255, 255, 255); border: 1px solid rgb(202, 205, 216); border-radius: 4px; }
+
+.css-1ljf6dy { display: block; width: 100%; box-sizing: border-box; background: transparent; color: rgb(18, 28, 45); }
+
+.css-1ljf6dy::-webkit-input-placeholder { color: rgb(96, 107, 133); }
+
+.css-1ljf6dy::placeholder { color: rgb(96, 107, 133); }
+
+.css-1y76rut { max-height: 120px; line-height: 1.25rem; padding: 0.5rem 12px; min-height: 2.25rem; font-size: 0.875rem; display: block; border: 0px; font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; width: 100%; resize: none; outline: none; box-sizing: border-box; overflow: hidden auto; background: transparent; color: rgb(18, 28, 45); }
+
+.css-1y76rut::-webkit-input-placeholder { color: rgb(96, 107, 133); }
+
+.css-1y76rut::placeholder { color: rgb(96, 107, 133); }
+
+.css-1y76rut[aria-disabled="true"] { opacity: 0.4; caret-color: transparent; cursor: not-allowed; background-color: rgb(244, 244, 246); }
+
+.css-1y76rut::-webkit-input-placeholder { }
+
+.css-1y76rut::placeholder { }
+
+.css-1czenkt { display: flex; overflow: visible; }
+
+.css-1vb93vc { border-width: 0px; }
+
+.css-1vb93vc:focus-visible { border: 4px solid rgb(2, 99, 224); }
+
+.css-1vb93vc[aria-disabled="true"] { opacity: 0.4; background: inherit; border: 0px; cursor: not-allowed; }
+
+.css-1vb93vc[aria-disabled="true"]:focus-visible { border: 4px solid rgb(2, 99, 224); }
+
+.css-1ecyf4y { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; }
+
+.css-1ecyf4y > * { width: 21.6px; height: 21.6px; flex: 0 0 auto; margin: auto; }
+
+.css-1ez5gsc { margin-top: 0px; }
+
+.css-ljhieb { color: inherit; margin-left: 0.25rem; }
+
+.css-o8z5o0 { display: flex; position: absolute; inset: 0px; transition: visibility 0.07s ease-in, opacity 0.07s ease-out; opacity: 0; visibility: hidden; pointer-events: none; }
+
+.css-t19x3o { display: flex; flex: 1 1 auto; overflow: auto; padding: 1.25rem 1rem; line-height: 1rem; color: rgb(18, 28, 45); }
+
+.css-t19x3o hr { border: none; }
+
+.css-t19x3o p { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.25rem; }
+
+.css-t19x3o * + p { margin-top: 1rem; }
+
+.css-t19x3o dl { margin: 0px; }
+
+.css-t19x3o dl dt, .css-t19x3o dl dd { display: inline; overflow-wrap: break-word; font-size: 0.75rem; }
+
+.css-t19x3o a { color: rgb(2, 99, 224); text-decoration: none; }
+
+.css-t19x3o a:hover { color: rgb(0, 20, 137); }
+
+.css-1bo2biy { display: flex; flex-direction: column; position: absolute; width: 325px; height: 100%; right: 0px; z-index: 100; transition: visibility 0.07s ease-in, opacity 0.07s ease-out; opacity: 0; visibility: hidden; pointer-events: none; }
+
+.css-10yxkim { box-shadow: rgba(0, 0, 0, 0.2) -2px 0px 10px 0px; background: rgb(255, 255, 255); color: rgb(18, 28, 45); border-left: 1px solid rgb(202, 205, 216); }
+
+.css-1o38c04 { padding: 0.75rem 0.75rem 0.75rem 1rem; }
+
+.css-m5s9b0 { width: 100%; font-weight: 700; line-height: 1.75rem; font-size: 1.25rem; }
+
+.css-u3ehyk { border-width: 0px; }
+
+.css-2sxq3b { cursor: col-resize; position: relative; z-index: 2; }
+
+.css-2sxq3b::before { content: ""; position: absolute; width: calc(100% + 10px); height: 100%; top: 0px; left: -5px; }
+
+.css-17q07v6 { height: 100%; width: 0px; background: rgb(202, 205, 216); }
+
+.css-ltu2gl { display: flex; flex-flow: column; -webkit-box-flex: 1; flex-grow: 1; flex-shrink: 1; border-style: solid; border-width: 0px 0px 0px 1px; border-color: rgb(202, 205, 216); background: rgb(244, 244, 246); }
+
+.css-iyyzaj { display: flex; flex-direction: column; flex: 1 0 auto; border-color: rgb(202, 205, 216); }
+
+.css-iyyzaj iframe { border: none; display: flex; flex: 1 0 auto; }
+
+.css-1fk17e7 { padding: 0.75rem 0px 0.75rem 0.75rem; height: 3.25rem; display: flex; position: unset; -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: center; align-items: center; flex: 0 0 auto; box-sizing: border-box; background: rgb(31, 48, 76); color: rgb(255, 255, 255); }
+
+.css-17r2dey { display: flex; -webkit-box-align: center; align-items: center; position: relative; background: rgb(31, 48, 76); }
+
+.css-17r2dey:hover .Twilio-Badge-OuterCircle { background: rgb(31, 48, 76); }
+
+.css-15olurl { margin-right: 0.5rem; }
+
+.css-15olurl:hover { background-color: rgb(96, 107, 133); }
+
+.css-15olurl:focus-visible { border-color: rgb(136, 145, 170); background-color: rgb(57, 71, 98); }
+
+.css-ntb2h0 { padding: 0.125rem 1.5rem 0px 3rem; border-radius: 8px; color: rgb(244, 244, 246); max-width: max-content; }
+
+.css-u20gii:hover { background-color: rgb(96, 107, 133); }
+
+.css-u20gii:focus-visible { border-color: rgb(136, 145, 170); background-color: rgb(57, 71, 98); }
+
+.css-1g29hmp { display: flex; width: 2.25rem; height: 2.25rem; border-radius: 50%; margin-right: 0.25rem; overflow: hidden; background: rgb(13, 19, 28); color: rgb(244, 244, 246); border-color: rgb(57, 71, 98); }
+
+.css-kheeej { display: flex; width: 3.75rem; height: 3.75rem; border-radius: 50%; overflow: hidden; border-width: 1px; border-style: solid; background: rgb(13, 19, 28); color: rgb(244, 244, 246); border-color: rgb(57, 71, 98); }
+
+.css-1ulkeal { display: flex; flex-direction: column; flex: 1 0 100%; z-index: 10; left: 0px; bottom: 0px; top: 0px; position: absolute; border-style: solid; overflow: hidden; border-width: 0px 1px 0px 0px; width: 3.25rem; transition: 0.05s ease-out; background: rgb(48, 69, 130); border-color: rgb(57, 71, 98); }
+
+.css-1ou9gw5 { display: flex; font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; height: 3.25rem; outline: none; -webkit-box-align: center; align-items: center; padding: 0px; border-style: none; position: relative; cursor: pointer; background: inherit; color: rgb(255, 255, 255); }
+
+.css-1ou9gw5:focus-visible { outline: rgb(2, 99, 224) solid 1px; box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; }
+
+.css-1ou9gw5:hover, .css-1ou9gw5:active { background: rgb(31, 48, 76); }
+
+.css-19u55zn { display: flex; flex-direction: column; flex: 1 1 auto; width: 100%; background: rgb(18, 28, 45); }
+
+.css-gk4hdm { display: flex; -webkit-box-pack: justify; justify-content: space-between; border-bottom: 1px solid rgb(57, 71, 98); position: relative; z-index: 5; }
+
+.css-g3j05l { border-style: solid; z-index: 1; position: relative; box-sizing: border-box; height: 2.25rem; background: rgb(18, 28, 45); border-color: rgb(57, 71, 98); }
+
+.css-yhvbgp { display: inline-flex; flex-direction: column; flex: 1 0 auto; border-style: solid; z-index: 1; position: relative; box-sizing: border-box; height: 2.25rem; background: rgb(18, 28, 45); border-color: rgb(57, 71, 98); }
+
+.css-80gwq3 { white-space: nowrap; border: none; background: none; outline: none; text-align: left; display: flex; -webkit-box-align: center; align-items: center; height: 100%; font-size: 0.875rem; font-weight: 400; line-height: 1.25rem; padding-left: 1rem; padding-right: 0.75rem; color: rgb(244, 244, 246); }
+
+.css-80gwq3:focus-visible { outline: rgb(2, 99, 224) solid 1px; box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; }
+
+.css-1ltl9gi { position: fixed; inset: 87.9861px auto auto 51.9965px; transition: visibility 0.07s ease-in, opacity 0.07s ease-out; opacity: 0; visibility: hidden; pointer-events: none; }
+
+.css-mrjvoc { box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 24px 4px; border-width: 1px; border-style: solid; border-color: rgb(57, 71, 98); background: rgb(18, 28, 45); }
+
+.css-19z1i07 { margin: 0px; padding: 0px; list-style: none; color: rgb(244, 244, 246); box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 24px 4px; border-width: 1px; border-style: solid; border-color: rgb(57, 71, 98); background: rgb(18, 28, 45); }
+
+.css-19z1i07 li { display: flex; }
+
+.css-r4xetv { display: block; width: 100%; cursor: pointer; font-size: 0.875rem; line-height: 1.25rem; font-weight: 700; padding: 0.5rem 1.5rem; margin-top: auto; margin-bottom: auto; white-space: nowrap; border: none; outline: none; text-align: left; background: rgb(18, 28, 45); color: rgb(0, 140, 255); }
+
+.css-r4xetv:focus-visible { color: rgb(0, 140, 255); background: rgb(31, 48, 76); }
+
+.css-r4xetv:hover { color: rgb(0, 140, 255); }
+
+.css-q73nh2 { display: block; width: 100%; cursor: pointer; font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; padding: 0.5rem 1.5rem; margin-top: auto; margin-bottom: auto; white-space: nowrap; border: none; outline: none; text-align: left; color: rgb(244, 244, 246); background: rgb(18, 28, 45); }
+
+.css-q73nh2:focus-visible { color: rgb(0, 140, 255); background: rgb(31, 48, 76); }
+
+.css-q73nh2:hover { color: rgb(0, 140, 255); }
+
+.css-h9kan6 { display: flex; flex: 1 1 auto; flex-direction: column; user-select: none; border-style: solid; border-width: 0px 0px 1px; overflow-y: hidden; cursor: pointer; position: relative; box-sizing: border-box; height: 3.25rem; color: rgb(244, 244, 246); border-color: rgb(57, 71, 98); background: rgb(18, 28, 45); }
+
+.css-h9kan6:hover, .css-h9kan6:active { background-color: rgb(31, 48, 76); background-blend-mode: color; }
+
+.css-h9kan6:focus-visible { box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; outline: none; }
+
+.css-19145cc { color: rgb(244, 244, 246); }
+
+.css-1yl8gv1 { font-size: 0.75rem; font-weight: 400; line-height: 1rem; color: rgb(136, 145, 170); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; }
+
+.css-1epyp4w { display: flex; flex: 1 1 auto; flex-direction: column; user-select: none; border-style: solid; border-width: 0px 0px 1px; overflow-y: hidden; cursor: pointer; position: relative; box-sizing: border-box; height: 3.25rem; border-color: rgb(57, 71, 98); background: rgb(31, 48, 76); color: rgb(244, 244, 246); }
+
+.css-1epyp4w::before { content: ""; width: 0.125rem; background: rgb(2, 99, 224); height: 100%; position: absolute; }
+
+.css-1epyp4w:hover, .css-1epyp4w:active { background-color: rgb(31, 48, 76); background-blend-mode: color; }
+
+.css-1epyp4w:focus-visible { box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; outline: none; }
+
+.css-148zgv3 { color: rgb(0, 140, 255); }
+
+.css-e0wrci { line-height: 15px; min-width: 15px; width: auto; height: 15px; padding-left: 3px; padding-right: 3px; text-align: center; border-radius: 16px; font-weight: bold; box-sizing: border-box; color: rgb(244, 244, 246); background: rgb(214, 31, 31); }
+
+.css-zfaopc { display: flex; border-style: solid; border-width: 1px 0px; height: 24px; width: 100%; background: rgb(18, 28, 45); border-color: rgb(57, 71, 98); color: rgb(136, 145, 170); }
+
+.css-zfaopc div { margin: auto; }
+
+.css-1tdh0tv { background: rgb(13, 19, 28); }
+
+.css-1kedj31 { display: flex; flex: 0 0 auto; padding-top: 0px; padding-left: 1rem; padding-right: 1rem; height: 3.25rem; background: rgb(13, 19, 28); color: rgb(244, 244, 246); }
+
+.css-1tmvv77 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.75rem; font-weight: 400; line-height: 1rem; color: rgb(136, 145, 170); }
+
+.css-12s0gzi { color: rgb(244, 244, 246); }
+
+.css-4u1z7v { display: flex; border-style: solid; z-index: 1; border-width: 0px 0px 1px; box-sizing: content-box; padding-left: 1rem; padding-right: 1rem; height: 2.25rem; background: rgb(13, 19, 28); border-color: rgb(57, 71, 98); }
+
+.css-14xsgxs { border: none; background: none; transition: color 0.2s; padding: 0.5rem 0.25rem; color: rgb(0, 140, 255); font-size: 0.875rem; font-weight: 600; line-height: 1.25rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+
+.css-14xsgxs:focus-visible { outline: none; }
+
+.css-14xsgxs:hover, .css-14xsgxs:focus-visible { color: rgb(0, 140, 255); }
+
+.css-jb8r90 { border: none; background: none; transition: color 0.2s; padding: 0.5rem 0.25rem; color: rgb(136, 145, 170); font-size: 0.875rem; font-weight: 600; line-height: 1.25rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+
+.css-jb8r90:focus-visible { outline: none; }
+
+.css-jb8r90:hover, .css-jb8r90:focus-visible { color: rgb(136, 145, 170); }
+
+.css-1c5n3gl { margin-left: auto; margin-right: auto; font-size: 12px; width: 100%; background: rgb(13, 19, 28); }
+
+.css-7yd3qb { position: absolute; inset: 8px; z-index: 30; border-width: 3px; border-style: dashed; border-radius: 3px; display: none; flex-direction: column; place-content: center; -webkit-box-pack: center; padding: 24px; text-align: center; pointer-events: none; animation: auto ease 0s 1 normal none running none; background: rgba(0, 0, 0, 0.9); border-color: rgb(2, 99, 224); }
+
+@-webkit-keyframes popIn { 
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popIn { 
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.css-ngs5e8 { color: rgb(0, 140, 255); }
+
+.css-kis6lo { display: flex; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; color: rgb(0, 140, 255); }
+
+.css-kis6lo > * { width: 38.4px; height: 38.4px; flex: 0 0 auto; margin: auto; }
+
+.css-hn8rbd { display: flex; flex-flow: column; padding-left: 1rem; padding-right: 1rem; padding-bottom: 0px; }
+
+.css-hn8rbd:focus-visible { box-shadow: rgb(96, 107, 133) 0px 0px 0px 2px inset; }
+
+.css-169p7rs { flex: 1 1 1px; margin: auto; border-style: solid; border-color: rgb(57, 71, 98); }
+
+.css-1i5yw5s { flex: 0 1 auto; margin-left: 1rem; margin-right: 1rem; font-size: 0.75rem; line-height: 1.25rem; color: rgb(244, 244, 246); }
+
+.css-b64iu8 { display: flex; align-self: end; width: 24px; height: 24px; -webkit-box-pack: center; justify-content: center; margin-right: 0.5rem; border-radius: 18px; overflow: hidden; color: rgb(244, 244, 246); background: rgb(18, 28, 45); }
+
+.css-b64iu8 img { width: 36px; height: 36px; }
+
+.css-oft7yw { overflow-x: hidden; color: rgb(244, 244, 246); background: rgb(18, 28, 45); border-radius: 8px; margin-left: 0px; padding: 0.75rem; box-shadow: none; }
+
+.css-oft7yw a { color: rgb(244, 244, 246); text-decoration: underline; }
+
+.css-a6kf6c { -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: center; align-items: center; color: rgb(244, 244, 246); }
+
+.css-5fsa8o { position: relative; margin: 0.5rem 0px; padding: 4px 8px; border-radius: 8px; color: rgb(136, 145, 170); background-color: rgb(13, 19, 28); }
+
+.css-1c5fhxm { display: flex; align-self: end; width: 24px; height: 24px; -webkit-box-pack: center; justify-content: center; margin-right: 0.5rem; border-radius: 18px; overflow: hidden; color: rgb(244, 244, 246); background: transparent; }
+
+.css-1c5fhxm img { width: 36px; height: 36px; }
+
+.css-oxp0yy { overflow-x: hidden; color: rgb(13, 19, 28); background: rgb(204, 228, 255); border-radius: 8px; margin-left: 44px; padding: 0.75rem; box-shadow: none; }
+
+.css-oxp0yy disabled { color: rgb(136, 145, 170); border-width: 1px; border-style: dashed; border-color: rgb(96, 107, 133); background: rgb(13, 19, 28); }
+
+.css-oxp0yy a { color: rgb(0, 140, 255); text-decoration: underline; }
+
+.css-15it28 { -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: center; align-items: center; color: rgb(13, 19, 28); }
+
+.css-15it28 disabled { color: rgb(136, 145, 170); }
+
+.css-wtubo8 { display: flex; -webkit-box-align: center; align-items: center; border: 1px solid rgb(96, 107, 133); outline: none; text-align: left; -webkit-box-pack: justify; justify-content: space-between; cursor: pointer; width: 200px; max-width: calc(100% - 0.5rem); padding: 0px; overflow: hidden; margin-top: 0.5rem; border-radius: 4px; background: rgb(18, 28, 45); color: rgb(244, 244, 246); }
+
+.css-wtubo8:nth-of-type(2n+1):not(:only-child) { margin-right: 0.5rem; }
+
+.css-wtubo8[aria-disabled="true"] { cursor: not-allowed; }
+
+.css-wtubo8:hover { background-image: linear-gradient(to top, rgb(18, 28, 45), rgb(18, 28, 45)); background-color: rgba(255, 255, 255, 0.2); background-blend-mode: color; }
+
+.css-wtubo8:hover .Twilio-Media-MessageBubble-Action { visibility: visible; }
+
+.css-wtubo8:focus-visible { box-shadow: rgb(96, 107, 133) 0px 0px 0px 4px; }
+
+.css-1pn4h4e { display: flex; flex-direction: row; -webkit-box-align: center; align-items: center; overflow: hidden; color: rgb(244, 244, 246); }
+
+.css-1rxruf3 { width: 2.75rem; height: 2.75rem; flex-shrink: 0; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; color: rgb(136, 145, 170); }
+
+.css-70y463 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.625rem; line-height: 1rem; color: rgb(244, 244, 246); }
+
+.css-4co0zz { width: 48px; height: 48px; flex-shrink: 0; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; visibility: hidden; color: rgb(244, 244, 246); }
+
+.css-19x2ndg { -webkit-box-align: center; align-items: center; margin-left: auto; font-size: 10px; color: rgb(244, 244, 246); }
+
+.css-19x2ndg .Twilio-Icon { margin-left: 4px; }
+
+.css-1sr3w3c { margin-top: 16px; height: 28px; flex-shrink: 0; display: flex; -webkit-box-align: center; align-items: center; font-size: 10px; font-style: normal; font-weight: 400; line-height: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgb(244, 244, 246); }
+
+.css-1sr3w3c .typer-name { font-weight: 600; }
+
+.css-ytdr7f { padding-left: 1rem; padding-right: 1rem; margin-bottom: 1rem; color: rgb(244, 244, 246); background: transparent; }
+
+.css-ytdr7f::-webkit-input-placeholder { color: rgb(136, 145, 170); }
+
+.css-ytdr7f::placeholder { color: rgb(136, 145, 170); }
+
+.css-16jzvn2 { margin-top: 0.5rem; margin-bottom: 0.5rem; align-items: flex-end; background: rgb(13, 19, 28); border: 1px solid rgb(57, 71, 98); border-radius: 4px; }
+
+.css-1f0q014 { display: block; width: 100%; box-sizing: border-box; background: transparent; color: rgb(244, 244, 246); }
+
+.css-1f0q014::-webkit-input-placeholder { color: rgb(136, 145, 170); }
+
+.css-1f0q014::placeholder { color: rgb(136, 145, 170); }
+
+.css-1sd7410 { max-height: 120px; line-height: 1.25rem; padding: 0.5rem 12px; min-height: 2.25rem; font-size: 0.875rem; display: block; border: 0px; font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; width: 100%; resize: none; outline: none; box-sizing: border-box; overflow: hidden auto; background: transparent; color: rgb(244, 244, 246); }
+
+.css-1sd7410::-webkit-input-placeholder { color: rgb(136, 145, 170); }
+
+.css-1sd7410::placeholder { color: rgb(136, 145, 170); }
+
+.css-1sd7410[aria-disabled="true"] { opacity: 0.4; caret-color: transparent; cursor: not-allowed; background-color: rgb(18, 28, 45); }
+
+.css-1sd7410::-webkit-input-placeholder { }
+
+.css-1sd7410::placeholder { }
+
+.css-1ygvvfa { display: flex; flex: 1 1 auto; overflow: auto; padding: 1.25rem 1rem; line-height: 1rem; color: rgb(244, 244, 246); }
+
+.css-1ygvvfa hr { border: none; }
+
+.css-1ygvvfa p { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.25rem; }
+
+.css-1ygvvfa * + p { margin-top: 1rem; }
+
+.css-1ygvvfa dl { margin: 0px; }
+
+.css-1ygvvfa dl dt, .css-1ygvvfa dl dd { display: inline; overflow-wrap: break-word; font-size: 0.75rem; }
+
+.css-1ygvvfa a { color: rgb(0, 140, 255); text-decoration: none; }
+
+.css-1ygvvfa a:hover { color: rgb(153, 205, 255); }
+
+.css-kucwgx { box-shadow: rgba(0, 0, 0, 0.2) -2px 0px 10px 0px; background: rgb(13, 19, 28); color: rgb(244, 244, 246); border-left: 1px solid rgb(57, 71, 98); }
+
+.css-7n3f3x { height: 100%; width: 0px; background: rgb(57, 71, 98); }
+
+.css-f3f79 { display: flex; flex-flow: column; -webkit-box-flex: 1; flex-grow: 1; flex-shrink: 1; border-style: solid; border-width: 0px 0px 0px 1px; border-color: rgb(57, 71, 98); background: rgb(18, 28, 45); }
+
+.css-unfpnm { display: flex; flex-direction: column; flex: 1 0 auto; border-color: rgb(57, 71, 98); }
+
+.css-unfpnm iframe { border: none; display: flex; flex: 1 0 auto; }
+
+.css-1yhhvfi { height: 100%; width: 1px; background: rgb(57, 71, 98); }
+
+.css-k44lsu { display: flex; font-size: 0.875rem; line-height: 1.25rem; font-weight: 700; height: 3.25rem; outline: none; -webkit-box-align: center; align-items: center; padding: 0px; border-style: none; position: relative; cursor: pointer; background: inherit; color: rgb(255, 255, 255); }
+
+.css-k44lsu:focus-visible { outline: rgb(2, 99, 224) solid 1px; box-shadow: rgb(2, 99, 224) 0px 0px 0px 4px inset; }
+
+.css-k44lsu:hover, .css-k44lsu:active { background: rgb(31, 48, 76); }
+
+.css-1jx16ca { display: flex; flex: 0 0 3.25rem; height: 100%; -webkit-box-pack: center; justify-content: center; overflow: hidden; position: relative; color: rgb(0, 140, 255); }
+
+.css-1glm8zv { display: grid; -webkit-box-align: center; align-items: center; grid-template-columns: 1.25rem max-content; gap: 0.25rem; }
+
+.css-i6hqh0 { display: flex; flex: 1 1 auto; max-width: 100%; flex-direction: row; cursor: col-resize; overflow: hidden; }
+
+.css-i6hqh0 iframe { pointer-events: none; }
+
+.css-bw8kmb { display: block; width: 100%; box-sizing: border-box; background: transparent; color: rgb(244, 244, 246); box-shadow: rgb(96, 107, 133) 0px 0px 0px 4px; border-radius: 4px; }
+
+.css-bw8kmb::-webkit-input-placeholder { color: rgb(136, 145, 170); }
+
+.css-bw8kmb::placeholder { color: rgb(136, 145, 170); }
+
+.css-k3ddr0 { padding: 0px; margin: 0.6em 0px; }
+
+.css-k3ddr0 > li { list-style: disc; margin-left: 1.5em; }
+
+.css-rxxlys { display: flex; overflow: visible; padding-top: 1.25rem; padding-bottom: 1.25rem; margin-right: auto; margin-left: auto; flex: 1 1 100%; color: rgb(244, 244, 246); }
+
+.css-u19nb4 { margin-bottom: 0.25rem; height: 1.5rem; width: 1.5rem; align-self: center; color: rgb(244, 244, 246); }
+
+.css-e4blsl { text-align: center; font-size: 0.75rem; line-height: 1rem; font-weight: 700; }
+
+.css-1m0q64j { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+.css-1pwab91 { flex: 1 1 1px; margin: auto; border-style: solid solid none; border-top-color: rgb(214, 31, 31); border-right-color: rgb(214, 31, 31); border-left-color: rgb(214, 31, 31); border-bottom-width: initial; border-bottom-color: initial; }
+
+.css-69facm { flex: 0 1 auto; margin-left: 1rem; margin-right: 1rem; font-size: 0.625rem; line-height: 1rem; color: rgb(235, 86, 86); }
+
+.css-p0xmhx { overflow-x: hidden; color: rgb(13, 19, 28); background: rgb(204, 228, 255); border-radius: 8px; margin-left: 44px; padding: 0.75rem; box-shadow: rgb(136, 145, 170) 0px 0px 0px 4px; }
+
+.css-p0xmhx disabled { color: rgb(136, 145, 170); border-width: 1px; border-style: dashed; border-color: rgb(96, 107, 133); background: rgb(13, 19, 28); }
+
+.css-p0xmhx a { color: rgb(0, 140, 255); text-decoration: underline; }
+
+.css-jrtuf9 { color: rgb(0, 140, 255); }
+
+.css-kliiom { -webkit-box-flex: 1; flex-grow: 1; overflow: auto; }
+
+.css-1p78ta5 { margin: auto; text-align: center; }
+
+.css-1anx9qz { font-size: 0.875rem; margin-bottom: 1rem; letter-spacing: 0.125rem; text-transform: uppercase; }
+
+.css-1htyy9d { margin-bottom: 1rem; }
+
+.css-yblt7o { border-radius: 50%; width: 4.5rem; height: 4.5rem; display: inline-flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; position: relative; color: rgb(2, 99, 224); }
+
+.css-14o4e2o { font-size: 1rem; font-weight: 700; margin-bottom: 0.125rem; margin-left: 0.25rem; margin-right: 0.25rem; }
+
+.css-ciblrg { font-size: 0.75rem; margin-bottom: 0px; margin-top: 0px; color: rgb(136, 145, 170); }
+
+.css-wrqdlb { width: 100%; display: flex; margin: 0px auto 1.5rem; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; max-width: 640px; }
+
+.css-wrqdlb .Twilio-ParticipantsCanvas { width: 100%; border-bottom: 1px solid rgb(57, 71, 98); box-shadow: rgb(0, 0, 0) 0px -3px 10px -10px; }
+
+.css-wrqdlb .Twilio-ParticipantsCanvas .Twilio-ParticipantCanvas .Twilio-ParticipantCanvas-default > div:last-of-type { flex-direction: row-reverse; }
+
+.css-wrqdlb .Twilio-ParticipantsCanvas .Twilio-ParticipantCanvas:not(:first-of-type) { padding-top: 1rem; }
+
+.css-wrqdlb .Twilio-CallCanvasActions { align-self: center; padding-top: 1rem; }
+
+.css-wrqdlb button { width: 2.75rem; height: 2.75rem; margin-left: 0.25rem; margin-right: 0.25rem; }
+
+.css-ex0hf5 { flex: 1 1 0%; display: flex; flex-direction: column; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; margin: auto; width: 100%; }
+
+.css-4a2a9l { display: inline-block; position: relative; width: 80px; height: 80px; animation: 0.8s linear 0s infinite normal none running animation-ibxp9g; }
+
+.css-4a2a9l::before { content: ""; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border-width: 2px; border-style: solid; border-radius: 50%; border-color: rgb(57, 71, 98); box-sizing: border-box; }
+
+.css-4a2a9l::after { content: ""; border-width: 2px; border-style: solid; border-color: rgb(2, 99, 224) transparent transparent rgb(2, 99, 224); border-radius: 100% 0px 0px; box-sizing: border-box; display: initial; width: 50%; height: 50%; position: absolute; top: 0px; left: 0px; }
+
+.css-otr44f { font-size: 14px; margin-top: 16px; }

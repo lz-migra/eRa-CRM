@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+.VGdayHlIxxz-FevQRsRG8A\=\= { position: relative; display: inline-block; }
+
+.VGdayHlIxxz-FevQRsRG8A\=\= .tRfErr9lh4dpcUqOJQurRQ\=\= { visibility: hidden; width: 70px; background-color: rgb(85, 85, 85); color: rgb(255, 255, 255); text-align: center; border-radius: 12px; padding: 5px; position: absolute; z-index: 1; bottom: 130%; left: 50%; margin-left: -35px; cursor: pointer; font-size: small; opacity: 0; transition: opacity 0.3s; }
+
+.VGdayHlIxxz-FevQRsRG8A\=\= .tRfErr9lh4dpcUqOJQurRQ\=\=::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgb(85, 85, 85) transparent transparent; }
+
+.VGdayHlIxxz-FevQRsRG8A\=\=:hover .tRfErr9lh4dpcUqOJQurRQ\=\= { visibility: visible; opacity: 1; }

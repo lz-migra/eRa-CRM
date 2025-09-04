@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+.Hosted-LoadingView { background-color: var(--darkreader-background-202125, #2b2f31); color: var(--darkreader-text-ffffff, #e8e6e3); }
+
+.Hosted-Progress::before { border-top-color: var(--darkreader-border-606471, #6a6257); border-right-color: var(--darkreader-border-606471, #6a6257); border-bottom-color: var(--darkreader-border-606471, #6a6257); border-left-color: var(--darkreader-border-606471, #6a6257); }
+
+.Hosted-Progress::after { border-top-color: var(--darkreader-border-1976d2, #145da5); border-right-color: transparent; border-bottom-color: transparent; border-left-color: var(--darkreader-border-1976d2, #145da5); }
+
+#flex-error-text a { color: var(--darkreader-text-ffffff, #e8e6e3); }

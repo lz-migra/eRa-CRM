@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+.tiptap, .ProseMirror, .ProseMirror-focused { border-color: transparent; }
+
+.tiptap:focus-visible { outline-color: initial; }
+
+.tiptap p.is-editor-empty:first-child::before { color: var(--darkreader-text-ebecf04d, rgba(221, 218, 214, 0.3)); }

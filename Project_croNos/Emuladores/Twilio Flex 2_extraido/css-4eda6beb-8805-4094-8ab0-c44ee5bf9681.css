@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+.jss6 { color: rgb(13, 19, 28); background: rgb(20, 176, 83); border-color: rgb(20, 176, 83); }
+
+.jss6:focus-visible { background: rgb(20, 176, 83); border-color: rgb(2, 99, 224); border-width: 4px; }
+
+.jss6:hover { background: rgb(162, 246, 195); border-color: rgb(204, 228, 255); }
+
+.jss6:active { background: rgb(123, 234, 165); border-color: rgb(204, 228, 255); }
+
+.jss6:disabled { color: rgb(13, 19, 28); background: rgb(20, 176, 83); border-color: rgb(20, 176, 83); }
+
+.jss7 { color: rgb(13, 19, 28); background: rgb(214, 31, 31); border-color: rgb(214, 31, 31); }
+
+.jss7:focus-visible { background: rgb(214, 31, 31); border-color: rgb(2, 99, 224); border-width: 4px; }
+
+.jss7:hover { background: rgb(252, 207, 207); border-color: rgb(252, 207, 207); }
+
+.jss7:active { background: rgb(246, 177, 177); border-color: rgb(252, 207, 207); }
+
+.jss7:disabled { color: rgb(13, 19, 28); background: rgb(214, 31, 31); border-color: rgb(214, 31, 31); }
