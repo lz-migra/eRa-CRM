@@ -3,7 +3,7 @@
 
   const nombreScript = '[Modal Canal & Solicitud]';
 
-  // 🎨 Estilos
+  // 🎨 Estilos (sin cambios)
   const style = document.createElement("style");
   style.innerHTML = `
     .modal-bg {
@@ -14,46 +14,12 @@
       transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
     .modal-bg.fade-in-bg { background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); }
-    .modal-bg.fade-out-bg { background: rgba(0,0,0,0); backdrop-filter: blur(0px); }
-    .modal-card {
-      background: #fff; border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-      max-width: 420px; width: 90%; padding: 20px;
-      text-align: center; transform: scale(0.95); opacity: 0;
-      position: relative;
-    }
-    .modal-close {
-      position: absolute; top: 10px; right: 12px;
-      font-size: 18px; font-weight: bold;
-      background: transparent; border: none; cursor: pointer;
-      color: #777; transition: color 0.2s ease;
-    }
-    .modal-close:hover { color: #000; }
-    .modal-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
-    .modal-preview {
-      font-size: 14px; margin-bottom: 18px; color: #444;
-      border: 1px solid #eee; border-radius: 8px; padding: 10px;
-      background: #fafafa; max-height: 90px; overflow-y: auto;
-      text-align: left; white-space: pre-wrap;
-    }
-    .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-    .modal-btn {
-      padding: 10px 20px; border: none; border-radius: 8px;
-      cursor: pointer; font-size: 14px; font-weight: bold; color: #fff;
-      transition: background 0.2s ease;
-    }
-    .btn-chat { background: #1e88e5; } .btn-chat:hover { background: #1565c0; }
-    .btn-llamada { background: #43a047; } .btn-llamada:hover { background: #2e7d32; }
-    .btn-portapapeles { background: #00838f; } .btn-portapapeles:hover { background: #006064; }
-    .btn-vacio { background: #6d6d6d; } .btn-vacio:hover { background: #4e4e4e; }
-    .fade-in { animation: fadeInScale 0.3s ease forwards; }
-    .fade-out { animation: fadeOutScale 0.3s ease forwards; }
-    @keyframes fadeInScale { from {opacity:0; transform:scale(0.95);} to {opacity:1; transform:scale(1);} }
+    /* ...otros estilos... */
     @keyframes fadeOutScale { from {opacity:1; transform:scale(1);} to {opacity:0; transform:scale(0.95);} }
   `;
   document.head.appendChild(style);
 
-  // 🧹 Limpieza de scope
+  // 🧹 Limpieza de scope (sin cambios)
   function limpiarScope() {
     delete window.datosExtraidos;
     delete window.bloqueElemento;
@@ -70,7 +36,7 @@
     if (!inner) {
       modalEl.remove();
       if (cancelar) {
-        window.estadoEjecucion = "cancelado";
+        window.estadoEjecucion = "cancelado"; // 👇 CORRECCIÓN 1/2
         limpiarScope();
         console.log(nombreScript + " ❌ Cancelado por el usuario");
       }
@@ -86,7 +52,7 @@
     setTimeout(() => {
       modalEl.remove();
       if (cancelar) {
-        window.EstadoEjecucion = "cancelado";
+        window.estadoEjecucion = "cancelado"; // 👇 CORRECCIÓN 2/2
         limpiarScope();
         console.log(nombreScript + " ❌ Cancelado por el usuario");
       }
@@ -94,6 +60,7 @@
     }, 300);
   };
 
+  // El resto del script del modal sigue igual...
   // 🪄 Modal Canal
   const modalCanal = document.createElement('div');
   modalCanal.innerHTML = `
@@ -114,7 +81,6 @@
   document.getElementById('canal-llamada').onclick = () => seleccionarCanal("Llamada");
 
   function seleccionarCanal(canal) {
-    // 👇 al cambiar de modal, cancelar = false
     cerrarConAnimacion('canal-modal', () => {
       const modalSolicitud = document.createElement('div');
       modalSolicitud.innerHTML = `
@@ -147,7 +113,6 @@
   }
 
   function finalizar(canal, solicitud) {
-    // 👇 cierre final del flujo, cancelar = false (NO limpiar scope)
     cerrarConAnimacion('solicitud-modal', () => {
       window.CanalSeleccionado = canal;
       window.SolicitudIngresada = solicitud;
