@@ -111,7 +111,7 @@
     modal.innerHTML = `
       <div id="estado-modal" class="modal-bg">
         <div class="modal-card fade-in">
-          <div class="modal-title">⚠️ Estado detenido</div>
+          <div class="modal-title">⚠️</div>
           <div class="modal-message">${mensajeDetenido}</div>
           <div class="modal-actions">
             <button class="modal-btn btn-cerrar" onclick="cerrarModalEstado('estado-modal')">Cerrar</button>

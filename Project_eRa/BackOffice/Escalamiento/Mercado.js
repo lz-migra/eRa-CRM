@@ -54,23 +54,28 @@
   // 🚀 EJECUCIÓN PRINCIPAL
   (async function main() {
     try {
-      // 1️⃣ Cargar módulos necesarios
-      await cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js${timestamp}`);
-      await cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js${timestamp}`);
+      // 1️⃣ Cargar todos los módulos en secuencia
+      const modulos = [
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/IdentificadorHTML.js',
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/OrdenExtractor.js',
+        'https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js'
+      ];
+
+      for (const url of modulos) {
+        await cargarYEjecutarScript(url + timestamp);
+      }
 
       const datos = window.datosExtraidos;
       if (!datos) {
         alert(`${nombreScript}\n\n❌ Error: "datosExtraidos" no está definido.`);
         await cargarYEjecutarScript(scriptCancelacionURL + timestamp);
+        limpiarVariables();
         return;
       }
 
       const { orden, cuenta } = datos;
 
-      // 2️⃣ Cargar modal Canal & Solicitud
-      await cargarYEjecutarScript(`https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js${timestamp}`);
-
-      // 3️⃣ Usar setInterval para verificar variables globales
+      // 2️⃣ SetInterval unificado para monitorear cancelación o finalización
       const verificarInterval = setInterval(async () => {
         // 🛑 Cancelación detectada
         if (typeof window.estadoEjecucion !== 'undefined') {
@@ -81,13 +86,16 @@
           return;
         }
 
-        // ✅ Variables listas
-        if (typeof window.CanalSeleccionado !== 'undefined' && typeof window.SolicitudIngresada !== 'undefined') {
+        // ✅ Variables listas para procesar
+        if (typeof window.CanalSeleccionado !== 'undefined' &&
+            typeof window.SolicitudIngresada !== 'undefined') {
+
           clearInterval(verificarInterval);
 
           const canal = window.CanalSeleccionado;
           const solicitud = window.SolicitudIngresada;
 
+          // 📝 Crear resultados
           const resultadoalert = `🛒 Orden de Mercado
 =========================
 🆔 Nro de orden: ${orden}
@@ -100,6 +108,7 @@ Nro de orden: ${orden}
 Canal: ${canal}
 Solicitud: ${solicitud || ""}`.trim();
 
+          // 📋 Copiar al portapapeles
           try {
             await navigator.clipboard.writeText(resultado);
             log.info('Información copiada al portapapeles ✅');
@@ -110,7 +119,6 @@ Solicitud: ${solicitud || ""}`.trim();
             limpiarVariables();
           }
         }
-
       }, 200); // ⏱️ Intervalo de verificación cada 200ms
 
     } catch (err) {
@@ -121,4 +129,3 @@ Solicitud: ${solicitud || ""}`.trim();
   })();
 
 })();
-
