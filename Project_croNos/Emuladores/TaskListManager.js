@@ -1,12 +1,15 @@
 // 🌍 Función global para manejar tarjetas
 window.TaskListManager = (function () {
+  let uiElement = null; // Guardamos referencia al panel flotante
+
   // 🔎 Obtenemos el contenedor real donde deben ir las tarjetas
   const getContainer = () => {
     const outer = document.querySelector(".Twilio-TaskList-default.css-18ljn0d");
     return outer ? outer.querySelector("div") : null; // 👈 el hijo interno
   };
 
-    // 📦 Diccionario de plantillas HTML personalizadas
+  // 📦 Diccionario de plantillas HTML personalizadas
+
   const templates = {
     "CHAT": `
       <div class="Twilio-TaskListBaseItem css-h9kan6" data-testid="task-item" tabindex="0" role="button" aria-label="chat task with status accepted from WA-IN | 📞 | US | +13053918485 | for queue IN_WHATSAPP_CLL. . Attention required.. 2 unread messages.. Customer is offline."><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-IconAreaContainer css-1r1u88g"><button class="MuiButtonBase-root MuiIconButton-root Twilio-IconButton css-169h1y7 Twilio-TaskListBaseItem-IconArea css-19145cc" tabindex="-1" type="button" aria-hidden="true"><span class="MuiIconButton-label"><div data-testid="Twilio-Icon" class="Twilio-Icon Twilio-Icon-Whatsapp  css-1j3rlv1"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="Twilio-Icon-Content"><path d="M13.973 11.729c.146.07.245.117.287.187.052.087.053.504-.122.992-.175.487-1.012.931-1.414.991a2.883 2.883 0 01-1.32-.082 12.06 12.06 0 01-1.195-.44c-1.963-.843-3.29-2.737-3.542-3.096a2.543 2.543 0 00-.037-.052l-.001-.002c-.11-.146-.855-1.134-.855-2.156 0-.96.474-1.464.693-1.695l.04-.044a.771.771 0 01.56-.261c.139 0 .279.001.4.007h.048c.122 0 .274 0 .424.358l.233.562c.18.436.378.917.413.986.053.105.088.227.018.366l-.03.058c-.052.107-.09.186-.18.29a8.54 8.54 0 00-.105.126c-.073.088-.146.176-.209.239-.105.104-.214.217-.092.426.122.208.543.891 1.166 1.444.67.595 1.251.846 1.546.973.058.025.105.045.139.063.21.104.331.087.454-.053.122-.139.524-.609.663-.817.14-.21.28-.174.472-.105.192.07 1.222.574 1.431.679l.115.056z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2a8 8 0 00-7.02 11.84c.003.005.003.01.003.01l-.78 2.916a.842.842 0 001.03 1.031l2.917-.78s.004 0 .01.003A8 8 0 1010 2zm-7.158 8a7.158 7.158 0 113.723 6.281.855.855 0 00-.632-.078l-2.917.78.78-2.916a.855.855 0 00-.077-.632A7.124 7.124 0 012.842 10z" fill="currentColor"></path></svg></div></span></button><div class="Twilio-Badge-OuterCircle css-wcl2mj"><div class="Twilio-Badge-InnerCircle css-e0wrci"><span class="Twilio-Badge-TextContainer css-dr2ko4">2</span></div></div></div><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653" data-testid="task-item-first-line"><span class="Twilio"> WA-IN | 📞 | US | +13053918485 | </span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio css-1o089kg">06:14 |    whatsapp:+13053918485:  3053918485 </span></div></div><div class="Twilio-TaskListBaseItem-Actions css-4x1hxs"></div></div></div>
@@ -17,6 +20,26 @@ window.TaskListManager = (function () {
     "IVR": `
       <div class="Twilio-TaskListBaseItem css-1epyp4w" data-testid="task-item" tabindex="0" role="button" aria-label="ivr-live-callback task with status accepted from Remesas Round 1 | Acc: 2250455 for queue Campaña Remesas. . . ."><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-IconAreaContainer css-1r1u88g"><button class="MuiButtonBase-root MuiIconButton-root Twilio-IconButton css-169h1y7 Twilio-TaskListBaseItem-IconArea css-148zgv3" tabindex="-1" type="button" aria-hidden="true"><span class="MuiIconButton-label"><div data-testid="Twilio-Icon" class="Twilio-Icon Twilio-Icon-GenericTask  css-1j3rlv1"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="Twilio-Icon-Content"><path d="M13.487 8.146a.5.5 0 010 .708L9.51 12.83a1.085 1.085 0 01-1.53 0l-1.334-1.334a.5.5 0 11.708-.707l1.332 1.334a.084.084 0 00.118 0l3.976-3.977a.5.5 0 01.707 0zM10 4.5A.75.75 0 1010 3a.75.75 0 000 1.5z" fill="currentColor" data-darkreader-inline-fill="" style="--darkreader-inline-fill: currentColor;"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.867 1.94A2.923 2.923 0 0110 1c.806 0 1.573.342 2.133.94.445.474.732 1.08.83 1.727H15c.409 0 .793.173 1.072.47.277.296.428.69.428 1.096v11.2c0 .406-.15.8-.428 1.097A1.47 1.47 0 0115 18H5a1.47 1.47 0 01-1.072-.47 1.604 1.604 0 01-.428-1.097v-11.2c0-.405.15-.8.428-1.096A1.47 1.47 0 015 3.667h2.038a3.233 3.233 0 01.83-1.728zM10 2c-.52 0-1.025.22-1.403.623A2.26 2.26 0 008 4.167a.5.5 0 01-.5.5H5a.47.47 0 00-.342.154.604.604 0 00-.158.412v11.2c0 .16.06.308.158.413A.47.47 0 005 17h10a.47.47 0 00.342-.154.604.604 0 00.158-.413v-11.2c0-.16-.06-.308-.158-.412A.47.47 0 0015 4.667h-2.5a.5.5 0 01-.5-.5 2.26 2.26 0 00-.597-1.544A1.924 1.924 0 0010 2z" fill="currentColor" data-darkreader-inline-fill="" style="--darkreader-inline-fill: currentColor;"></path></svg></div></span></button></div><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653" data-testid="task-item-first-line"><span class="Twilio"> Remesas Round 1 | Acc: 2250455 </span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio css-1o089kg">Assigned</span></div></div><div class="Twilio-TaskListBaseItem-Actions css-4x1hxs"></div></div></div>
     `
+  };
+
+  // 🔄 Refresca la lista de plantillas en la UI
+  const refreshTemplateList = () => {
+    if (!uiElement) return;
+    const list = uiElement.querySelector("#template-list");
+    list.innerHTML = "";
+    Object.keys(templates).forEach((key) => {
+      const item = document.createElement("div");
+      item.style.margin = "4px 0";
+      item.style.cursor = "pointer";
+      item.style.padding = "3px 6px";
+      item.style.borderRadius = "6px";
+      item.style.background = "#333";
+      item.innerText = `➕ ${key}`;
+      item.onclick = () => {
+        TaskListManager.addCardFromSaved(key);
+      };
+      list.appendChild(item);
+    });
   };
 
   return {
@@ -37,19 +60,12 @@ window.TaskListManager = (function () {
       return newCard;
     },
 
-    // ➕ Agregar tarjeta desde las plantillas guardadas
+    // ➕ Agregar tarjeta desde plantillas
     addCardFromSaved: function (key) {
-      if (!key) {
-        console.info("👉 Plantillas disponibles:", Object.keys(templates));
-        console.info('Usa: TaskListManager.addCardFromSaved("whatsapp")');
-        return;
-      }
-
       if (!templates[key]) {
-        console.error(`❌ No existe una plantilla con el nombre "${key}".`);
+        console.error(`❌ No existe la plantilla "${key}".`);
         return;
       }
-
       return this.addRawCard(templates[key]);
     },
 
@@ -57,10 +73,8 @@ window.TaskListManager = (function () {
     removeCard: function (name) {
       const container = getContainer();
       if (!container) return;
-
       const cards = container.querySelectorAll(".Twilio-TaskListBaseItem");
       let removed = false;
-
       cards.forEach((card) => {
         const title = card.querySelector("h4 span")?.textContent.trim();
         if (title === name) {
@@ -69,32 +83,75 @@ window.TaskListManager = (function () {
           removed = true;
         }
       });
-
-      if (!removed) {
-        console.warn("⚠️ No se encontró tarjeta con el nombre:", name);
-      }
+      if (!removed) console.warn("⚠️ No se encontró tarjeta con el nombre:", name);
     },
 
-    // 🔥 Eliminar TODAS las tarjetas
+    // 🔥 Eliminar todas las tarjetas
     removeCardAll: function () {
       const container = getContainer();
       if (!container) return;
-
       const cards = container.querySelectorAll(".Twilio-TaskListBaseItem");
       cards.forEach((card) => card.remove());
-
       console.log("🔥 Todas las tarjetas fueron eliminadas.");
     },
 
-    // 💾 Guardar nueva plantilla personalizada
+    // 💾 Guardar nueva plantilla
     saveTemplate: function (key, htmlString) {
       templates[key] = htmlString;
       console.log(`💾 Plantilla "${key}" guardada correctamente.`);
+      refreshTemplateList();
     },
 
-    // 👀 Listar las plantillas disponibles
+    // 👀 Listar plantillas disponibles en consola
     listTemplates: function () {
       console.table(templates);
+    },
+
+    // 🎛️ Abrir la UI flotante
+    openui: function () {
+      if (uiElement) return; // Si ya está abierta, no duplicar
+
+      uiElement = document.createElement("div");
+      uiElement.style.position = "fixed";
+      uiElement.style.bottom = "10px";
+      uiElement.style.right = "10px";
+      uiElement.style.background = "#222";
+      uiElement.style.color = "#fff";
+      uiElement.style.padding = "10px";
+      uiElement.style.borderRadius = "10px";
+      uiElement.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
+      uiElement.style.zIndex = "99999";
+      uiElement.style.fontFamily = "sans-serif";
+      uiElement.style.fontSize = "14px";
+      uiElement.style.width = "180px";
+
+      uiElement.innerHTML = `
+        <div style="margin-bottom:5px; font-weight:bold;">⚙️ TaskListManager</div>
+        <div id="template-list" style="max-height:120px; overflow-y:auto; border:1px solid #444; padding:5px; border-radius:6px; margin-bottom:6px;">
+        </div>
+        <button data-action="removeAll" style="margin:2px; width:100%;">🔥 Clear All</button>
+        <button data-action="close" style="margin:2px; width:100%;">❌ Close</button>
+      `;
+
+      document.body.appendChild(uiElement);
+
+      // Eventos
+      uiElement.querySelector("[data-action='removeAll']").onclick = () =>
+        this.removeCardAll();
+      uiElement.querySelector("[data-action='close']").onclick = () =>
+        this.closeui();
+
+      refreshTemplateList();
+      console.log("✅ UI flotante abierta con lista de plantillas.");
+    },
+
+    // 🔒 Cerrar la UI flotante
+    closeui: function () {
+      if (uiElement) {
+        uiElement.remove();
+        uiElement = null;
+        console.log("❌ UI flotante cerrada.");
+      }
     }
   };
 })();
