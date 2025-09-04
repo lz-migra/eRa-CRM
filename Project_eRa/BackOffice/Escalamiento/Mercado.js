@@ -46,7 +46,7 @@
         const { orden, cuenta } = datos;
 
         // 📌 Ahora cargamos el modal de Canal & Solicitud
-        cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/BackOffice/Resources/Canal%26Solicitud.js', function () {
+        cargarYEjecutarScript('https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_eRa/Global_Resourses/Canal%26Solicitud.js', function () {
           
           // Limpiamos el estado de ejecución previo para asegurar que la cancelación sea intencional
           delete window.estadoEjecucion;
