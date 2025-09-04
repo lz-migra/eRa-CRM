@@ -4,8 +4,8 @@
   // 📦 Paso 1: Obtener el contenido HTML capturado desde otra función/script
   const htmlCrudo = window.bloqueHTMLCapturado;
   if (!htmlCrudo || typeof htmlCrudo !== 'string') {
-    alert('[🧩 Extractor] ❌ No se encontró el HTML capturado o no es válido.');
-    window.estadoEjecucion = "cancelado";
+   // alert('[🧩 Extractor] ❌ No se encontró el HTML capturado o no es válido.');
+    window.estadoEjecucion = "❌ No se encontró el HTML esperado o no es válido. Esto puede deberse a cambios en la estructura de la página. Por favor, recarga la pagina o contacta al soporte.";
     return;
   }
 

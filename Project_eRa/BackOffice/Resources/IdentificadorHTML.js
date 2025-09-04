@@ -17,12 +17,12 @@
   if (ordenesExpandidas.length === 0) {
     // alert("[IdentificadorHTML] ❌ No se encontró ninguna orden expandida.");
     console.warn("No hay ninguna orden expandida en el DOM.");
-    window.estadoEjecucion = "❌ No se encontró ninguna orden expandida.";
+    window.estadoEjecucion = "❌ No se detectó ninguna orden activa. Por favor, despliega la orden con la que estás trabajando.";
     return;
   }
 
   if (ordenesExpandidas.length > 1) {
-    alert("[IdentificadorHTML] ⚠️ Hay más de una orden expandida. Por favor, colapsa las demás.");
+    alert("[IdentificadorHTML] ⚠️ Hay más de una orden desplegada. Por favor, colapsa las demás. solo se permite tener ");
     console.warn("Varias órdenes expandidas detectadas:", ordenesExpandidas);
     return;
   }
