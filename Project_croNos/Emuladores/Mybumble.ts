@@ -30,6 +30,18 @@ async function unirScriptsGitHub(urls, nombreArchivo = "bundle.js") {
 
 // 🛠 Ejemplo de uso con tus scripts de GitHub RAW
 unirScriptsGitHub([
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js",
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/otroArchivo.js"
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js",         // 1
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/MonitorTarjetas.js",          // 2
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/AddRelojes.js",                      // 3
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/detectarNombreAgente.js",
+
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/VOISE/EjecutorVOISE.js",  // 5
+
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/IVR/EjecutorIVR.js",                 // 5
+
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/EjecutorCHAT.js",               // 5
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/CompararMensajeConGuardado.js", // 6
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/MensajesAgenteStorage.js",      // 6
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/UltimoMensajeAgente.js"        // 6
+
 ], "miBundle.js"); // Nombre del archivo final
