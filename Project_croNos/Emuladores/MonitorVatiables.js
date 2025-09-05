@@ -2,9 +2,9 @@
   // 🟢 Lista inicial de variables globales a monitorear
   const variablesAMonitorear = [
 
-    "miVariable1",
-    "miVariable2", 
-    "otraVariable"
+    "estadoEjecutorCHAT",
+    "estadoEjecutorVOICE", 
+    "estadoEjecutorIVR"
     
 ];
 
