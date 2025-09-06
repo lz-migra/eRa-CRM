@@ -258,7 +258,7 @@ window.TaskListManager = (function () {
     const tplCol = document.createElement("div");
     // La columna de plantillas será flexible pero con un ancho base.
     tplCol.style.cssText = "flex: 1 1 180px; display:flex; flex-direction:column; min-width:180px;";
-    tplCol.innerHTML = `<div style="font-weight:600;margin-bottom:6px;">Plantillas Guardadas</div><div id="template-list" style="overflow-x:auto; white-space:nowrap; padding-bottom:10px;"></div>`;
+    tplCol.innerHTML = `   <div style="font-weight:600;margin-bottom:6px;">Plantillas Guardadas</div>   <div id="template-list"         style="display:flex; flex-wrap:wrap; gap:6px; max-width:200px; padding-bottom:10px; overflow-y:auto;">   </div>`;
 
     const activeCol = document.createElement("div");
     // La columna de activas mantiene su ancho fijo para evitar saltos.
@@ -335,4 +335,5 @@ window.TaskListManager = (function () {
 })();
 
 // Para iniciar, ejecuta en la consola:
+
 TaskListManager.openui();
