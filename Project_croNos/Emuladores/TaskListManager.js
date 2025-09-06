@@ -1,16 +1,46 @@
-// 🌍 Función global para manejar tarjetas
+// 🌍 TaskListManager — UI horizontal, plantillas y control completo
+// v4.0 - Con ancho dinámico para ajustarse al contenido y evitar recortes.
 window.TaskListManager = (function () {
-  let uiElement = null; // Guardamos referencia al panel flotante
+  // 🧭 Estado interno
+  let uiElement = null;
+  let dragData = { isDragging: false, offsetX: 0, offsetY: 0 };
 
-  // 🔎 Obtenemos el contenedor real donde deben ir las tarjetas
-  const getContainer = () => {
-    const outer = document.querySelector(".Twilio-TaskList-default.css-18ljn0d");
-    return outer ? outer.querySelector("div") : null; // 👈 el hijo interno
-  };
+  // 💾 Cargar plantillas desde localStorage para que persistan entre sesiones.
+  function loadTemplatesFromStorage() {
+    try {
+      const saved = localStorage.getItem('TaskListManager_templates');
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      console.error("Error al cargar plantillas desde localStorage:", e);
+      return {};
+    }
+  }
 
-  // 📦 Diccionario de plantillas HTML personalizadas
+  // 💾 Guardar las plantillas actuales en localStorage.
+  function saveTemplatesToStorage() {
+    try {
+      localStorage.setItem('TaskListManager_templates', JSON.stringify(templates));
+    } catch (e) {
+      console.error("Error al guardar plantillas en localStorage:", e);
+    }
+  }
 
+  // 🔎 Obtener el contenedor real dentro de Twilio (el <div> hijo donde van las tarjetas)
+  function getContainer() {
+    const outer = document.querySelector(".Twilio-TaskList-default");
+    return outer ? outer.querySelector(":scope > div") : null;
+  }
+
+  // 🔨 Convertir HTML string a elemento DOM (primer elemento)
+  function createElementFromHTML(html) {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html.trim();
+    return wrapper.firstElementChild;
+  }
+
+  // 📦 Plantillas iniciales (se mezclan con las guardadas en localStorage)
   const templates = {
+    // Plantillas por defecto por si no hay nada guardado
     "CHAT": `
       <div class="Twilio-TaskListBaseItem css-h9kan6" data-testid="task-item" tabindex="0" role="button" aria-label="chat task with status accepted from WA-IN | 📞 | US | +13053918485 | for queue IN_WHATSAPP_CLL. . Attention required.. 2 unread messages.. Customer is offline."><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-IconAreaContainer css-1r1u88g"><button class="MuiButtonBase-root MuiIconButton-root Twilio-IconButton css-169h1y7 Twilio-TaskListBaseItem-IconArea css-19145cc" tabindex="-1" type="button" aria-hidden="true"><span class="MuiIconButton-label"><div data-testid="Twilio-Icon" class="Twilio-Icon Twilio-Icon-Whatsapp  css-1j3rlv1"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="Twilio-Icon-Content"><path d="M13.973 11.729c.146.07.245.117.287.187.052.087.053.504-.122.992-.175.487-1.012.931-1.414.991a2.883 2.883 0 01-1.32-.082 12.06 12.06 0 01-1.195-.44c-1.963-.843-3.29-2.737-3.542-3.096a2.543 2.543 0 00-.037-.052l-.001-.002c-.11-.146-.855-1.134-.855-2.156 0-.96.474-1.464.693-1.695l.04-.044a.771.771 0 01.56-.261c.139 0 .279.001.4.007h.048c.122 0 .274 0 .424.358l.233.562c.18.436.378.917.413.986.053.105.088.227.018.366l-.03.058c-.052.107-.09.186-.18.29a8.54 8.54 0 00-.105.126c-.073.088-.146.176-.209.239-.105.104-.214.217-.092.426.122.208.543.891 1.166 1.444.67.595 1.251.846 1.546.973.058.025.105.045.139.063.21.104.331.087.454-.053.122-.139.524-.609.663-.817.14-.21.28-.174.472-.105.192.07 1.222.574 1.431.679l.115.056z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2a8 8 0 00-7.02 11.84c.003.005.003.01.003.01l-.78 2.916a.842.842 0 001.03 1.031l2.917-.78s.004 0 .01.003A8 8 0 1010 2zm-7.158 8a7.158 7.158 0 113.723 6.281.855.855 0 00-.632-.078l-2.917.78.78-2.916a.855.855 0 00-.077-.632A7.124 7.124 0 012.842 10z" fill="currentColor"></path></svg></div></span></button><div class="Twilio-Badge-OuterCircle css-wcl2mj"><div class="Twilio-Badge-InnerCircle css-e0wrci"><span class="Twilio-Badge-TextContainer css-dr2ko4">2</span></div></div></div><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653" data-testid="task-item-first-line"><span class="Twilio"> WA-IN | 📞 | US | +13053918485 | </span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio css-1o089kg">06:14 |    whatsapp:+13053918485:  3053918485 </span></div></div><div class="Twilio-TaskListBaseItem-Actions css-4x1hxs"></div></div></div>
     `,
@@ -20,138 +50,296 @@ window.TaskListManager = (function () {
     "IVR": `
       <div class="Twilio-TaskListBaseItem css-1epyp4w" data-testid="task-item" tabindex="0" role="button" aria-label="ivr-live-callback task with status accepted from Remesas Round 1 | Acc: 2250455 for queue Campaña Remesas. . . ."><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-IconAreaContainer css-1r1u88g"><button class="MuiButtonBase-root MuiIconButton-root Twilio-IconButton css-169h1y7 Twilio-TaskListBaseItem-IconArea css-148zgv3" tabindex="-1" type="button" aria-hidden="true"><span class="MuiIconButton-label"><div data-testid="Twilio-Icon" class="Twilio-Icon Twilio-Icon-GenericTask  css-1j3rlv1"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="Twilio-Icon-Content"><path d="M13.487 8.146a.5.5 0 010 .708L9.51 12.83a1.085 1.085 0 01-1.53 0l-1.334-1.334a.5.5 0 11.708-.707l1.332 1.334a.084.084 0 00.118 0l3.976-3.977a.5.5 0 01.707 0zM10 4.5A.75.75 0 1010 3a.75.75 0 000 1.5z" fill="currentColor" data-darkreader-inline-fill="" style="--darkreader-inline-fill: currentColor;"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.867 1.94A2.923 2.923 0 0110 1c.806 0 1.573.342 2.133.94.445.474.732 1.08.83 1.727H15c.409 0 .793.173 1.072.47.277.296.428.69.428 1.096v11.2c0 .406-.15.8-.428 1.097A1.47 1.47 0 0115 18H5a1.47 1.47 0 01-1.072-.47 1.604 1.604 0 01-.428-1.097v-11.2c0-.405.15-.8.428-1.096A1.47 1.47 0 015 3.667h2.038a3.233 3.233 0 01.83-1.728zM10 2c-.52 0-1.025.22-1.403.623A2.26 2.26 0 008 4.167a.5.5 0 01-.5.5H5a.47.47 0 00-.342.154.604.604 0 00-.158.412v11.2c0 .16.06.308.158.413A.47.47 0 005 17h10a.47.47 0 00.342-.154.604.604 0 00.158-.413v-11.2c0-.16-.06-.308-.158-.412A.47.47 0 0015 4.667h-2.5a.5.5 0 01-.5-.5 2.26 2.26 0 00-.597-1.544A1.924 1.924 0 0010 2z" fill="currentColor" data-darkreader-inline-fill="" style="--darkreader-inline-fill: currentColor;"></path></svg></div></span></button></div><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653" data-testid="task-item-first-line"><span class="Twilio"> Remesas Round 1 | Acc: 2250455 </span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio css-1o089kg">Assigned</span></div></div><div class="Twilio-TaskListBaseItem-Actions css-4x1hxs"></div></div></div>
     `
+    // Sobrescribimos y añadimos las plantillas guardadas en localStorage
+    ...loadTemplatesFromStorage()
   };
 
-  // 🔄 Refresca la lista de plantillas en la UI
-  const refreshTemplateList = () => {
+  // 🔁 Refrescar lista de plantillas en la UI (fila horizontal)
+  function refreshTemplateList() {
     if (!uiElement) return;
-    const list = uiElement.querySelector("#template-list");
-    list.innerHTML = "";
+    const container = uiElement.querySelector("#template-list");
+    container.innerHTML = "";
+
     Object.keys(templates).forEach((key) => {
-      const item = document.createElement("div");
-      item.style.margin = "4px 0";
-      item.style.cursor = "pointer";
-      item.style.padding = "3px 6px";
-      item.style.borderRadius = "6px";
-      item.style.background = "#333";
-      item.innerText = `➕ ${key}`;
-      item.onclick = () => {
-        TaskListManager.addCardFromSaved(key);
+      const box = document.createElement("div");
+      box.style.cssText = "display:inline-flex; align-items:center; margin-right:6px; padding:4px 6px; background:#2f2f2f; border:1px solid #444; border-radius:6px; gap:6px;";
+
+      const name = document.createElement("div");
+      name.innerText = key;
+      name.title = key;
+      name.style.cssText = "max-width:90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;";
+
+      const addBtn = document.createElement("button");
+      addBtn.innerText = "➕";
+      addBtn.title = `Agregar ${key}`;
+      addBtn.style.cursor = "pointer";
+      addBtn.onclick = () => {
+        addCardFromSaved(key);
+        refreshActiveList();
       };
-      list.appendChild(item);
+
+      const delBtn = document.createElement("button");
+      delBtn.innerText = "🗑️";
+      delBtn.title = `Eliminar plantilla ${key}`;
+      delBtn.style.cursor = "pointer";
+      delBtn.onclick = () => removeTemplate(key);
+
+      box.appendChild(name);
+      box.appendChild(addBtn);
+      box.appendChild(delBtn);
+      container.appendChild(box);
     });
-  };
+  }
 
-  return {
-    // ➕ Agregar tarjeta desde un HTML crudo
-    addRawCard: function (htmlString) {
-      const container = getContainer();
-      if (!container) {
-        console.error("❌ No se encontró el contenedor interno.");
-        return;
-      }
+  // 🔁 Refrescar lista de tarjetas activas (vertical dentro de su columna)
+  function refreshActiveList() {
+    if (!uiElement) return;
+    const list = uiElement.querySelector("#active-list");
+    list.innerHTML = "";
 
-      const template = document.createElement("div");
-      template.innerHTML = htmlString.trim();
-      const newCard = template.firstChild;
+    const container = getContainer();
+    if (!container) {
+      const hint = document.createElement("div");
+      hint.innerText = "Contenedor no encontrado.";
+      hint.style.color = "#f88";
+      list.appendChild(hint);
+      return;
+    }
 
-      container.prepend(newCard);
-      console.log("✅ Tarjeta agregada.");
-      return newCard;
-    },
+    container.querySelectorAll(".Twilio-TaskListBaseItem").forEach((card, index) => {
+      const cardId = `card-${index}`;
+      card.dataset.cardId = cardId;
+      
+      const title = card.querySelector("h4 span")?.textContent.trim() || "❓ Sin nombre";
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex; align-items:center; justify-content:space-between; gap:8px; padding:4px; margin-bottom:6px; background:#2f2f2f; border:1px solid #444; border-radius:6px;";
 
-    // ➕ Agregar tarjeta desde plantillas
-    addCardFromSaved: function (key) {
-      if (!templates[key]) {
-        console.error(`❌ No existe la plantilla "${key}".`);
-        return;
-      }
-      return this.addRawCard(templates[key]);
-    },
+      const nameSpan = document.createElement("div");
+      nameSpan.innerText = title;
+      nameSpan.style.cssText = "flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;";
 
-    // ❌ Eliminar tarjeta por nombre exacto
-    removeCard: function (name) {
-      const container = getContainer();
-      if (!container) return;
-      const cards = container.querySelectorAll(".Twilio-TaskListBaseItem");
-      let removed = false;
-      cards.forEach((card) => {
-        const title = card.querySelector("h4 span")?.textContent.trim();
-        if (title === name) {
-          card.remove();
-          console.log("🗑️ Tarjeta eliminada:", name);
-          removed = true;
-        }
-      });
-      if (!removed) console.warn("⚠️ No se encontró tarjeta con el nombre:", name);
-    },
+      const del = document.createElement("button");
+      del.innerText = "❌";
+      del.title = "Eliminar tarjeta";
+      del.style.cursor = "pointer";
+      del.onclick = () => removeCardById(cardId);
 
-    // 🔥 Eliminar todas las tarjetas
-    removeCardAll: function () {
-      const container = getContainer();
-      if (!container) return;
-      const cards = container.querySelectorAll(".Twilio-TaskListBaseItem");
-      cards.forEach((card) => card.remove());
-      console.log("🔥 Todas las tarjetas fueron eliminadas.");
-    },
+      row.appendChild(nameSpan);
+      row.appendChild(del);
+      list.appendChild(row);
+    });
+  }
+  
+  // ✨ Muestra notificaciones sutiles en la UI.
+  function showNotification(message, isError = false) {
+    if (!uiElement) return;
+    const notifArea = uiElement.querySelector("#ui-notification");
+    if (!notifArea) return;
+    
+    notifArea.textContent = message;
+    notifArea.style.color = isError ? "#ff6b6b" : "#6bffb8";
+    notifArea.style.opacity = "1";
+    
+    setTimeout(() => { notifArea.style.opacity = "0"; }, 3000);
+  }
 
-    // 💾 Guardar nueva plantilla
-    saveTemplate: function (key, htmlString) {
-      templates[key] = htmlString;
-      console.log(`💾 Plantilla "${key}" guardada correctamente.`);
+  // ------------------ API functions ------------------
+
+  function addRawCard(htmlString) {
+    const container = getContainer();
+    if (!container) {
+      showNotification("Contenedor de Twilio no encontrado.", true);
+      return null;
+    }
+    const el = createElementFromHTML(htmlString);
+    if (!el) {
+      showNotification("HTML inválido.", true);
+      return null;
+    }
+    container.prepend(el);
+    refreshActiveList();
+    showNotification("Tarjeta Raw agregada.");
+    return el;
+  }
+
+  function addCardFromSaved(key) {
+    if (!templates[key]) {
+      showNotification(`Plantilla "${key}" no existe.`, true);
+      return null;
+    }
+    showNotification(`Tarjeta "${key}" agregada.`);
+    return addRawCard(templates[key]);
+  }
+
+  function saveTemplate(key, htmlString) {
+    if (!key || !htmlString) {
+      showNotification("Key y HTML son requeridos.", true);
+      return;
+    }
+    templates[key] = htmlString;
+    saveTemplatesToStorage();
+    showNotification(`Plantilla "${key}" guardada.`);
+    refreshTemplateList();
+  }
+
+  function removeTemplate(key) {
+    if (templates[key]) {
+      delete templates[key];
+      saveTemplatesToStorage();
+      showNotification(`Plantilla "${key}" eliminada.`);
       refreshTemplateList();
-    },
+    } else {
+      showNotification(`Plantilla "${key}" no existe.`, true);
+    }
+  }
 
-    // 👀 Listar plantillas disponibles en consola
-    listTemplates: function () {
-      console.table(templates);
-    },
+  function removeCardById(cardId) {
+    const container = getContainer();
+    if (!container) return;
+    const cardToRemove = container.querySelector(`[data-card-id="${cardId}"]`);
+    if (cardToRemove) {
+      cardToRemove.remove();
+      refreshActiveList();
+    }
+  }
 
-    // 🎛️ Abrir la UI flotante
-    openui: function () {
-      if (uiElement) return; // Si ya está abierta, no duplicar
-
-      uiElement = document.createElement("div");
-      uiElement.style.position = "fixed";
-      uiElement.style.bottom = "10px";
-      uiElement.style.right = "10px";
-      uiElement.style.background = "#222";
-      uiElement.style.color = "#fff";
-      uiElement.style.padding = "10px";
-      uiElement.style.borderRadius = "10px";
-      uiElement.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
-      uiElement.style.zIndex = "99999";
-      uiElement.style.fontFamily = "sans-serif";
-      uiElement.style.fontSize = "14px";
-      uiElement.style.width = "180px";
-
-      uiElement.innerHTML = `
-        <div style="margin-bottom:5px; font-weight:bold;">⚙️ TaskListManager</div>
-        <div id="template-list" style="max-height:120px; overflow-y:auto; border:1px solid #444; padding:5px; border-radius:6px; margin-bottom:6px;">
-        </div>
-        <button data-action="removeAll" style="margin:2px; width:100%;">🔥 Clear All</button>
-        <button data-action="close" style="margin:2px; width:100%;">❌ Close</button>
-      `;
-
-      document.body.appendChild(uiElement);
-
-      // Eventos
-      uiElement.querySelector("[data-action='removeAll']").onclick = () =>
-        this.removeCardAll();
-      uiElement.querySelector("[data-action='close']").onclick = () =>
-        this.closeui();
-
-      refreshTemplateList();
-      console.log("✅ UI flotante abierta con lista de plantillas.");
-    },
-
-    // 🔒 Cerrar la UI flotante
-    closeui: function () {
-      if (uiElement) {
-        uiElement.remove();
-        uiElement = null;
-        console.log("❌ UI flotante cerrada.");
+  function removeCard(name) {
+    const container = getContainer();
+    if (!container) return;
+    
+    let cardToRemove = null;
+    for (const card of container.querySelectorAll(".Twilio-TaskListBaseItem")) {
+      const title = card.querySelector("h4 span")?.textContent.trim();
+      if (title === name) {
+        cardToRemove = card;
+        break;
       }
     }
+
+    if (cardToRemove) {
+      cardToRemove.remove();
+      showNotification(`Tarjeta "${name}" eliminada.`);
+      refreshActiveList();
+    } else {
+      showNotification(`Tarjeta "${name}" no encontrada.`, true);
+    }
+  }
+
+  function removeCardAll() {
+    const container = getContainer();
+    if (!container) return;
+    container.querySelectorAll(".Twilio-TaskListBaseItem").forEach((c) => c.remove());
+    showNotification("Todas las tarjetas eliminadas.");
+    refreshActiveList();
+  }
+
+  function listTemplates() {
+    console.table(templates);
+  }
+
+  // ------------------ UI ------------------
+
+  function openui() {
+    if (uiElement) return;
+
+    uiElement = document.createElement("div");
+    // FIX: Se elimina el `width` fijo para que el contenedor se ajuste al contenido.
+    uiElement.style.cssText = "position:fixed; bottom:12px; right:12px; background:rgba(34, 34, 34, 0.9); backdrop-filter:blur(5px); color:#fff; padding:8px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,0.5); z-index:999999; font-family:sans-serif; font-size:13px; max-height:240px; overflow:hidden; display:flex; flex-direction:column;";
+
+    const header = document.createElement("div");
+    header.id = "ui-header";
+    header.style.cssText = "display:flex; justify-content:space-between; align-items:center; cursor:move; gap:8px; margin-bottom:8px;";
+    header.innerHTML = `<div style="font-weight:700;">⚙️ TaskListManager</div><div id="ui-notification" style="flex:1; text-align:center; color:#6bffb8; font-size:12px; transition: opacity 0.5s ease; opacity:0;"></div>`;
+                      
+    const closeBtn = document.createElement("div");
+    closeBtn.innerText = "❌";
+    closeBtn.style.cssText = "cursor:pointer; padding:4px;";
+    closeBtn.onclick = () => closeui();
+    header.appendChild(closeBtn);
+    uiElement.appendChild(header);
+
+    const main = document.createElement("div");
+    main.style.cssText = "display:flex; gap:8px; flex:1; overflow:hidden;";
+
+    // FIX: Se ajustan los anchos de las columnas para un layout estable.
+    const tplCol = document.createElement("div");
+    // La columna de plantillas será flexible pero con un ancho base.
+    tplCol.style.cssText = "flex: 1 1 180px; display:flex; flex-direction:column; min-width:180px;";
+    tplCol.innerHTML = `<div style="font-weight:600;margin-bottom:6px;">Plantillas Guardadas</div><div id="template-list" style="overflow-x:auto; white-space:nowrap; padding-bottom:10px;"></div>`;
+
+    const activeCol = document.createElement("div");
+    // La columna de activas mantiene su ancho fijo para evitar saltos.
+    activeCol.style.cssText = "flex: 0 0 150px; display:flex; flex-direction:column;";
+    activeCol.innerHTML = `<div style="font-weight:600;margin-bottom:6px;">Tarjetas Activas</div><div id="active-list" style="overflow-y:auto; max-height:140px; padding-right: 5px;"></div>`;
+
+    const ctrlCol = document.createElement("div");
+    // La columna de controles ahora tiene un ancho fijo suficiente para su contenido.
+    ctrlCol.style.cssText = "flex: 0 0 170px; display:flex; flex-direction:column; gap:4px;";
+    ctrlCol.innerHTML = `
+      <div style="font-weight:600;">Controles</div>
+      <button id="clearAll" style="width:100%; cursor:pointer; padding: 6px; border-radius:4px; border:1px solid #c0392b; background:#e74c3c; color:white;">🔥 Limpiar Todas</button>
+      <div style="font-size:11px;color:#ccc;margin-top:4px;">Guardar plantilla</div>
+      <input id="tplKey" placeholder="nombre-plantilla" style="width:100%;padding:6px;border-radius:4px;border:1px solid #444;background:#111;color:#fff; box-sizing: border-box;" />
+      <textarea id="tplHtml" placeholder="HTML de la plantilla" style="width:100%;height:52px;padding:6px;border-radius:4px;border:1px solid #444;background:#111;color:#fff; box-sizing: border-box;"></textarea>
+      <button id="saveTpl" style="width:100%; cursor:pointer; padding: 6px; border-radius:4px; border:1px solid #27ae60; background:#2ecc71; color:white;">💾 Guardar</button>`;
+
+    main.appendChild(tplCol);
+    main.appendChild(activeCol);
+    main.appendChild(ctrlCol);
+    uiElement.appendChild(main);
+    document.body.appendChild(uiElement);
+
+    uiElement.querySelector("#clearAll").onclick = () => removeCardAll();
+    uiElement.querySelector("#saveTpl").onclick = () => {
+      const key = uiElement.querySelector("#tplKey").value.trim();
+      const html = uiElement.querySelector("#tplHtml").value.trim();
+      saveTemplate(key, html);
+      uiElement.querySelector("#tplKey").value = "";
+      uiElement.querySelector("#tplHtml").value = "";
+    };
+
+    header.onmousedown = (e) => {
+      dragData.isDragging = true;
+      const rect = uiElement.getBoundingClientRect();
+      dragData.offsetX = e.clientX - rect.left;
+      dragData.offsetY = e.clientY - rect.top;
+      header.style.cursor = "grabbing";
+      document.body.style.userSelect = "none";
+      
+      document.onmousemove = (ev) => {
+        if (!dragData.isDragging) return;
+        uiElement.style.left = (ev.clientX - dragData.offsetX) + "px";
+        uiElement.style.top = (ev.clientY - dragData.offsetY) + "px";
+        uiElement.style.bottom = "auto";
+        uiElement.style.right = "auto";
+      };
+      
+      document.onmouseup = () => {
+        dragData.isDragging = false;
+        document.onmousemove = null;
+        document.onmouseup = null;
+        header.style.cursor = "move";
+        document.body.style.userSelect = "auto";
+      };
+      e.preventDefault();
+    };
+
+    refreshTemplateList();
+    refreshActiveList();
+  }
+
+  function closeui() {
+    if (uiElement) {
+      uiElement.remove();
+      uiElement = null;
+    }
+  }
+
+  return {
+    addRawCard, addCardFromSaved, saveTemplate, removeTemplate,
+    removeCard, removeCardAll, listTemplates, openui, closeui, templates
   };
 })();
+
+// Para iniciar, ejecuta en la consola:
+// TaskListManager.openui();
