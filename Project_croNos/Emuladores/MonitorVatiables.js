@@ -94,3 +94,5 @@
 
   console.log("🚀 Monitor iniciado. Usa addVarToMonitor('nombreVariable') para añadir más.");
 })();
+
+
