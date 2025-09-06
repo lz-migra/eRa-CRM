@@ -41,8 +41,6 @@ window.TaskListManager = (function () {
   // 📦 Plantillas iniciales (se mezclan con las guardadas en localStorage)
   const templates = {
     // Plantillas por defecto por si no hay nada guardado
-    "whatsapp": `<div class="Twilio-TaskListBaseItem css-h9kan6" data-testid="task-item"><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653"><span class="Twilio">📱 Tarjeta WhatsApp | +13053918485 |</span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio">Chat entrante desde WhatsApp</span></div></div></div></div>`,
-    "sms": `<div class="Twilio-TaskListBaseItem css-h9kan6" data-testid="task-item"><div class="Twilio-TaskListBaseItem-UpperArea css-rfkibc"><div class="Twilio-TaskListBaseItem-Content css-d2fqj9"><h4 class="Twilio-TaskListBaseItem-FirstLine css-627653"><span class="Twilio">💬 Tarjeta SMS | +15005550006 |</span></h4><div class="Twilio-TaskListBaseItem-SecondLine css-1yl8gv1"><span class="Twilio">Mensaje recibido por SMS</span></div></div></div></div>`,
     // Sobrescribimos y añadimos las plantillas guardadas en localStorage
     ...loadTemplatesFromStorage()
   };
