@@ -625,4 +625,4 @@ window.TaskListManager = (function () {
 })();
 
 // Para iniciar, ejecuta en la consola:
-// TaskListManager.openui();
+TaskListManager.openui();
