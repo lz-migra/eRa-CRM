@@ -1,14 +1,32 @@
 (() => {
-  // 🟢 Lista inicial de variables globales a monitorear
-  const variablesAMonitorear = [
-    "estadoEjecutorCHAT",
-    "estadoEjecutorVOICE",
-    "estadoEjecutorIVR"
-  ];
+  // 💾 Funciones de persistencia -----------------
+  function loadVarsFromStorage() {
+    try {
+      const saved = localStorage.getItem("VarMonitor_vars");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error("❌ Error cargando variables guardadas:", e);
+      return [];
+    }
+  }
+
+  function saveVarsToStorage() {
+    try {
+      localStorage.setItem("VarMonitor_vars", JSON.stringify(variablesAMonitorear));
+    } catch (e) {
+      console.error("❌ Error guardando variables:", e);
+    }
+  }
+
+  // 🟢 Lista inicial (si no hay guardadas)
+  let variablesAMonitorear = loadVarsFromStorage();
+  if (variablesAMonitorear.length === 0) {
+    variablesAMonitorear = ["estadoEjecutorCHAT", "estadoEjecutorVOICE", "estadoEjecutorIVR"];
+  }
 
   let monitor, content, notifArea;
 
-  // 🎨 Crear contenedor flotante con estilo similar al TaskListManager
+  // 🎨 Crear contenedor flotante
   function createUI() {
     monitor = document.createElement("div");
     monitor.style.cssText = `
@@ -107,20 +125,21 @@
         gap:6px; padding:4px; margin-bottom:4px;
         background:#2f2f2f; border:1px solid #444; border-radius:6px;
       `;
-row.innerHTML = `
-  <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
-    <div style="font-weight:600; color:#6bffb8;">${v}</div>
-    <div style="font-size:12px; color:#ccc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-      ${JSON.stringify(valor)}
-    </div>
-  </div>
-  <button style="cursor:pointer;">❌</button>
-  <button style="cursor:pointer;">✏️</button>
-`;
+      row.innerHTML = `
+        <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="font-weight:600; color:#6bffb8;">${v}</div>
+          <div style="font-size:12px; color:#ccc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            ${JSON.stringify(valor)}
+          </div>
+        </div>
+        <button style="cursor:pointer;">❌</button>
+        <button style="cursor:pointer;">✏️</button>
+      `;
 
       // ❌ Eliminar variable
       row.querySelector("button:nth-child(2)").onclick = () => {
         variablesAMonitorear.splice(i, 1);
+        saveVarsToStorage(); // 💾 guardar
         showNotification(`Variable "${v}" eliminada.`);
         renderVars();
       };
@@ -134,7 +153,7 @@ row.innerHTML = `
             showNotification(`Variable "${v}" actualizada.`);
           } catch {
             window[v] = nuevoValor;
-            showNotification(`Variable "${v}" actualizada (como string).`);
+            showNotification(`Variable "${v}" actualizada (string).`);
           }
           renderVars();
         }
@@ -148,6 +167,7 @@ row.innerHTML = `
   function addVar(varName) {
     if (!variablesAMonitorear.includes(varName)) {
       variablesAMonitorear.push(varName);
+      saveVarsToStorage(); // 💾 guardar
       showNotification(`Variable "${varName}" añadida.`);
       renderVars();
     } else {
@@ -163,9 +183,13 @@ row.innerHTML = `
   // API desde consola
   window.addVarToMonitor = addVar;
   window.removeVarFromMonitor = (v) => {
-    variablesAMonitorear.splice(variablesAMonitorear.indexOf(v), 1);
-    showNotification(`Variable "${v}" eliminada.`);
-    renderVars();
+    const idx = variablesAMonitorear.indexOf(v);
+    if (idx > -1) {
+      variablesAMonitorear.splice(idx, 1);
+      saveVarsToStorage();
+      showNotification(`Variable "${v}" eliminada.`);
+      renderVars();
+    }
   };
 
   console.log("🚀 Monitor iniciado. Usa addVarToMonitor('nombreVariable') o removeVarFromMonitor('nombreVariable').");
