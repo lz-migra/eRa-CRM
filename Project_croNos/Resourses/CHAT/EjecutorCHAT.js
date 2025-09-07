@@ -76,7 +76,7 @@ const EjecutorCHAT = (() => {
       setTimeout(encolarRelojesPendientes, 1000);
     });
 
-    observerTarjetas.observe(contenedor, { childList: true, subtree: true });
+    observerTarjetas.observe(contenedor, { childList: true, subtree: false });
     console.log("👀 Observando tarjetas nuevas (CHAT)...");
   }
 
