@@ -144,7 +144,7 @@ window.MonitorTarjetas = (function () {
   };
 })();
 
-// MonitorTarjetas.iniciar();           // 🔄 Inicia el monitoreo
+MonitorTarjetas.iniciar();           // 🔄 Inicia el monitoreo
 // MonitorTarjetas.detener();           // 🛑 Detiene el monitoreo
 // MonitorTarjetas.ver();               // 🔍 Muestra tarjetas en consola
 // MonitorTarjetas.eliminar("Nombre");  // 🗑️ Elimina tarjeta por nombre
