@@ -83,6 +83,10 @@
         }
 
         reloj.textContent = horaParaMostrar;
+        
+        tarjetaObjetivo.style.height = 'auto';
+        tarjetaObjetivo.style.overflow = 'visible';
+
         contenedor.appendChild(reloj);
         console.log(`✅ Reloj agregado correctamente a la tarjeta "${nombre}"`);
     }
