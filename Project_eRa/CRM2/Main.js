@@ -154,26 +154,3 @@
   // =========================
   document.body.appendChild(customBar);
 })();
-
-
-// 🚀 Seleccionamos el nodo objetivo (el que quieres observar)
-const targetNode = document.querySelector('.content');
-
-// 🔍 Configuramos qué queremos observar (hijos, cambios de texto, atributos, etc.)
-const config = { childList: true, subtree: true, characterData: true };
-
-// 🧠 Callback que se ejecuta cuando se detecta un cambio
-const callback = function(mutationsList, observer) {
-    for (let mutation of mutationsList) {
-        if (mutation.type === 'childList' || mutation.type === 'characterData') {
-            console.log("⚡ Cambio detectado en '.content', recargando página...");
-            location.reload(); // 🔄 Refresca la página
-        }
-    }
-};
-
-// 🛠️ Creamos el observador con el callback definido
-const observer = new MutationObserver(callback);
-
-// 👀 Empezamos a observar el nodo objetivo
-observer.observe(targetNode, config);
