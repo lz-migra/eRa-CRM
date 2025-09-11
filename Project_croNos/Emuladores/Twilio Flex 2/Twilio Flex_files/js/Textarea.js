@@ -51,7 +51,8 @@ function agregarMensaje(texto) {
 function enviarMensaje() {
     const texto = inputMensaje.value.trim();
     if (texto !== "") {
-        agregarMensaje(texto);
+        agregarMensaje(texto); // 📝 Agrega el mensaje al contenedor
+        console.log('%c ✨ creado por el agente', 'color: red; font-style: italic'); // 💡 Log en consola
         inputMensaje.value = ""; // limpiar textarea
         botonSend.setAttribute("aria-disabled", "true"); // deshabilitar hasta nuevo texto
     }
