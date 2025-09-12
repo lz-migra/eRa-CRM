@@ -1,145 +1,112 @@
-//============= EjecutorCHAT FINAL =============
-// 🧠 Control dinámico de tarjetas tipo CHAT en Twilio
-// 🔗 Integrado con:
-//   - localStorage ("tarjetas_activas")
-//   - Cola de solicitudes (agregarRelojATarjeta)
-//   - Bandera global: window.estadoEjecutorCHAT = "activo" | "detenido"
-//
-// 🚀 Lógica:
-// - Revisa las tarjetas activas en localStorage.
-// - Detecta tarjetas tipo "chat".
-// - Encola relojes para tarjetas nuevas sin reloj.
-// - Encola actualización de reloj cuando llega un mensaje nuevo.
-// - Se enciende/apaga automáticamente según la bandera global.
-//
-// =============================================
+(() => {
+  // 🎯 Texto a detectar
+  const triggerText = '✨ creado por el agente';
 
-const EjecutorCHAT = (() => {
-  let observerTarjetas = null;
-  let observerMensajes = null;
-  let ultimoMensajeGuardado = null;
-  let estadoInterno = "detenido"; // estado actual interno
-  const TARJETAS_ACTIVAS_KEY = "tarjetas_activas";
+  // ⚙️ Opciones
+  const strictMatch = false; // false = busca el texto en cualquier parte del mensaje
 
-  // 📍 Selectores
-  const SELECTOR_TARJETAS = '.Twilio-TaskList-default';
-  const SELECTOR_MENSAJES = '.Twilio-MessageList';
-  const SELECTOR_TARJETA_ACTIVA = '.Twilio-TaskCanvasHeader-Name span';
+  // 🧾 Referencias originales de la consola
+  const originals = {
+    log: console.log.bind(console),
+    info: console.info.bind(console),
+    warn: console.warn.bind(console),
+    error: console.error.bind(console),
+  };
 
-  // ✅ Verifica si el mensaje actual es nuevo
-  function mensajeEsNuevo(mensaje) {
-    if (typeof CompararMensajeConGuardado !== 'function') return true;
-    return !CompararMensajeConGuardado(mensaje);
-  }
+  /**
+   * Lógica principal que se ejecuta cuando el disparador se activa.
+   * Sigue los pasos 2, 3 y 4 de tu descripción.
+   */
+  function guardarTarjetaEnStorage() {
+    originals.info('[Detector] Disparador activado. Ejecutando lógica de guardado...');
 
-  // 🧠 Obtiene nombre de tarjeta activa
-  function obtenerNombreTarjetaActiva() {
-    return document.querySelector(SELECTOR_TARJETA_ACTIVA)?.innerText?.trim() || '';
-  }
+    // --- 2️⃣ Capturar el nombre de la tarjeta ---
+    const selectorTarjeta = 'h4.Twilio-TaskCanvasHeader-Name';
+    const elementoTarjeta = document.querySelector(selectorTarjeta);
 
-  // 🔍 Busca tarjetas de tipo CHAT en localStorage
-  function obtenerTarjetasChat() {
-    let tarjetas = [];
+    if (!elementoTarjeta) {
+      originals.error(`[Detector] Error: No se pudo encontrar el elemento con el selector: "${selectorTarjeta}".`);
+      return; // Detiene la ejecución si no se encuentra el elemento
+    }
+    const nombreTarjeta = elementoTarjeta.innerText.trim();
+    originals.info(`[Detector] Nombre de tarjeta capturado: "${nombreTarjeta}"`);
+
+    // --- 3️⃣ Preparar el objeto que irá al localStorage ---
+    const nuevoObjeto = {
+      nombre: nombreTarjeta,
+      usarStorage: false,
+      actualizar: true
+    };
+
+    // --- 4️⃣ Manejo del localStorage ---
+    const storageKey = "cola_relojes_twilio";
     try {
-      tarjetas = JSON.parse(localStorage.getItem(TARJETAS_ACTIVAS_KEY) || "[]");
-    } catch (e) {
-      console.warn("⚠️ Error al leer tarjetas activas desde localStorage.", e);
-      tarjetas = [];
-    }
+      // Leer el valor actual o inicializar un array vacío
+      const datosActualesRaw = localStorage.getItem(storageKey);
+      let datosActuales = datosActualesRaw ? JSON.parse(datosActualesRaw) : [];
 
-    return tarjetas
-      .filter(t => t.tipo === "chat")
-      .map(t => ({
-        id: t.id,
-        nombre: t.id,
-        procesada: t.procesada
-      }));
-  }
-
-  // ⏰ Encola solicitudes de reloj para las tarjetas chat que no tengan uno
-  function encolarRelojesPendientes() {
-    obtenerTarjetasChat().forEach(({ nombre }) => {
-      const yaTiene = document.querySelector(`[data-reloj="${nombre}"]`);
-      if (!yaTiene) {
-        agregarRelojATarjeta({ nombre, actualizar: false, localStorage: true });
-        console.log(`🕒 Solicitud encolada para agregar reloj a: ${nombre}`);
+      // Asegurarse de que es un array para evitar errores
+      if (!Array.isArray(datosActuales)) {
+          originals.warn(`[Detector] El valor en localStorage para "${storageKey}" no era un array. Se reiniciará.`);
+          datosActuales = [];
       }
-    });
-  }
 
-  // 👁️ Observa tarjetas nuevas → encola relojes
-  function observarTarjetas() {
-    const contenedor = document.querySelector(SELECTOR_TARJETAS);
-    if (!contenedor) return;
+      // Agregar el nuevo objeto al array
+      datosActuales.push(nuevoObjeto);
 
-    observerTarjetas = new MutationObserver(() => {
-      setTimeout(encolarRelojesPendientes, 1000);
-    });
+      // Guardar el array actualizado de nuevo en localStorage
+      localStorage.setItem(storageKey, JSON.stringify(datosActuales));
 
-    observerTarjetas.observe(contenedor, { childList: true, subtree: false });
-    console.log("👀 Observando tarjetas nuevas (CHAT)...");
-  }
-
-  // 👁️ Observa mensajes → encola actualización de reloj
-  function observarMensajes() {
-    const contenedor = document.querySelector(SELECTOR_MENSAJES);
-    if (!contenedor) return;
-
-    observerMensajes = new MutationObserver(() => {
-      setTimeout(() => {
-        const texto = contenedor.innerText?.trim();
-        const lineas = texto?.split('\n') || [];
-        const ultimoMensaje = lineas[lineas.length - 1]?.trim();
-        if (!ultimoMensaje) return;
-
-        if (mensajeEsNuevo(ultimoMensaje)) {
-          ultimoMensajeGuardado = ultimoMensaje;
-          const nombreActiva = obtenerNombreTarjetaActiva();
-          if (nombreActiva) {
-            console.log(`📩 Nuevo mensaje detectado en "${nombreActiva}": ${ultimoMensaje}`);
-            agregarRelojATarjeta({ nombre: nombreActiva, actualizar: true, localStorage: true });
-          }
-        }
-      }, 500);
-    });
-
-    observerMensajes.observe(contenedor, { childList: true, subtree: false });
-    console.log("📡 Observando mensajes nuevos (CHAT)...");
-  }
-
-  // 🚀 Inicia observadores
-  function iniciar() {
-    detener(); // limpia si ya estaban activos
-    observarTarjetas();
-    observarMensajes();
-    estadoInterno = "activo";
-  }
-
-  // 🛑 Detiene observadores
-  function detener() {
-    if (observerTarjetas) {
-      observerTarjetas.disconnect();
-      observerTarjetas = null;
-      console.log("🛑 Observador de tarjetas detenido (CHAT)");
+      originals.info(`[Detector] ✅ Objeto guardado exitosamente en "${storageKey}". Total de elementos: ${datosActuales.length}`);
+    } catch (e) {
+      originals.error(`[Detector] Error al manipular localStorage:`, e);
     }
-    if (observerMensajes) {
-      observerMensajes.disconnect();
-      observerMensajes = null;
-      console.log("🛑 Observador de mensajes detenido (CHAT)");
-    }
-    estadoInterno = "detenido";
   }
 
-  // 🔄 Bucle de sincronización con bandera global
-  setInterval(() => {
-    const bandera = window.estadoEjecutorCHAT || "detenido";
-    if (bandera === "activo" && estadoInterno === "detenido") {
-      iniciar();
-    } else if (bandera === "detenido" && estadoInterno === "activo") {
-      detener();
+  // Normaliza un argumento para la búsqueda
+  function normalizeArg(a) {
+    if (typeof a === 'string') {
+      return a.replace(/%[cdfiosOxX%]/g, '').replace(/%c/g, '').replace(/\s+/g, ' ').trim();
     }
-  }, 200);
+    try { return JSON.stringify(a); }
+    catch (e) { return String(a); }
+  }
 
-  // Métodos públicos (opcional, por compatibilidad)
-  return { iniciar, detener };
+  // Construye el mensaje final a partir de los argumentos de console
+  function buildMessage(args) {
+    return args.map(normalizeArg).join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  // Comprobación y disparo
+  function checkAndTrigger(args) {
+    const msg = buildMessage(args);
+    const normTrigger = triggerText.replace(/\s+/g, ' ').trim();
+    const matched = strictMatch ? (msg === normTrigger) : (msg.includes(normTrigger));
+    
+    if (matched) {
+      // --- AQUÍ SE EJECUTA LA ACCIÓN PRINCIPAL ---
+      guardarTarjetaEnStorage();
+      // -------------------------------------------
+    }
+  }
+
+  // Reemplazamos métodos de consola para interceptar los mensajes
+  ['log', 'info', 'warn', 'error'].forEach(method => {
+    console[method] = function(...args) {
+      originals[method](...args); // Mantiene la salida original en consola
+      try {
+        checkAndTrigger(args); // Comprueba si el mensaje activa el disparador
+      } catch (e) {
+        originals.error('[Detector] Error interno:', e);
+      }
+    };
+  });
+
+  // Función para restaurar la consola si es necesario
+  window.restoreConsoleDetector = function() {
+    ['log', 'info', 'warn', 'error'].forEach(m => (console[m] = originals[m]));
+    originals.info('[Detector] Consola restaurada a su estado original.');
+  };
+
+  originals.info('[Detector] Iniciado. Esperando el texto ->', triggerText);
 })();
