@@ -21,13 +21,50 @@ window.MonitorTarjetas = (function () {
     return tarjetas.filter(t => ahora - t.timestamp < TIEMPO_EXPIRACION_MS);
   }
 
-  // 🔍 Obtener tarjetas del DOM
+  // 🛠️ Extrae de forma robusta solo el texto del reloj (sin el contador)
+  function extraerTextoReloj(relojNode) {
+    if (!relojNode) return null;
+
+    // 1) Intento: buscar el primer nodo de texto no vacío (más fiable)
+    const childNodes = Array.from(relojNode.childNodes || []);
+    for (const n of childNodes) {
+      if (n.nodeType === 3) { // Nodo de texto
+        const txt = (n.nodeValue || '').replace(/\u200B/g, '').trim();
+        if (txt) return txt;
+      }
+    }
+
+    // 2) Fallback: clonar y eliminar elementos con clase de contador
+    try {
+      const clone = relojNode.cloneNode(true);
+      clone.querySelectorAll('.custom-crono-counter').forEach(el => el.remove());
+      const txtClone = (clone.textContent || '').replace(/\u200B/g, '').trim();
+      if (txtClone) return txtClone;
+    } catch (e) {
+      // nothing, seguimos al siguiente fallback
+    }
+
+    // 3) Último recurso: tomar textContent y eliminar por regex una posible parte "⏱ mm:ss" al final
+    const full = (relojNode.textContent || '').replace(/\u200B/g, '').trim();
+    // elimina un sufijo tipo "⏱ 03:22" (espacios opcionales)
+    const cleaned = full.replace(/\s*⏱\s*\d{1,2}:\d{2}\s*$/, '').trim();
+    return cleaned || null;
+  }
+
+  // 🔍 Obtener tarjetas del DOM (usando extracción robusta del reloj)
   function obtenerTarjetasDOM() {
     const tarjetasDOM = document.querySelectorAll('.Twilio-TaskListBaseItem');
 
     return Array.from(tarjetasDOM).map(tarjeta => {
       const nombre = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim();
-      const reloj = tarjeta.querySelector('.custom-crono-line')?.textContent?.trim();
+
+      // 📖 Tomamos solo el reloj base, sin el contador ⏱ (usa la función robusta)
+      let reloj = null;
+      const relojNode = tarjeta.querySelector('.custom-crono-line');
+      if (relojNode) {
+        reloj = extraerTextoReloj(relojNode);
+      }
+
       if (!nombre || !reloj) return null;
 
       return { nombre, reloj, timestamp: Date.now() };
