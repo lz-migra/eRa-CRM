@@ -19,7 +19,7 @@
   const envios = `https://www.${ID}.com/envios/admin/`;
   const odoo = `https://odoo.${ID}.com/`;
   const twilio = `https://flex.twilio.com/`;
-  const localhost = `http://localhost:3000/`; // ⚡ Nuevo entorno local
+  const localhost = `http://localhost:8000/`; // ⚡ Nuevo entorno local
 
   // 🚀 Cargar scripts según el entorno detectado
   if (url.startsWith(crm2)) {
@@ -51,4 +51,5 @@
     console.warn("🌐 No se reconoce el entorno. No se cargó ningún script.");
   }
 })();
+
 
