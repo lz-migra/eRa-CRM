@@ -1,19 +1,7 @@
-//============= Descripción =============
-// 🧠 Este script monitorea las tarjetas activas en la interfaz de Twilio.
-// 🔄 Cada 5 segundos detecta los nombres y relojes de las tarjetas visibles.
-// 💾 Guarda un máximo de 10 tarjetas en localStorage bajo la clave 'tarjetas_guardadas'.
-// 🧹 Las tarjetas con más de 1 hora sin actualizarse se eliminan automáticamente.
-// ✅ Usa MonitorTarjetas.iniciar() para iniciar el monitoreo.
-// 🛑 Usa MonitorTarjetas.detener() para detenerlo.
-// 🔍 Usa MonitorTarjetas.ver() para revisar en consola.
-// 🗑️ Usa MonitorTarjetas.eliminar("Nombre") o MonitorTarjetas.EliminarTodos()
-//=======================================
-
 window.MonitorTarjetas = (function () {
   const STORAGE_KEY = 'tarjetas_guardadas';        // 🗝️ Clave de almacenamiento
   const LIMITE_TARJETAS = 10;                      // 🔢 Límite de tarjetas guardadas
   const TIEMPO_EXPIRACION_MS = 60 * 60 * 1000;     // ⏳ 1 hora
-  let intervalo = null;                            // ⏱️ Referencia al setInterval
   let ultimaConsola = 0;                           // 🕒 Tiempo del último log
 
   // 🧾 Cargar tarjetas desde localStorage
@@ -90,26 +78,11 @@ window.MonitorTarjetas = (function () {
     }
   }
 
+  // 🚀 Arranca automáticamente al cargar
+  setInterval(actualizarAlmacenamiento, 5000);
+  console.log("✅ Monitor de tarjetas iniciado automáticamente.");
+
   return {
-    iniciar: function () {
-      if (intervalo) {
-        console.warn("⚠️ El monitor ya está en ejecución.");
-        return;
-      }
-      intervalo = setInterval(actualizarAlmacenamiento, 5000);
-      console.log("✅ Monitor de tarjetas iniciado.");
-    },
-
-    detener: function () {
-      if (!intervalo) {
-        console.warn("⚠️ El monitor no está en ejecución.");
-        return;
-      }
-      clearInterval(intervalo);
-      intervalo = null;
-      console.log("🛑 Monitor de tarjetas detenido.");
-    },
-
     ver: function () {
       const tarjetas = cargarTarjetas();
       if (tarjetas.length === 0) {
@@ -144,8 +117,6 @@ window.MonitorTarjetas = (function () {
   };
 })();
 
-MonitorTarjetas.iniciar();           // 🔄 Inicia el monitoreo
-// MonitorTarjetas.detener();           // 🛑 Detiene el monitoreo
 // MonitorTarjetas.ver();               // 🔍 Muestra tarjetas en consola
 // MonitorTarjetas.eliminar("Nombre");  // 🗑️ Elimina tarjeta por nombre
 // MonitorTarjetas.EliminarTodos();     // 🧹 Borra todas las tarjetas
