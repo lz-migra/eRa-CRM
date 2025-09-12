@@ -16,7 +16,7 @@
         counter = document.createElement("span");
         counter.className = "custom-crono-counter";
         counter.style.marginLeft = "8px";
-        counter.style.color = "green";
+        counter.style.color = "#ffa600";
         counter.style.fontFamily = "monospace";
         counter.textContent = "⏱ 00:00";
 

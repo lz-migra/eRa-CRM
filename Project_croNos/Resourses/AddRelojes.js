@@ -53,8 +53,8 @@
         reloj.className = 'custom-crono-line';
         Object.assign(reloj.style, {
             fontSize: '13px',
-            color: '#0066cc',
-            marginTop: '4px',
+            color: '#a8a095',
+            marginTop: '3px',
             fontFamily: 'monospace',
         });
 
