@@ -1,49 +1,40 @@
-// 🔑 Si quieres usar una versión estable, pon aquí el commit. Si es null, usa main automáticamente
-const COMMIT_HASH = e54b8e2; // ej: "a1b2c3d" o null para desarrollo
-
-// Usuario y repositorio
-const USUARIO = "lz-migra";
-const REPO = "eRa-CRM";
+// 🔑 Define aquí el commit de la versión estable
+const COMMIT_HASH = "df28907177ad832d510a116e25f0717e70d9ca27"; // Reemplaza con el hash del commit estable
 
 /**
- * Obtiene el último commit de main usando la API de GitHub
- * @returns {Promise<string>} - Hash del último commit
+ * Convierte un enlace raw de GitHub a jsDelivr usando un commit fijo
+ * @param {string} rawUrl - URL de raw.githubusercontent.com
+ * @returns {string|null} - URL jsDelivr apuntando al commit
  */
-async function obtenerUltimoCommit() {
-    const url = `https://api.github.com/repos/${USUARIO}/${REPO}/commits/main`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("No se pudo obtener el commit");
-    const data = await response.json();
-    return data.sha; // hash completo del commit
-}
-
-/**
- * Convierte raw URL de GitHub a jsDelivr usando un commit fijo
- * @param {string} rawUrl - URL raw de GitHub
- * @param {string} commitHash - hash de commit a usar
- * @returns {string} - URL jsDelivr apuntando al commit
- */
-function githubRawToJsDelivr(rawUrl, commitHash) {
+function githubRawToJsDelivrConHash(rawUrl) {
     if (!rawUrl.includes("raw.githubusercontent.com")) return null;
 
     const parts = rawUrl.split("/");
+
     const usuario = parts[3];
     const repo = parts[4];
-    const archivo = parts.includes("refs") ? parts.slice(8).join("/") : parts.slice(6).join("/");
+    let archivo = "";
 
-    return `https://cdn.jsdelivr.net/gh/${usuario}/${repo}@${commitHash}/${archivo}`;
+    // Detectar si la URL tiene "refs/heads"
+    if (parts[5] === "refs" && parts[6] === "heads") {
+        archivo = parts.slice(8).join("/");
+    } else {
+        archivo = parts.slice(6).join("/");
+    }
+
+    if (!usuario || !repo || !archivo) return null;
+
+    return `https://cdn.jsdelivr.net/gh/${usuario}/${repo}@${COMMIT_HASH}/${archivo}`;
 }
 
 /**
- * Carga y ejecuta scripts secuenciales desde URLs raw de GitHub
+ * Carga y ejecuta scripts secuenciales desde URLs raw de GitHub usando commit fijo
  * @param {string[]} rawUrls - Array de URLs raw
+ * @returns {Promise<void>}
  */
-async function cargarScripts(rawUrls) {
-    // Decide el commit a usar
-    const commitHash = COMMIT_HASH || await obtenerUltimoCommit();
-
+async function cargarScriptsConHash(rawUrls) {
     for (const rawUrl of rawUrls) {
-        const jsDelivrUrl = githubRawToJsDelivr(rawUrl, commitHash);
+        const jsDelivrUrl = githubRawToJsDelivrConHash(rawUrl);
         if (!jsDelivrUrl) {
             console.warn(`URL inválida: ${rawUrl} ⚠️`);
             continue;
@@ -75,7 +66,6 @@ const rawScripts = [
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/EjecutorCHAT.js"
 ];
 
-cargarScripts(rawScripts)
-    .then(() => console.log("Todos los scripts cargados 🎉"))
+cargarScriptsConHash(rawScripts)
+    .then(() => console.log("Todos los scripts cargados con commit fijo 🎉"))
     .catch(err => console.error(err));
-
