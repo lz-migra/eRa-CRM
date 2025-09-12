@@ -44,10 +44,11 @@
 
   } else if (url.startsWith(localhost)) {
     // 🏠 Entorno de desarrollo local
-    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/Localhost/Main.js");
+    window.cargarScriptGitHub("https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/CargadorEntornoTwilio.js");
     console.log("🏠 Entorno Localhost detectado");
 
   } else {
     console.warn("🌐 No se reconoce el entorno. No se cargó ningún script.");
   }
 })();
+
