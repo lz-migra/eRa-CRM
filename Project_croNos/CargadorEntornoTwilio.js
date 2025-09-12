@@ -1,41 +1,40 @@
+// 🔑 Define aquí el commit de la versión estable
+const COMMIT_HASH = "a1b2c3d4"; // Reemplaza con el hash del commit estable
+
 /**
- * Convierte un enlace raw de GitHub a jsDelivr CDN de manera flexible
+ * Convierte un enlace raw de GitHub a jsDelivr usando un commit fijo
  * @param {string} rawUrl - URL de raw.githubusercontent.com
- * @returns {string|null} - URL equivalente en jsDelivr o null si no es válido
+ * @returns {string|null} - URL jsDelivr apuntando al commit
  */
-function githubRawToJsDelivrTurbo(rawUrl) {
+function githubRawToJsDelivrConHash(rawUrl) {
     if (!rawUrl.includes("raw.githubusercontent.com")) return null;
 
     const parts = rawUrl.split("/");
 
     const usuario = parts[3];
     const repo = parts[4];
-    let rama = "";
     let archivo = "";
 
-    // Detectar si tiene "refs/heads"
+    // Detectar si la URL tiene "refs/heads"
     if (parts[5] === "refs" && parts[6] === "heads") {
-        rama = parts[7];
         archivo = parts.slice(8).join("/");
     } else {
-        // URL normal sin "refs/heads"
-        rama = parts[5];
         archivo = parts.slice(6).join("/");
     }
 
-    if (!usuario || !repo || !rama || !archivo) return null;
+    if (!usuario || !repo || !archivo) return null;
 
-    return `https://cdn.jsdelivr.net/gh/${usuario}/${repo}@${rama}/${archivo}`;
+    return `https://cdn.jsdelivr.net/gh/${usuario}/${repo}@${COMMIT_HASH}/${archivo}`;
 }
 
 /**
- * Carga y ejecuta scripts secuenciales desde URLs raw de GitHub
+ * Carga y ejecuta scripts secuenciales desde URLs raw de GitHub usando commit fijo
  * @param {string[]} rawUrls - Array de URLs raw
  * @returns {Promise<void>}
  */
-async function cargarScriptsRawTurbo(rawUrls) {
+async function cargarScriptsConHash(rawUrls) {
     for (const rawUrl of rawUrls) {
-        const jsDelivrUrl = githubRawToJsDelivrTurbo(rawUrl);
+        const jsDelivrUrl = githubRawToJsDelivrConHash(rawUrl);
         if (!jsDelivrUrl) {
             console.warn(`URL inválida: ${rawUrl} ⚠️`);
             continue;
@@ -58,16 +57,15 @@ async function cargarScriptsRawTurbo(rawUrls) {
     }
 }
 
-// Ejemplo de uso:
-const rawScriptsTurbo = [
+// Ejemplo de uso
+const rawScripts = [
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/MonitorTarjetas.js",
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/twilioClockQueue.js",
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/cronoCounter.js",
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/EjecutorCHAT.js",
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/MonitorTarjetas.js"
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/EjecutorCHAT.js"
 ];
 
-cargarScriptsRawTurbo(rawScriptsTurbo)
-    .then(() => console.log("Todos los scripts cargados y ejecutados 🎉"))
+cargarScriptsConHash(rawScripts)
+    .then(() => console.log("Todos los scripts cargados con commit fijo 🎉"))
     .catch(err => console.error(err));
