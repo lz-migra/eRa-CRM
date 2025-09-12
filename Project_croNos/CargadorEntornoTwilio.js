@@ -1,5 +1,5 @@
 // 🔑 Si quieres usar una versión estable, pon aquí el commit. Si es null, usa main automáticamente
-const COMMIT_HASH = null; // ej: "a1b2c3d" o null para desarrollo
+const COMMIT_HASH = e54b8e2; // ej: "a1b2c3d" o null para desarrollo
 
 // Usuario y repositorio
 const USUARIO = "lz-migra";
@@ -78,3 +78,4 @@ const rawScripts = [
 cargarScripts(rawScripts)
     .then(() => console.log("Todos los scripts cargados 🎉"))
     .catch(err => console.error(err));
+
