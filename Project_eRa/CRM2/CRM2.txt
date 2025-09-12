@@ -1,1 +1,1 @@
-https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_eRa/CRM2/Main.js
+https://cdn.jsdelivr.net/gh/lz-migra/eRa-CRM@main/Project_eRa/CRM2/Main.js
