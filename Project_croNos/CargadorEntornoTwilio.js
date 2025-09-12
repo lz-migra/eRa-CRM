@@ -1,53 +1,75 @@
-(async function () {
-  console.log("🚀 Cargando funciones globales...");
+/**
+ * Convierte un enlace raw de GitHub a jsDelivr CDN de manera flexible
+ * @param {string} rawUrl - URL de raw.githubusercontent.com
+ * @returns {string|null} - URL equivalente en jsDelivr o null si no es válido
+ */
+function githubRawToJsDelivrTurbo(rawUrl) {
+    if (!rawUrl.includes("raw.githubusercontent.com")) return null;
 
-  // Helper para cargar scripts en orden
-  async function cargarEnOrden(lista) {
-    for (const url of lista) {
-      console.log(`📦 Cargando: ${url}`);
-      await cargarScriptGitHub(url);
+    const parts = rawUrl.split("/");
+
+    const usuario = parts[3];
+    const repo = parts[4];
+    let rama = "";
+    let archivo = "";
+
+    // Detectar si tiene "refs/heads"
+    if (parts[5] === "refs" && parts[6] === "heads") {
+        rama = parts[7];
+        archivo = parts.slice(8).join("/");
+    } else {
+        // URL normal sin "refs/heads"
+        rama = parts[5];
+        archivo = parts.slice(6).join("/");
     }
-  }
 
-  // ========== GLOBAL ==========
-  const globalScripts = [
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/getTipoDeTarjeta.js",         // 1
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/MonitorTarjetas.js",          // 2
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/AddRelojes.js",                      // 3
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/detectarNombreAgente.js",            // 4
-  ];
+    if (!usuario || !repo || !rama || !archivo) return null;
 
-  await cargarEnOrden(globalScripts);
-  console.log("✅ Funciones globales cargadas.");
+    return `https://cdn.jsdelivr.net/gh/${usuario}/${repo}@${rama}/${archivo}`;
+}
 
-  // ========== VOICE ==========
-  const voiceScripts = [
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/VOISE/EjecutorVOISE.js",  // 5
-  ];
+/**
+ * Carga y ejecuta scripts secuenciales desde URLs raw de GitHub
+ * @param {string[]} rawUrls - Array de URLs raw
+ * @returns {Promise<void>}
+ */
+async function cargarScriptsRawTurbo(rawUrls) {
+    for (const rawUrl of rawUrls) {
+        const jsDelivrUrl = githubRawToJsDelivrTurbo(rawUrl);
+        if (!jsDelivrUrl) {
+            console.warn(`URL inválida: ${rawUrl} ⚠️`);
+            continue;
+        }
 
-  await cargarEnOrden(voiceScripts);
-  console.log("🎙️ Funciones VOICE cargadas.");
+        await new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = jsDelivrUrl;
+            script.async = false; // asegura ejecución secuencial
+            script.onload = () => {
+                console.log(`Script cargado: ${jsDelivrUrl} ✅`);
+                resolve();
+            };
+            script.onerror = () => {
+                console.error(`Error al cargar script: ${jsDelivrUrl} ❌`);
+                reject(new Error(`No se pudo cargar ${jsDelivrUrl}`));
+            };
+            document.head.appendChild(script);
+        });
+    }
+}
 
-  // ========== IVR ==========
-  const ivrScripts = [
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/IVR/EjecutorIVR.js",                 // 5
-  ];
+// Ejemplo de uso:
+const rawScriptsTurbo = [
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/MonitorTarjetas.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
+];
 
-  await cargarEnOrden(ivrScripts);
-  console.log("📞 Funciones IVR cargadas.");
-
-  // ========== CHAT ==========
-  const chatScripts = [
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/EjecutorCHAT.js",               // 5
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/CompararMensajeConGuardado.js", // 6
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/MensajesAgenteStorage.js",      // 6
-    "https://raw.githubusercontent.com/lz-migra/eRa-CRM/main/Project_croNos/Resourses/CHAT/UltimoMensajeAgente.js",        // 6
-  ];
-
-  await cargarEnOrden(chatScripts);
-  console.log("💬 Funciones CHAT cargadas.");
-
- 
-})();
-
- console.log("✅✅✅ Todos los entornos fueron cargados correctamente.");
+cargarScriptsRawTurbo(rawScriptsTurbo)
+    .then(() => console.log("Todos los scripts cargados y ejecutados 🎉"))
+    .catch(err => console.error(err));
