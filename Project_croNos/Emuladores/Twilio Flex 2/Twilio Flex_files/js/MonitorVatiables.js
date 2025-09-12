@@ -1,4 +1,7 @@
 (() => {
+  const varMonitor = {};
+  window.varMonitor = varMonitor; // 🌍 Hacer accesible globalmente
+
   // 💾 Funciones de persistencia -----------------
   function loadVarsFromStorage() {
     try {
@@ -28,6 +31,10 @@
 
   // 🎨 Crear contenedor flotante
   function createUI() {
+    if (monitor) {
+      monitor.remove();
+    }
+
     monitor = document.createElement("div");
     monitor.style.cssText = `
       position:fixed; bottom:12px; right:12px;
@@ -39,17 +46,26 @@
     `;
     document.body.appendChild(monitor);
 
-    // 🔹 Barra superior
+    // 🔹 Barra superior con ❌
     const header = document.createElement("div");
     header.style.cssText = `
       display:flex; justify-content:space-between; align-items:center;
       cursor:move; gap:8px; margin-bottom:6px; font-weight:700;
     `;
-    header.innerHTML = `📎 Monitor JS 
-      <div id="ui-notification" style="flex:1; text-align:center; color:#6bffb8; font-size:12px; transition:opacity 0.5s ease; opacity:0;"></div>`;
+    header.innerHTML = `
+      📎 Monitor JS 
+      <div id="ui-notification" style="flex:1; text-align:center; color:#6bffb8; font-size:12px; transition:opacity 0.5s ease; opacity:0;"></div>
+      <button id="closeMonitor" style="background:none; border:none; color:#ff6b6b; font-size:14px; cursor:pointer;">❌</button>
+    `;
     monitor.appendChild(header);
 
     notifArea = header.querySelector("#ui-notification");
+
+    // ❌ Cerrar ventana
+    header.querySelector("#closeMonitor").onclick = () => {
+      monitor.remove();
+      monitor = null;
+    };
 
     // 🔹 Contenido dinámico
     content = document.createElement("div");
@@ -77,6 +93,7 @@
     // 🖱️ Hacer ventana arrastrable
     let isDragging = false, offsetX = 0, offsetY = 0;
     header.onmousedown = (e) => {
+      if (e.target.id === "closeMonitor") return; // no arrastrar si se clickeó el botón ❌
       isDragging = true;
       const rect = monitor.getBoundingClientRect();
       offsetX = e.clientX - rect.left;
@@ -103,6 +120,7 @@
 
   // ✨ Notificación sutil
   function showNotification(msg, isError = false) {
+    if (!notifArea) return;
     notifArea.textContent = msg;
     notifArea.style.color = isError ? "#ff6b6b" : "#6bffb8";
     notifArea.style.opacity = "1";
@@ -111,6 +129,7 @@
 
   // 🔄 Render de variables
   function renderVars() {
+    if (!content) return;
     content.innerHTML = "";
     variablesAMonitorear.forEach((v, i) => {
       let valor;
@@ -176,13 +195,13 @@
   }
 
   // 🚀 Inicializar
-  createUI();
-  renderVars();
-  setInterval(renderVars, 500);
+  varMonitor.openui = () => {
+    createUI();
+    renderVars();
+  };
 
-  // API desde consola
-  window.addVarToMonitor = addVar;
-  window.removeVarFromMonitor = (v) => {
+  varMonitor.addVar = addVar;
+  varMonitor.removeVar = (v) => {
     const idx = variablesAMonitorear.indexOf(v);
     if (idx > -1) {
       variablesAMonitorear.splice(idx, 1);
@@ -192,5 +211,11 @@
     }
   };
 
-  console.log("🚀 Monitor iniciado. Usa addVarToMonitor('nombreVariable') o removeVarFromMonitor('nombreVariable').");
+// Inicial arranque
+varMonitor.openui();
+
+// 🔄 Auto-refresh cada 200ms
+setInterval(renderVars, 200);
+
+console.log("🚀 Monitor iniciado. Usa varMonitor.openui(), varMonitor.addVar('nombreVariable') o varMonitor.removeVar('nombreVariable').");
 })();

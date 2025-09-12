@@ -211,8 +211,11 @@
     }
   };
 
-  // Inicial arranque
-  varMonitor.openui();
+// Inicial arranque
+varMonitor.openui();
 
-  console.log("🚀 Monitor iniciado. Usa varMonitor.openui(), varMonitor.addVar('nombreVariable') o varMonitor.removeVar('nombreVariable').");
+// 🔄 Auto-refresh cada 200ms
+setInterval(renderVars, 200);
+
+console.log("🚀 Monitor iniciado. Usa varMonitor.openui(), varMonitor.addVar('nombreVariable') o varMonitor.removeVar('nombreVariable').");
 })();

@@ -1,10 +1,10 @@
 (() => {
   // --- CONFIGURACIÓN DE HERRAMIENTAS ---
   const tools = [
-    { label: "📦 ColaUI", action: () => console.log("Abriendo ColaUI...") },
-    { label: "📊 VarMonitor", action: () => console.log("Abriendo varMonitor...") },
-    { label: "📝 TaskListManager", action: () => console.log("Abriendo TaskListManager...") },
-    { label: "💬 ChatUI", action: () => console.log("Abriendo ChatUI...") },
+    { label: "📦 ColaUI", action: () => ColaUI.openui() },  //ColaUI.openui()
+    { label: "📊 VarMonitor", action: () => varMonitor.openui() },
+    { label: "📝 TaskListManager", action: () => TaskListManager.openui() },
+    { label: "💬 ChatUI", action: () => ChatUI.openui() },
     { label: "🧩 ReteUI", action: () => console.log("Abriendo ChatUI...") }
     // Puedes agregar más herramientas aquí
   ];
