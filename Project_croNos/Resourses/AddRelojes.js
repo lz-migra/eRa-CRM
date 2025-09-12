@@ -84,7 +84,7 @@
 
         reloj.textContent = horaParaMostrar;
         
-        tarjetaObjetivo.style.height = 'auto';
+        tarjetaObjetivo.style.height = '70px';
         tarjetaObjetivo.style.overflow = 'visible';
 
         contenedor.appendChild(reloj);
@@ -123,5 +123,6 @@
     }, 200);
 
     console.log("🚀 Procesador de relojes para Twilio iniciado. Escuchando solicitudes en localStorage...");
+
 
 })();
