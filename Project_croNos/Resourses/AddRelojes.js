@@ -55,7 +55,7 @@
             fontSize: '13px',
             color: '#a8a095',
             marginTop: '3px',
-            fontFamily: 'monospace',
+            fontFamily: 'inherit',
         });
 
         // Obtener la hora a mostrar

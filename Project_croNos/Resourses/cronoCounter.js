@@ -13,12 +13,13 @@
       let counter = clockLine.querySelector(".custom-crono-counter");
 
       if (!counter) {
-        counter = document.createElement("span");
-        counter.className = "custom-crono-counter";
-        counter.style.marginLeft = "8px";
-        counter.style.color = "#ffa600";
-        counter.style.fontFamily = "monospace";
-        counter.textContent = "⏱ 00:00";
+counter = document.createElement("span");
+counter.className = "custom-crono-counter";
+counter.style.marginLeft = "8px";
+counter.style.color = "#ffa600";
+counter.style.fontFamily = "inherit";
+counter.style.fontWeight = "bold"; // 📝 Negrita activada
+counter.textContent = "⏱ 00:00";
 
         // 📖 Tomamos el texto del reloj base (ejemplo: "🕒 20:43:16")
         const clockText = clockLine.textContent.trim().replace("🕒", "").trim();
