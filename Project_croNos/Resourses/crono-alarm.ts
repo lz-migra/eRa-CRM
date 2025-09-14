@@ -8,7 +8,7 @@
     }
 
     @keyframes blink-background {
-      0%, 80% { background-color: #ffe2e2; }
+      0%, 80% { background-color: #ffffff; }
       50% { background-color: transparent; }
     }
 
