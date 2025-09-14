@@ -4,7 +4,7 @@
 // @namespace    http://era-crm.local/
 // @description  Agrega herramientas (identificador global + carga remota expuesto en entorno real)
 // @author       Lz-Migra
-// @match        https://*/*
+// @match        *
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue
