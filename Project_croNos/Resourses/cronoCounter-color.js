@@ -12,6 +12,9 @@
       const elapsed = parseInt(counter.dataset.elapsedSeconds, 10);
       const estadoActual = counter.dataset.colorState;
       let nuevoEstado;
+      
+      // ✨ CAMBIO CLAVE: Aplicamos la transición aquí para que se encargue de todo lo visual.
+      counter.style.transition = 'color 1s ease';
 
       // --- Esta es la lógica de color que aislamos ---
       if (elapsed >= 300) { // 5 minutos

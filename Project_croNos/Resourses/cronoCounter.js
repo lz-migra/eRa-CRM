@@ -19,7 +19,9 @@
         counter = document.createElement("span");
         counter.className = "custom-crono-counter";
         Object.assign(counter.style, {
-          marginLeft: "8px", fontFamily: "inherit", fontWeight: "bold", transition: "color 1s ease"
+          marginLeft: "8px", 
+          fontFamily: "inherit", 
+          fontWeight: "bold", 
         });
         
         counter.textContent = "⏱ 00:00";
