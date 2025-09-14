@@ -13,46 +13,53 @@
       let counter = clockLine.querySelector(".custom-crono-counter");
 
       if (!counter) {
+        // --- CÓDIGO DE INICIALIZACIÓN ---
         counter = document.createElement("span");
         counter.className = "custom-crono-counter";
         counter.style.marginLeft = "8px";
         counter.style.fontFamily = "inherit";
-        counter.style.fontWeight = "bold"; // 📝 Negrita activada
-        counter.style.transition = "color 2s"; // 🌈 Transición suave de color
-        counter.textContent = "⏱ 00:00";
+        counter.style.fontWeight = "bold";
+        
+        // 🎨 Añadir la transición aquí
+        counter.style.transition = "color 1s ease-in-out"; 
 
-        // 📖 Tomamos el texto del reloj base (ejemplo: "🕒 20:43:16")
+        // Tomamos el texto del reloj base
         const clockText = clockLine.textContent.trim().replace("🕒", "").trim();
-
-        // ⏳ Parseamos la hora actual del reloj
+        // Parseamos la hora actual del reloj
         const [hh, mm, ss] = clockText.split(":").map(Number);
-
         // Creamos un Date "hoy con esa hora"
         const now = new Date();
         const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, ss);
-
-        // Guardamos ese timestamp en el dataset
+        // Guardamos el timestamp
         counter.dataset.start = startTime.getTime();
-
+        
+        // Establecemos el color inicial
+        counter.style.color = "#808080";
+        counter.textContent = "⏱ 00:00";
+        
         // Lo agregamos al DOM
         clockLine.appendChild(counter);
+
       } else {
-        // 🔄 Recalcular tiempo transcurrido
+        // --- CÓDIGO DE REFRESCADO Y CAMBIO DE COLOR ---
         const start = parseInt(counter.dataset.start, 10);
         const elapsed = Math.floor((Date.now() - start) / 1000);
 
-        const mins = String(Math.floor(elapsed / 60)).padStart(2, "0");
-        const secs = String(elapsed % 60).padStart(2, "0");
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        
+        const minsDisplay = String(mins).padStart(2, "0");
+        const secsDisplay = String(secs).padStart(2, "0");
 
-        counter.textContent = `⏱ ${mins}:${secs}`;
-
-        // 🎨 Cambiar color según tiempo (con transición suave)
-        if (elapsed < 240) { // menos de 4 minutos
-          counter.style.color = "#808080";
-        } else if (elapsed >= 240 && elapsed < 300) { // 4 a 5 minutos
-          counter.style.color = "#ffa600";
-        } else { // más de 5 minutos
+        counter.textContent = `⏱ ${minsDisplay}:${secsDisplay}`;
+        
+        // Lógica para cambiar el color según el tiempo
+        if (mins >= 5) {
           counter.style.color = "#FF0000";
+        } else if (mins >= 4) {
+          counter.style.color = "#ffa600";
+        } else {
+          counter.style.color = "#808080";
         }
       }
     });
