@@ -1,4 +1,4 @@
-// 🚀 Script para agregar cronómetros ⏱ calculando tiempo transcurrido desde el reloj (VERSIÓN CORREGIDA)
+// 🚀 Script para agregar cronómetros (VERSIÓN FINAL CON REINICIO AUTOMÁTICO)
 (function() {
   setInterval(() => {
     const container = document.querySelector(".Twilio-TaskList-default");
@@ -11,34 +11,60 @@
       if (!clockLine) return;
 
       let counter = clockLine.querySelector(".custom-crono-counter");
+      const timestampSpan = clockLine.querySelector('.custom-crono-timestamp');
+
+      // Si no hay span de hora, no podemos hacer nada.
+      if (!timestampSpan) return;
 
       if (!counter) {
         counter = document.createElement("span");
         counter.className = "custom-crono-counter";
         Object.assign(counter.style, {
-          marginLeft: "8px",
-          fontFamily: "inherit",
-          fontWeight: "bold",
-          transition: "color 1s ease" // La transición se define una sola vez
+          marginLeft: "8px", fontFamily: "inherit", fontWeight: "bold", transition: "color 1s ease"
         });
         
         counter.textContent = "⏱ 00:00";
         
-        const clockText = clockLine.textContent.trim().replace("🕒", "").trim();
+        const clockText = timestampSpan.textContent.trim().replace("🕒", "").trim();
         const [hh, mm, ss] = clockText.split(":").map(Number);
         const now = new Date();
         const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, ss);
         
         counter.dataset.start = startTime.getTime();
         
-        // --- ✨ CAMBIO CLAVE: Guardamos el estado inicial del color ---
-        counter.dataset.colorState = "gris"; // Estado inicial
-        counter.style.color = "#808080"; // Color inicial
+        // --- ✨ CAMBIO 1: Guardamos la hora base actual para futuras comparaciones ---
+        counter.dataset.baseTime = clockText; 
+        
+        counter.dataset.colorState = "gris";
+        counter.style.color = "#808080";
         
         clockLine.appendChild(counter);
 
       } else {
-        // 🔄 Recalcular tiempo transcurrido
+        // --- ✨ CAMBIO 2: Lógica de detección y reinicio ---
+        // Obtenemos la hora base que se muestra actualmente en el DOM.
+        const currentBaseTimeText = timestampSpan.textContent.trim().replace("🕒", "").trim();
+        const lastBaseTimeText = counter.dataset.baseTime;
+
+        // Comparamos la hora actual con la última que guardamos.
+        if (currentBaseTimeText !== lastBaseTimeText) {
+          console.log(`🔄 Detectado cambio en la hora base. Reiniciando contador...`);
+          
+          // Si son diferentes, recalculamos la hora de inicio.
+          const [hh, mm, ss] = currentBaseTimeText.split(":").map(Number);
+          const now = new Date();
+          const newStartTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, ss);
+          
+          // Actualizamos los valores guardados para que el contador empiece de nuevo.
+          counter.dataset.start = newStartTime.getTime();
+          counter.dataset.baseTime = currentBaseTimeText; // Actualizamos la referencia
+          
+          // También reiniciamos el estado del color para que la animación empiece de nuevo.
+          counter.dataset.colorState = 'gris';
+          counter.style.color = '#808080';
+        }
+
+        // --- El resto del script sigue igual, pero ahora usará el `dataset.start` actualizado ---
         const start = parseInt(counter.dataset.start, 10);
         const elapsed = Math.floor((Date.now() - start) / 1000);
 
@@ -47,39 +73,22 @@
 
         counter.textContent = `⏱ ${mins}:${secs}`;
 
-        // --- ✨ LÓGICA DE ESTADO MEJORADA ---
         const estadoActual = counter.dataset.colorState;
         let nuevoEstado;
 
-        // 1. Determinar cuál debería ser el nuevo estado
-        if (elapsed >= 300) { // 5 minutos
-          nuevoEstado = "rojo";
-        } else if (elapsed >= 240) { // 4 minutos
-          nuevoEstado = "naranja";
-        } else {
-          nuevoEstado = "gris";
-        }
+        if (elapsed >= 300) { nuevoEstado = "rojo"; } 
+        else if (elapsed >= 240) { nuevoEstado = "naranja"; } 
+        else { nuevoEstado = "gris"; }
 
-        // 2. Solo si el nuevo estado es DIFERENTE al actual, aplicamos los cambios
         if (nuevoEstado !== estadoActual) {
-          counter.dataset.colorState = nuevoEstado; // Actualizamos el estado guardado
-          
-          // Asignamos el color correspondiente al nuevo estado
+          counter.dataset.colorState = nuevoEstado;
           switch (nuevoEstado) {
-            case "rojo":
-              counter.style.color = "#FF0000";
-              break;
-            case "naranja":
-              counter.style.color = "#ffa600";
-              break;
-            case "gris":
-              // Este caso es importante para cuando una tarea se resuelve y vuelve a un estado normal (hipotético)
-              // o si se reajusta el tiempo, asegurando que la transición de vuelta también funcione.
-              counter.style.color = "#808080";
-              break;
+            case "rojo": counter.style.color = "#FF0000"; break;
+            case "naranja": counter.style.color = "#ffa600"; break;
+            case "gris": counter.style.color = "#808080"; break;
           }
         }
       }
     });
-  }, 500); // Aumenté el intervalo a 500ms, 100ms es muy agresivo y no es necesario para un contador visual.
+  }, 500);
 })();
