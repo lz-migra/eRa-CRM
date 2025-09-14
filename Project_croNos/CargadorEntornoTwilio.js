@@ -1,5 +1,5 @@
 // 🔑 Define aquí el commit de la versión estable
-const COMMIT_HASH = "58964a253e854da5bbbef688a10b0fef82f9ead6"; // Reemplaza con el hash del commit estable
+const COMMIT_HASH = "3e52ce8cc28098302632277e84d4cd73cbd8eb98"; // Reemplaza con el hash del commit estable
 
 /**
  * Convierte un enlace raw de GitHub a jsDelivr usando un commit fijo
