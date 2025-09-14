@@ -28,7 +28,7 @@
       const elapsed = parseInt(counter.dataset.elapsedSeconds, 10);
       
       // Aplicar o remover la clase de animación si es necesario.
-      if (elapsed >= 300) { // 5 minutos o más
+      if (elapsed >= 360) { // 6 minutos o más
         // Verifica si la clase ya está aplicada para evitar re-aplicar.
         if (!card.classList.contains('blinking-card')) {
           card.classList.add('blinking-card');
