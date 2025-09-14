@@ -13,13 +13,12 @@
       let counter = clockLine.querySelector(".custom-crono-counter");
 
       if (!counter) {
-counter = document.createElement("span");
-counter.className = "custom-crono-counter";
-counter.style.marginLeft = "8px";
-counter.style.color = "#ffa600";
-counter.style.fontFamily = "inherit";
-counter.style.fontWeight = "bold"; // 📝 Negrita activada
-counter.textContent = "⏱ 00:00";
+        counter = document.createElement("span");
+        counter.className = "custom-crono-counter";
+        counter.style.marginLeft = "8px";
+        counter.style.fontFamily = "inherit";
+        counter.style.fontWeight = "bold"; // 📝 Negrita activada
+        counter.textContent = "⏱ 00:00";
 
         // 📖 Tomamos el texto del reloj base (ejemplo: "🕒 20:43:16")
         const clockText = clockLine.textContent.trim().replace("🕒", "").trim();
@@ -45,6 +44,15 @@ counter.textContent = "⏱ 00:00";
         const secs = String(elapsed % 60).padStart(2, "0");
 
         counter.textContent = `⏱ ${mins}:${secs}`;
+
+        // 🎨 Cambiar color según tiempo
+        if (elapsed < 240) { // menos de 4 minutos
+          counter.style.color = "#808080";
+        } else if (elapsed >= 240 && elapsed < 300) { // 4 a 5 minutos
+          counter.style.color = "#ffa600";
+        } else { // más de 5 minutos
+          counter.style.color = "#FF0000";
+        }
       }
     });
   }, 100);
