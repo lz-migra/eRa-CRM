@@ -1,10 +1,7 @@
 @charset "utf-8";
 
-@font-face { font-family: "Inter var"; font-weight: 100 900; font-display: swap; font-style: normal; src: url("Inter-roman.var.woff2?v=3.15") format("woff2"); }
 
 @font-face { font-family: "Inter var"; font-weight: 100 900; font-display: swap; font-style: italic; src: url("Inter-italic.var.woff2?v=3.15") format("woff2"); }
-
-@font-face { font-family: "Inter var experimental"; font-weight: 100 900; font-display: swap; font-style: oblique 0deg 8deg; src: url("Inter.var.woff2?v=3.15") format("woff2"); }
 
 @font-face { font-family: TwilioSansMono; font-style: normal; font-display: swap; font-weight: 400; src: local(""), url("TwilioSansMono-Regular.woff2") format("woff2"), url("TwilioSansMono-Regular.woff") format("woff"); }
 
