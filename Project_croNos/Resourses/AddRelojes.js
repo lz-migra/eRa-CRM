@@ -1,16 +1,15 @@
-// 🧠 ESTE SCRIPT PROCESA UNA COLA DE SOLICITUDES DESDE LOCALSTORAGE PARA AGREGAR RELOJES A TARJETAS DE TWILIO.
-
+// 🧠 Procesa una cola de solicitudes desde localStorage para agregar relojes a tarjetas de Twilio
 (function () {
     // --- Claves para el LocalStorage ---
-    const COLA_SOLICITUDES_KEY = 'cola_relojes_twilio'; // Clave para la lista de tareas pendientes.
-    const TARJETAS_GUARDADAS_KEY = 'tarjetas_guardadas'; // Clave donde se guardan las horas para reutilizar.
+    const COLA_SOLICITUDES_KEY = 'cola_relojes_twilio';
+    const TARJETAS_GUARDADAS_KEY = 'tarjetas_guardadas';
 
     /**
      * Busca una tarjeta visible por su nombre y le agrega o actualiza un reloj.
-     * @param {object} solicitud - El objeto de la solicitud.
-     * @param {string} solicitud.nombre - Nombre visible de la tarjeta a modificar.
-     * @param {boolean} [solicitud.actualizar=false] - Si ya tiene reloj, ¿debe reemplazarlo?
-     * @param {boolean} [solicitud.usarStorage=false] - ¿Debe buscar la hora guardada en localStorage?
+     * @param {object} solicitud
+     * @param {string} solicitud.nombre
+     * @param {boolean} [solicitud.actualizar=false]
+     * @param {boolean} [solicitud.usarStorage=false]
      */
     function procesarSolicitudDeReloj({ nombre, actualizar = false, usarStorage = false }) {
         const selectorTarjetas = '.Twilio-TaskListBaseItem';
@@ -20,11 +19,12 @@
             return;
         }
 
-        // Busca la tarjeta visible que coincida con el nombre
-        const tarjetaObjetivo = Array.from(document.querySelectorAll(selectorTarjetas)).find(tarjeta => {
-            const nombreDOM = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim();
-            return nombreDOM === nombre;
-        });
+        // Buscar tarjeta visible
+        const tarjetaObjetivo = Array.from(document.querySelectorAll(selectorTarjetas))
+            .find(tarjeta => {
+                const nombreDOM = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim();
+                return nombreDOM === nombre;
+            });
 
         if (!tarjetaObjetivo) {
             console.warn(`❌ No se encontró la tarjeta visible con nombre: "${nombre}"`);
@@ -48,17 +48,17 @@
             console.log(`🔄 Actualizando reloj de la tarjeta "${nombre}"`);
         }
 
-        // Crear el elemento del reloj
+        // Crear elemento del reloj
         const reloj = document.createElement('div');
         reloj.className = 'custom-crono-line';
         Object.assign(reloj.style, {
             fontSize: '13px',
-            color: '#a8a095',
+            color: '#808080', // Color inicial
             marginTop: '3px',
             fontFamily: 'inherit',
         });
 
-        // Obtener la hora a mostrar
+        // Obtener la hora inicial
         let horaParaMostrar = null;
         if (usarStorage) {
             try {
@@ -83,21 +83,41 @@
         }
 
         reloj.textContent = horaParaMostrar;
-        
+
         tarjetaObjetivo.style.height = '70px';
         tarjetaObjetivo.style.overflow = 'visible';
-
         contenedor.appendChild(reloj);
         console.log(`✅ Reloj agregado correctamente a la tarjeta "${nombre}"`);
+
+        // --- Cronómetro dinámico ---
+        const inicio = Date.now();
+
+        function actualizarReloj() {
+            // Actualizar hora
+            const ahora = new Date();
+            const hrs = String(ahora.getHours()).padStart(2, '0');
+            const mins = String(ahora.getMinutes()).padStart(2, '0');
+            const secs = String(ahora.getSeconds()).padStart(2, '0');
+            reloj.textContent = `🕒 ${hrs}:${mins}:${secs}`;
+
+            // Actualizar color según tiempo transcurrido
+            const minutos = (Date.now() - inicio) / 60000;
+            if (minutos < 4) {
+                reloj.style.color = '#808080';
+            } else if (minutos >= 4 && minutos < 5) {
+                reloj.style.color = '#a8a095';
+            } else if (minutos >= 5) {
+                reloj.style.color = '#ff0000';
+            }
+        }
+
+        setInterval(actualizarReloj, 1000);
     }
 
-
     // --- Bucle principal de procesamiento ---
-    // Se ejecuta cada 200ms para verificar si hay nuevas solicitudes en la cola.
     setInterval(() => {
         let cola = [];
         try {
-            // Intenta obtener la cola de solicitudes del localStorage
             cola = JSON.parse(localStorage.getItem(COLA_SOLICITUDES_KEY) || '[]');
         } catch (e) {
             console.error("🚨 Error al parsear la cola de solicitudes. Limpiando...", e);
@@ -105,24 +125,14 @@
             return;
         }
 
-        // Si no hay nada que hacer, termina la ejecución actual.
-        if (cola.length === 0) {
-            return;
-        }
+        if (cola.length === 0) return;
 
-        // Toma la primera solicitud de la cola (la más antigua).
         const solicitudActual = cola.shift();
-
-        // Procesa la solicitud.
         console.log(`⚙️ Procesando solicitud para: "${solicitudActual.nombre}"`);
         procesarSolicitudDeReloj(solicitudActual);
 
-        // Actualiza el localStorage eliminando la solicitud que ya se procesó.
         localStorage.setItem(COLA_SOLICITUDES_KEY, JSON.stringify(cola));
-
     }, 200);
 
     console.log("🚀 Procesador de relojes para Twilio iniciado. Escuchando solicitudes en localStorage...");
-
-
 })();
