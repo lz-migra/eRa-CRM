@@ -1,4 +1,4 @@
-// 🧠 PROCESADOR DE RELOJES PARA TARJETAS DE TWILIO (VERSIÓN FINAL)
+// 🧠 PROCESADOR DE RELOJES PARA TARJETAS DE TWILIO (VERSIÓN FINAL, CON CONSOLAS BONITAS)
 
 (function () {
     const COLA_SOLICITUDES_KEY = 'cola_relojes_twilio';
@@ -20,18 +20,41 @@
 
         let reloj = tarjetaObjetivo.querySelector('.custom-crono-line');
 
-        if (reloj && !actualizar) return;
+        // ⚠️ Revisar si ya existe reloj y no se pidió actualización
+        if (reloj && !actualizar) {
+            console.log(`%c⏱ La tarjeta "${nombre}" ya tiene reloj y no se solicitó actualizar.`, 'color: #ffa500; font-weight: bold;');
+            return;
+        }
 
         let horaParaMostrar = null;
+
         if (usarStorage) {
-            // ... (lógica de storage sin cambios)
+            try {
+                const tarjetasGuardadas = JSON.parse(localStorage.getItem(TARJETAS_GUARDADAS_KEY) || '[]');
+                const tarjetaEncontrada = tarjetasGuardadas.find(t => t.nombre === nombre);
+                if (tarjetaEncontrada) {
+                    horaParaMostrar = tarjetaEncontrada.reloj;
+                    console.log(`%c💾 Usando hora guardada en LocalStorage para "${nombre}": ${horaParaMostrar}`, 'color: #00bfff; font-weight: bold;');
+                } else {
+                    console.log(`%c📝 No se encontró hora guardada para "${nombre}". Generando hora actual...`, 'color: #808080; font-style: italic;');
+                }
+            } catch (e) {
+                console.error("%c🚨 Error al leer de LocalStorage para restaurar la hora:", 'color: red; font-weight: bold;', e);
+            }
         }
 
         if (!horaParaMostrar) {
             const ahora = new Date();
             horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}:${String(ahora.getSeconds()).padStart(2, '0')}`;
+
+            if (reloj) {
+                console.log(`%c🔄 Actualizando la hora de "${nombre}" a ${horaParaMostrar}`, 'color: #ffa500; font-weight: bold;');
+            } else {
+                console.log(`%c✨ Generando reloj para "${nombre}": ${horaParaMostrar}`, 'color: #32cd32; font-weight: bold;');
+            }
         }
 
+        // --- Monta o actualiza el DOM del reloj ---
         if (!reloj) {
             reloj = document.createElement('div');
             reloj.className = 'custom-crono-line';
@@ -43,17 +66,13 @@
             contenedor.appendChild(reloj);
         }
 
-        // --- ✨ MODIFICACIÓN CLAVE ---
-        // Buscamos o creamos un span específico para la hora base.
         let timestampSpan = reloj.querySelector('.custom-crono-timestamp');
         if (!timestampSpan) {
             timestampSpan = document.createElement('span');
             timestampSpan.className = 'custom-crono-timestamp';
-            // Usamos prepend para asegurarnos de que se inserte ANTES que el contador.
             reloj.prepend(timestampSpan);
         }
 
-        // Actualizamos SOLAMENTE el contenido del span de la hora, sin tocar el resto.
         timestampSpan.textContent = horaParaMostrar;
     }
 
@@ -62,7 +81,7 @@
         try {
             cola = JSON.parse(localStorage.getItem(COLA_SOLICITUDES_KEY) || '[]');
         } catch (e) {
-            console.error("🚨 Error al parsear la cola. Limpiando...", e);
+            console.error("%c🚨 Error al parsear la cola. Limpiando...", 'color: red; font-weight: bold;', e);
             localStorage.setItem(COLA_SOLICITUDES_KEY, '[]');
             return;
         }
@@ -74,5 +93,5 @@
         localStorage.setItem(COLA_SOLICITUDES_KEY, JSON.stringify(cola));
     }, 200);
 
-    console.log("🚀 Procesador de relojes (v2) para Twilio iniciado.");
+    console.log("%c🚀 Procesador de relojes (v2) para Twilio iniciado.", 'color: #32cd32; font-weight: bold; font-size: 12px;');
 })();
