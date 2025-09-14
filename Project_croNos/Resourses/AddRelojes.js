@@ -13,52 +13,44 @@ function procesarSolicitudDeReloj({ nombre, actualizar = false, usarStorage = fa
     if (!contenedor) return;
 
     let reloj = tarjetaObjetivo.querySelector('.custom-crono-line');
+
+    // Caso donde ya existe reloj y no se quiere actualizar
+    if (reloj && !actualizar && !usarStorage) {
+        console.log(`La tarjeta "${nombre}" ya tiene reloj y no se solicitó actualizar.`);
+        return;
+    }
+
     let horaParaMostrar = null;
 
-    // --- CASO 1 y 2: actualizar: true ---
-    if (actualizar) {
-        const ahora = new Date();
-        horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2,'0')}:${String(ahora.getMinutes()).padStart(2,'0')}:${String(ahora.getSeconds()).padStart(2,'0')}`;
-
-        if (reloj) {
-            console.log(`%c🔄 Actualizado la hora de la tarjeta "${nombre}" a ${horaParaMostrar}`, 'color: #ffa500; font-weight: bold;');
-        } else {
-            console.log(`%c✨ Generando reloj con la hora actual para la tarjeta "${nombre}": ${horaParaMostrar}`, 'color: #32cd32; font-weight: bold;');
-        }
-    } 
-    // --- CASO 3: actualizar: false, storage: true ---
-    else if (usarStorage) {
+    // Caso: usar hora guardada en LocalStorage
+    if (usarStorage) {
         try {
             const tarjetasGuardadas = JSON.parse(localStorage.getItem(TARJETAS_GUARDADAS_KEY) || '[]');
             const tarjetaEncontrada = tarjetasGuardadas.find(t => t.nombre === nombre);
-            if (!reloj) {
-                if (tarjetaEncontrada) {
-                    horaParaMostrar = tarjetaEncontrada.reloj;
-                    console.log(`%c💾 Usando hora guardada en LocalStorage para la tarjeta "${nombre}": ${horaParaMostrar}`, 'color: #00bfff; font-weight: bold;');
-                } else {
-                    const ahora = new Date();
-                    horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2,'0')}:${String(ahora.getMinutes()).padStart(2,'0')}:${String(ahora.getSeconds()).padStart(2,'0')}`;
-                    console.log(`%c✨ Generando reloj con la hora actual para la tarjeta "${nombre}": ${horaParaMostrar}`, 'color: #32cd32; font-weight: bold;');
-                }
+            if (tarjetaEncontrada) {
+                horaParaMostrar = tarjetaEncontrada.reloj;
+                console.log(`Usando hora guardada en LocalStorage para la tarjeta "${nombre}".`);
             } else {
-                console.log(`%c⏱ La tarjeta "${nombre}" ya tiene reloj y no se solicitó actualizar.`, 'color: #808080; font-style: italic;');
+                console.log(`No se encontró la hora guardada para la tarjeta "${nombre}".`);
             }
         } catch (e) {
-            console.error("%c🚨 Error al leer de LocalStorage", 'color: red; font-weight: bold;', e);
-        }
-    } 
-    // --- CASO 4: actualizar: false, storage: false ---
-    else {
-        if (!reloj) {
-            const ahora = new Date();
-            horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2,'0')}:${String(ahora.getMinutes()).padStart(2,'0')}:${String(ahora.getSeconds()).padStart(2,'0')}`;
-            console.log(`%c✨ Generando reloj con la hora actual para la tarjeta "${nombre}": ${horaParaMostrar}`, 'color: #32cd32; font-weight: bold;');
-        } else {
-            console.log(`%c⏱ La tarjeta "${nombre}" ya tiene reloj y no se solicitó actualizar.`, 'color: #808080; font-style: italic;');
+            console.error("🚨 Error al leer de LocalStorage para restaurar la hora.", e);
         }
     }
 
-    // --- Monta o actualiza el DOM del reloj ---
+    // Caso: generar hora actual (ya sea por actualización o por no usar storage)
+    if (!horaParaMostrar) {
+        const ahora = new Date();
+        horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}:${String(ahora.getSeconds()).padStart(2, '0')}`;
+
+        if (reloj) {
+            console.log(`Actualizado la hora de la tarjeta "${nombre}".`);
+        } else {
+            console.log(`Generando reloj con la hora actual para la tarjeta "${nombre}".`);
+        }
+    }
+
+    // --- Crear o actualizar DOM ---
     if (!reloj) {
         reloj = document.createElement('div');
         reloj.className = 'custom-crono-line';
@@ -77,7 +69,5 @@ function procesarSolicitudDeReloj({ nombre, actualizar = false, usarStorage = fa
         reloj.prepend(timestampSpan);
     }
 
-    if (horaParaMostrar) {
-        timestampSpan.textContent = horaParaMostrar;
-    }
+    timestampSpan.textContent = horaParaMostrar;
 }
