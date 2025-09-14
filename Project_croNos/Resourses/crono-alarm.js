@@ -2,18 +2,13 @@
 (function() {
   const style = document.createElement('style');
   style.innerHTML = `
-    .Twilio-TaskListBaseItem {
-      /* Añade una transición suave para el cambio de color de fondo */
-      transition: background-color 1s ease-in-out;
-    }
-
     @keyframes blink-background {
       0%, 100% { background-color: #ffe2e2; }
       50% { background-color: transparent; }
     }
 
     .blinking-card {
-      animation: blink-background 1s ease-in-out infinite;
+      animation: blink-background 2s ease-in-out infinite;
     }
   `;
   document.head.appendChild(style);
