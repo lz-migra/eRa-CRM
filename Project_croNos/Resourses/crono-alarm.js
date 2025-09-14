@@ -3,18 +3,17 @@
   const style = document.createElement('style');
   style.innerHTML = `
     .Twilio-TaskListBaseItem {
-      /* Transición de fondo más rápida (0.5s) para la entrada y salida del parpadeo. */
-      transition: background-color 0.5s ease-in-out;
+      /* Añade una transición suave para el cambio de color de fondo */
+      transition: background-color 1s ease-in-out;
     }
 
     @keyframes blink-background {
-      0%, 70% { background-color: #ffffff; }
+      0%, 100% { background-color: #ffe2e2; }
       50% { background-color: transparent; }
     }
 
     .blinking-card {
-      /* La animación de parpadeo ahora dura 3 segundos para un efecto más lento. */
-      animation: blink-background 3s ease-in-out infinite;
+      animation: blink-background 1s ease-in-out infinite;
     }
   `;
   document.head.appendChild(style);
@@ -40,10 +39,10 @@
           card.classList.add('blinking-card');
         }
       } else {
-        // Remueve la clase si el tiempo baja de 5 minutos.
+        // Remueve la clase si el tiempo baja de 5 minutos (por ejemplo, si se detiene el contador).
         if (card.classList.contains('blinking-card')) {
           card.classList.remove('blinking-card');
-          card.style.animation = ''; // Limpia el estilo.
+          card.style.animation = ''; // Limpia el estilo para evitar glitches.
         }
       }
     });
