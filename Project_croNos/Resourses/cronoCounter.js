@@ -18,6 +18,7 @@
         counter.style.marginLeft = "8px";
         counter.style.fontFamily = "inherit";
         counter.style.fontWeight = "bold"; // 📝 Negrita activada
+        counter.style.transition = "color 2s"; // 🌈 Transición suave de color
         counter.textContent = "⏱ 00:00";
 
         // 📖 Tomamos el texto del reloj base (ejemplo: "🕒 20:43:16")
@@ -45,7 +46,7 @@
 
         counter.textContent = `⏱ ${mins}:${secs}`;
 
-        // 🎨 Cambiar color según tiempo
+        // 🎨 Cambiar color según tiempo (con transición suave)
         if (elapsed < 240) { // menos de 4 minutos
           counter.style.color = "#808080";
         } else if (elapsed >= 240 && elapsed < 300) { // 4 a 5 minutos
