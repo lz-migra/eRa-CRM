@@ -20,7 +20,7 @@
 
         let reloj = tarjetaObjetivo.querySelector('.custom-crono-line');
 
-        // ⚠️ Revisar si ya existe reloj y no se pidió actualización
+        // ✅ REGLA #1: Si el reloj ya existe y NO se pide actualizar, no hacemos nada.
         if (reloj && !actualizar) {
             console.log(`%c⏱ La tarjeta "${nombre}" ya tiene reloj y no se solicitó actualizar.`, 'color: #ffa500; font-weight: bold;');
             return;
@@ -28,33 +28,41 @@
 
         let horaParaMostrar = null;
 
-        if (usarStorage) {
+        // ✅ REGLA #2: Si se pide ACTUALIZAR, siempre generamos la hora actual.
+        // Esto tiene prioridad sobre `usarStorage`.
+        if (actualizar) {
+            const ahora = new Date();
+            horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}:${String(ahora.getSeconds()).padStart(2, '0')}`;
+            console.log(`%c🔄 Actualizando la hora de "${nombre}" a ${horaParaMostrar}`, 'color: #ffa500; font-weight: bold;');
+        
+        // ✅ REGLA #3: Si NO se actualiza, pero SÍ se permite usar storage (y no hay reloj).
+        } else if (usarStorage) { 
             try {
                 const tarjetasGuardadas = JSON.parse(localStorage.getItem(TARJETAS_GUARDADAS_KEY) || '[]');
                 const tarjetaEncontrada = tarjetasGuardadas.find(t => t.nombre === nombre);
                 if (tarjetaEncontrada) {
                     horaParaMostrar = tarjetaEncontrada.reloj;
                     console.log(`%c💾 Usando hora guardada en LocalStorage para "${nombre}": ${horaParaMostrar}`, 'color: #00bfff; font-weight: bold;');
-                } else {
-                    console.log(`%c📝 No se encontró hora guardada para "${nombre}". Generando hora actual...`, 'color: #808080; font-style: italic;');
                 }
             } catch (e) {
                 console.error("%c🚨 Error al leer de LocalStorage para restaurar la hora:", 'color: red; font-weight: bold;', e);
             }
         }
 
+        // ✅ REGLA #4: FALLBACK. Si después de lo anterior aún no tenemos hora, generamos la actual.
+        // Esto cubre los casos de creación de un reloj nuevo cuando `usarStorage` es false o no se encontró nada.
         if (!horaParaMostrar) {
             const ahora = new Date();
             horaParaMostrar = `🕒 ${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}:${String(ahora.getSeconds()).padStart(2, '0')}`;
-
-            if (reloj) {
-                console.log(`%c🔄 Actualizando la hora de "${nombre}" a ${horaParaMostrar}`, 'color: #ffa500; font-weight: bold;');
-            } else {
+            
+            // Solo mostramos el mensaje de "Generando" si realmente es un reloj nuevo.
+            // El de "Actualizando" ya se mostró arriba.
+            if (!reloj) {
                 console.log(`%c✨ Generando reloj para "${nombre}": ${horaParaMostrar}`, 'color: #32cd32; font-weight: bold;');
             }
         }
 
-        // --- Monta o actualiza el DOM del reloj ---
+        // --- Monta o actualiza el DOM del reloj (esta parte no necesita cambios) ---
         if (!reloj) {
             reloj = document.createElement('div');
             reloj.className = 'custom-crono-line';
