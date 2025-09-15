@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cargador de entorno (Carga remota global)
-// @version      2.7
+// @version      2.9
 // @namespace    http://era-crm.local/
 // @description  Agrega herramientas (identificador global + carga remota expuesto en entorno real)
 // @author       Lz-Migra
