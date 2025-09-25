@@ -1,4 +1,4 @@
-// 🧠 PROCESADOR DE RELOJES PARA TARJETAS DE TWILIO (VERSIÓN FINAL, CON CONSOLAS BONITAS)
+// 🧠 PROCESADOR DE RELOJES PARA TARJETAS DE TWILIO (VERSIÓN FINAL, CON CONSOLAS BONITAS Y COMPARACIÓN ROBUSTA)
 
 (function () {
     const COLA_SOLICITUDES_KEY = 'cola_relojes_twilio';
@@ -8,10 +8,20 @@
         const selectorTarjetas = '.Twilio-TaskListBaseItem';
         if (!nombre) return;
 
+        // --- SECCIÓN MODIFICADA ---
         const tarjetaObjetivo = Array.from(document.querySelectorAll(selectorTarjetas)).find(tarjeta => {
-            const nombreDOM = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent?.trim();
-            return nombreDOM === nombre;
+            const nombreDOM = tarjeta.querySelector('[data-testid="task-item-first-line"] span')?.textContent;
+            if (!nombreDOM) return false;
+
+            // Normalizamos ambas cadenas para ignorar diferencias en espacios en blanco.
+            // La expresión regular /\s+/g reemplaza cualquier tipo de espacio (incluido &nbsp;)
+            // por un único espacio normal, haciendo la comparación fiable.
+            const nombreNormalizadoDOM = nombreDOM.replace(/\s+/g, ' ').trim();
+            const nombreNormalizadoSolicitud = nombre.replace(/\s+/g, ' ').trim();
+
+            return nombreNormalizadoDOM === nombreNormalizadoSolicitud;
         });
+        // --- FIN DE LA SECCIÓN MODIFICADA ---
 
         if (!tarjetaObjetivo) return;
 

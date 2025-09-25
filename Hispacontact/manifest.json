@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Login UI Enhancer (Hispacontact)",
+  "version": "1.4",
+  "description": "Mejora el login con un overlay de carga y aplica estilos personalizados.",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "action": {
+    "default_title": "Abrir Login Hispacontact"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://script.google.com/macros/s/*/exec",
+        "https://script.google.com/a/macros/*/s/*/exec",
+        "https://n-6aeqkev52hcannvusqmpf4z5pkb7g5lklncfwcy-0lu-script.googleusercontent.com/userCodeAppPanel",
+        "https://n-6aeqkev52hcannvusqmpf4z5pkb7g5lklncfwcy-1lu-script.googleusercontent.com/userCodeAppPanel"
+      ],
+      "js": ["content.js"],
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

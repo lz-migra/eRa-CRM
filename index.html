@@ -1,0 +1,46 @@
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+  function cerrarVentanaModal(){
+    google.script.host.close();
+  } 
+  
+  function procesaFormulario(){
+    google.script.run.Regresar();
+  }
+
+  // Nueva función para mostrar el overlay antes de regresar
+  function mostrarOverlayYRegresar(event) {
+    event.preventDefault(); // Evita que se dispare el link de inmediato
+    overlay.iniciar();      // Activa el overlay
+    // Espera medio segundo para que se vea el efecto y luego redirige
+    setTimeout(function() {
+      window.location.href = "<?= appUrl ?>";
+    }, 500);
+  }
+
+  $(function() {
+    $("#cancelar").click(cerrarVentanaModal);
+    $("#guardar").click(procesaFormulario);
+    $("#btn-regresar").click(mostrarOverlayYRegresar); // Detecta cuando se da clip en "Regresar"
+  });
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Login/Logout</title>
+  <base target="_top">
+  <?!= include('styles'); ?>
+  <?!= include('overlay'); ?> <!-- Incluir el overlay aquí -->
+</head>
+
+<body class="success-page">
+  <div class="success-container">
+    <div class="success-icon">✅</div>
+    <div class="success-message">Registro exitoso</div>
+    <a href="<?= appUrl ?>" id="btn-regresar" class="button">Regresar</a>
+  </div>
+</body>
+</html>
