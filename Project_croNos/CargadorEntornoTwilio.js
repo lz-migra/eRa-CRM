@@ -1,5 +1,5 @@
 // 🔑 Define aquí el commit de la versión estable
-const COMMIT_HASH = "3ba5bf5ac1ce1a99da72139bc1b317fea5a1d8c6"; // Reemplaza con el hash del commit estable
+const COMMIT_HASH = "4eaa5aeede2ffda6e73fcb3128b001bf33da03bb"; // Reemplaza con el hash del commit estable
 
 /**
  * Convierte un enlace raw de GitHub a jsDelivr usando un commit fijo
@@ -71,4 +71,5 @@ const rawScripts = [
 cargarScriptsConHash(rawScripts)
     .then(() => console.log("Todos los scripts cargados con commit fijo 🎉"))
     .catch(err => console.error(err));
+
 
