@@ -57,7 +57,6 @@ async function cargarScriptsConHash(rawUrls) {
     }
 }
 
-// Ejemplo de uso
 const rawScripts = [
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/MonitorTarjetas.js",
     "https://raw.githubusercontent.com/lz-migra/eRa-CRM/refs/heads/main/Project_croNos/Resourses/AddRelojes.js",
