@@ -5,14 +5,19 @@
 (function () {
   console.log("[IdentificadorHTML] 🔍 Buscando orden expandida...");
 
-  // Paso 1️⃣: Buscar directamente los iconos de "flecha arriba" que indican una orden expandida
-  // El selector de clase 'li.item-purchase-container' ya no es fiable, así que buscamos por el contenido SVG.
-  const pathsExpandidos = document.querySelectorAll('path[d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"]');
-
-  // Paso 2️⃣: Obtener los contenedores 'li' padres de esos iconos
-  const ordenesExpandidas = Array.from(pathsExpandidos)
-    .map(path => path.closest('li'))
+  // Paso 1️⃣: Buscar la orden expandida
+  // Estrategia A: Buscar por el texto "Datos del cliente" que es único de la vista expandida.
+  const marcadores = Array.from(document.querySelectorAll('div.font-bold.text-lg'));
+  let ordenesExpandidas = marcadores
+    .filter(el => el.textContent.trim() === "Datos del cliente")
+    .map(el => el.closest('li'))
     .filter(li => li !== null);
+
+  // Estrategia B: Fallback al SVG si la estrategia A falla
+  if (ordenesExpandidas.length === 0) {
+    const pathsExpandidos = document.querySelectorAll('path[d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"]');
+    ordenesExpandidas = Array.from(pathsExpandidos).map(path => path.closest('li')).filter(li => li !== null);
+  }
 
   // 🛑 Validaciones
   if (ordenesExpandidas.length === 0) {
