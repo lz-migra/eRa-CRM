@@ -8,9 +8,9 @@
   // Paso 1️⃣: Buscar todas las órdenes en la página
   const todasLasOrdenes = document.querySelectorAll('li.item-purchase-container');
 
-  // Paso 2️⃣: Filtrar las órdenes que están expandidas (tienen el div .expanded-info-container)
+  // Paso 2️⃣: Filtrar las órdenes que están expandidas (buscando el SVG de flecha arriba)
   const ordenesExpandidas = Array.from(todasLasOrdenes).filter(orden =>
-    orden.querySelector('.expanded-info-container')
+    orden.querySelector('path[d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"]')
   );
 
   // 🛑 Validaciones
