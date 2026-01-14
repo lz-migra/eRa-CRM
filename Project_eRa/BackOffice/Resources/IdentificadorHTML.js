@@ -5,13 +5,14 @@
 (function () {
   console.log("[IdentificadorHTML] 🔍 Buscando orden expandida...");
 
-  // Paso 1️⃣: Buscar todas las órdenes en la página
-  const todasLasOrdenes = document.querySelectorAll('li.item-purchase-container');
+  // Paso 1️⃣: Buscar directamente los iconos de "flecha arriba" que indican una orden expandida
+  // El selector de clase 'li.item-purchase-container' ya no es fiable, así que buscamos por el contenido SVG.
+  const pathsExpandidos = document.querySelectorAll('path[d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"]');
 
-  // Paso 2️⃣: Filtrar las órdenes que están expandidas (buscando el SVG de flecha arriba)
-  const ordenesExpandidas = Array.from(todasLasOrdenes).filter(orden =>
-    orden.querySelector('path[d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"]')
-  );
+  // Paso 2️⃣: Obtener los contenedores 'li' padres de esos iconos
+  const ordenesExpandidas = Array.from(pathsExpandidos)
+    .map(path => path.closest('li'))
+    .filter(li => li !== null);
 
   // 🛑 Validaciones
   if (ordenesExpandidas.length === 0) {
